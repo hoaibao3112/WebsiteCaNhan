@@ -1,0 +1,517 @@
+@import "tailwindcss";
+
+/* ==========================================
+   LUMINA AGENCY — Design System Tokens
+   Tailwind CSS v4 @theme
+   ========================================== */
+
+@theme {
+  /* Brand Colors */
+  --color-primary: #e11d48;
+  --color-primary-dark: #be123c;
+  --color-primary-light: #fda4af;
+  --color-primary-surface: #fff1f2;
+
+  --color-accent: #f59e0b;
+  --color-accent-dark: #d97706;
+
+  --color-surface: #fdf5f5;
+  --color-surface-secondary: #f9fafb;
+
+  /* Neutrals */
+  --color-foreground: #0f0f0f;
+  --color-muted: #6b7280;
+  --color-border: #f0e8e8;
+
+  /* Typography */
+  --font-sans: "Be Vietnam Pro", "Inter", sans-serif;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* ==========================================
+   Base Styles
+   ========================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: var(--color-foreground);
+  line-height: 1.6;
+}
+
+/* ==========================================
+   Custom Utilities
+   ========================================== */
+
+.container-lumina {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .container-lumina {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-lumina {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* ==========================================
+   Animations
+   ========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out both;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.7s ease-out 0.1s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.7s ease-out 0.2s both;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.7s ease-out 0.3s both;
+}
+
+.animate-fade-in-up-delay-4 {
+  animation: fadeInUp 0.7s ease-out 0.4s both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out both;
+}
+
+/* ==========================================
+   Gradient Text
+   ========================================== */
+
+.gradient-text-primary {
+  background: linear-gradient(135deg, #e11d48 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-dark {
+  background: linear-gradient(135deg, #0f0f0f 0%, #e11d48 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==========================================
+   Cards & Surfaces
+   ========================================== */
+
+.card-lumina {
+  background: #ffffff;
+  border: 1px solid #f3e8e8;
+  border-radius: var(--radius-xl);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-lumina:hover {
+  box-shadow: 0 12px 40px rgba(225, 29, 72, 0.08);
+  transform: translateY(-2px);
+}
+
+.card-lumina-featured {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: white;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 60px rgba(225, 29, 72, 0.3);
+}
+
+/* ==========================================
+   Buttons
+   ========================================== */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: #e11d48;
+  color: white;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #be123c;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(225, 29, 72, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: #0f0f0f;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid #e5e7eb;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: #e11d48;
+  background: #fff1f2;
+  color: #e11d48;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================
+   Section Spacing
+   ========================================== */
+
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  background: #fff1f2;
+  color: #e11d48;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid #fda4af;
+}
+
+/* ==========================================
+   Portfolio / Template Cards
+   ========================================== */
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+}
+
+.project-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+}
+
+.project-card:hover .project-card-overlay {
+  opacity: 1;
+}
+
+.template-card-eye {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e11d48;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: scale(0.8);
+}
+
+.template-card:hover .template-card-eye {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==========================================
+   Form Inputs
+   ========================================== */
+
+.input-lumina {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: #ffffff;
+  color: #0f0f0f;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.input-lumina:focus {
+  border-color: #e11d48;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+}
+
+.input-lumina::placeholder {
+  color: #9ca3af;
+}
+
+/* ==========================================
+   Pricing
+   ========================================== */
+
+.pricing-badge {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.9rem;
+  background: #e11d48;
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================
+   Process Timeline
+   ========================================== */
+
+.process-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: linear-gradient(to bottom, #e11d48, #fda4af, transparent);
+  top: 2rem;
+  bottom: 0;
+}
+
+.process-dot {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid #e11d48;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e11d48;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================
+   Range Input (Budget Slider)
+   ========================================== */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #f3e8e8;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e11d48;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.4);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e11d48;
+  cursor: pointer;
+  border: none;
+}
+
+/* ==========================================
+   Filter Tabs
+   ========================================== */
+
+.filter-tab {
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  background: white;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-tab:hover {
+  border-color: #e11d48;
+  color: #e11d48;
+}
+
+.filter-tab.active {
+  background: #e11d48;
+  border-color: #e11d48;
+  color: white;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+/* ==========================================
+   Scrollbar
+   ========================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fdf5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fda4af;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e11d48;
+}

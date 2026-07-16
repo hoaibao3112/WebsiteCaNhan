@@ -1,0 +1,24 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Template {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  imageUrl    String
+  previewUrl  String?
+  category    String
+  price       Decimal  @db.Decimal(12, 2)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isActive])
+}

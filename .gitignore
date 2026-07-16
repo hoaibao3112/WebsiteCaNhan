@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# next.js build output
+.next/
+**/.next/
+out/
+**/out/
+
+# production build
+build/
+**/build/
+dist/
+**/dist/
+
+# env files
+.env*
+**/.env*
+
+# Logs
+*.log
+logs/
+**/logs/
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
