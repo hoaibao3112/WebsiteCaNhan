@@ -9,11 +9,14 @@ generator client {
 
 model Template {
   id          String   @id @default(uuid())
+  slug        String   @unique
   title       String
   description String
-  imageUrl    String
-  previewUrl  String?
+  image       String
+  demoImages  String[]
   category    String
+  tags        String[]
+  features    String[]
   price       Decimal  @db.Decimal(12, 2)
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -21,4 +24,5 @@ model Template {
 
   @@index([category])
   @@index([isActive])
+  @@index([slug])
 }

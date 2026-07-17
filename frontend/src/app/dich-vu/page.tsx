@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Globe, Search, Megaphone, CheckCircle } from 'lucide-react';
+import { Globe, Search, Megaphone, CheckCircle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 export const dynamic = 'force-static';
@@ -25,8 +25,8 @@ const services = [
       'SEO On-page tối ưu',
       'Tích hợp CMS dễ quản lý',
     ],
-    color: '#e11d48',
-    bgColor: '#fff1f2',
+    color: '#006672',
+    bgColor: '#f0f7f8',
   },
   {
     icon: Search,
@@ -41,8 +41,8 @@ const services = [
       'Link building & authority',
       'Báo cáo monthly chi tiết',
     ],
-    color: '#b45309',
-    bgColor: '#fffbeb',
+    color: '#ca8a04',
+    bgColor: '#fdfbf7',
   },
   {
     icon: Megaphone,
@@ -57,8 +57,8 @@ const services = [
       'Landing page tối ưu chuyển đổi',
       'Dashboard báo cáo real-time',
     ],
-    color: '#0f0f0f',
-    bgColor: '#f9fafb',
+    color: '#475569',
+    bgColor: '#f8fafc',
   },
 ];
 
@@ -66,10 +66,10 @@ export default function ServicesPage() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #fdf5f5, white)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #f4f9f9, white)' }}>
         <div className="container-lumina text-center max-w-3xl mx-auto">
           <div className="section-label mx-auto mb-6 animate-fade-in">
-            ✦ Chuyên môn của chúng tôi
+            <Sparkles className="h-3 w-3" /> Chuyên môn của chúng tôi
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight animate-fade-in-up">
             Nâng tầm
@@ -87,7 +87,7 @@ export default function ServicesPage() {
       {/* Service Cards */}
       <section
         className="section-padding"
-        style={{ background: 'linear-gradient(to bottom, white, #fdf5f5)' }}
+        style={{ background: 'linear-gradient(to bottom, white, #f4f9f9)' }}
       >
         <div className="container-lumina">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

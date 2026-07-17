@@ -1,44 +1,51 @@
 import Link from 'next/link';
-import { Globe, Search, Megaphone } from 'lucide-react';
+import { Palette, Code2, BarChart3, ArrowRight } from 'lucide-react';
 
 const services = [
   {
-    icon: <Globe className="h-6 w-6" />,
-    title: 'Thiết kế Website',
-    description:
-      'Thiết kế hiệu suất cao, thẩm mỹ và trải nghiệm người dùng hoàn hảo.',
-    color: 'bg-[#e11d48]',
+    Icon: Palette,
+    tag: 'Design',
+    title: 'Thiết kế UX/UI',
+    description: 'Giao diện hiện đại, tối ưu chuyển đổi và trải nghiệm người dùng mượt mà theo chuẩn quốc tế.',
+    accent: '#006672',
+    bg: '#f0f7f8',
   },
   {
-    icon: <Search className="h-6 w-6" />,
-    title: 'Tối ưu hoá',
-    description:
-      'Chiến lược tăng khả năng hiển thị, giúp thương hiệu thống trị thứ hạng tìm kiếm.',
-    color: 'bg-[#b45309]',
+    Icon: Code2,
+    tag: 'Development',
+    title: 'Phát triển Web',
+    description: 'Code sạch, hiệu năng tốt, tốc độ tải trang nhanh và tương thích đa thiết bị hoàn hảo.',
+    accent: '#ca8a04',
+    bg: '#fefce8',
+    featured: true,
   },
   {
-    icon: <Megaphone className="h-6 w-6" />,
+    Icon: BarChart3,
+    tag: 'Marketing',
     title: 'Digital Marketing',
-    description:
-      'Chiến dịch chuyển đổi cao trên mạng xã hội và tìm kiếm để mở rộng quy mô ngay lập tức.',
-    color: 'bg-[#0f0f0f]',
+    description: 'SEO, Google Ads, Analytics — chiến lược tổng thể giúp tăng traffic và doanh thu thực tế.',
+    accent: '#006672',
+    bg: '#f0f7f8',
   },
 ];
 
 export default function ServicesSection() {
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #f4f9f9 0%, white 100%)' }}>
       <div className="container-lumina">
+
         {/* Header */}
-        <div className="text-center mb-14 animate-fade-in-up">
-          <p className="text-sm font-bold text-[#e11d48] uppercase tracking-widest mb-3">
+        <div className="text-center mb-16 animate-fade-in-up">
+          <div className="section-label w-fit mx-auto mb-4">
             Dịch vụ của chúng tôi
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-black text-[#0f0f0f] leading-tight">
-            Những gì chúng tôi làm tốt nhất
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f0f0f] leading-tight">
+            Giải pháp toàn diện
+            <br />
+            <span className="gradient-text-primary">cho website của bạn</span>
           </h2>
-          <p className="mt-4 text-[#6b7280] max-w-xl mx-auto text-sm leading-relaxed">
-            Từ thiết kế giao diện đến chiến dịch marketing — mọi giải pháp đều được tuỳ chỉnh riêng cho thương hiệu của bạn.
+          <p className="mt-4 text-[#6b7280] text-sm max-w-lg mx-auto leading-relaxed">
+            Từ ý tưởng đến sản phẩm hoàn chỉnh — chúng tôi đồng hành cùng bạn trong từng bước.
           </p>
         </div>
 
@@ -47,24 +54,53 @@ export default function ServicesSection() {
           {services.map((service, i) => (
             <div
               key={service.title}
-              className={`card-lumina p-8 animate-fade-in-up-delay-${i + 1}`}
+              className={`relative group rounded-3xl p-8 flex flex-col gap-5 border transition-all duration-500 animate-fade-in-up-delay-${i + 1} ${
+                service.featured
+                  ? 'bg-[#006672] border-[#006672] text-white shadow-[0_20px_60px_rgba(0,102,114,0.25)]'
+                  : 'bg-white border-[#e2ecec] hover:border-[#80c2cb] hover:shadow-[0_20px_60px_rgba(0,102,114,0.10)] hover:-translate-y-1'
+              }`}
             >
+              {service.featured && (
+                <div className="absolute top-4 right-4 bg-[#ca8a04] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                  Phổ biến nhất
+                </div>
+              )}
+
+              {/* Icon */}
               <div
-                className={`w-12 h-12 rounded-xl ${service.color} flex items-center justify-center text-white mb-5`}
+                className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110"
+                style={{
+                  background: service.featured ? 'rgba(255,255,255,0.15)' : service.bg,
+                  color: service.featured ? 'white' : service.accent,
+                }}
               >
-                {service.icon}
+                <service.Icon className="h-7 w-7" />
               </div>
-              <h3 className="text-xl font-bold text-[#0f0f0f] mb-3 leading-tight">
+
+              {/* Tag */}
+              <span className={`text-[10px] font-bold uppercase tracking-widest ${service.featured ? 'text-white/60' : 'text-[#9ca3af]'}`}>
+                {service.tag}
+              </span>
+
+              {/* Title */}
+              <h3 className={`text-xl font-extrabold leading-tight -mt-2 ${service.featured ? 'text-white' : 'text-[#0f0f0f]'}`}>
                 {service.title}
               </h3>
-              <p className="text-sm text-[#6b7280] leading-relaxed">
+
+              {/* Description */}
+              <p className={`text-sm leading-relaxed ${service.featured ? 'text-white/75' : 'text-[#6b7280]'}`}>
                 {service.description}
               </p>
+
+              {/* Arrow */}
+              <div className={`mt-auto flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 group-hover:gap-3 ${service.featured ? 'text-white' : 'text-[#006672]'}`}>
+                Tìm hiểu thêm <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-12">
           <Link href="/dich-vu" className="btn-secondary">
             Xem tất cả dịch vụ →
           </Link>

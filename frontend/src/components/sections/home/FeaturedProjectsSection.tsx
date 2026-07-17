@@ -3,10 +3,10 @@ import { featuredProjects } from '@/data/projects';
 
 export default function FeaturedProjectsSection() {
   return (
-    <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #fdf5f5, white)' }}>
+    <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #f4f9f9, white)' }}>
       <div className="container-lumina">
         <div className="text-center mb-14">
-          <p className="text-sm font-bold text-[#e11d48] uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-[#006672] uppercase tracking-widest mb-3">
             Dự án tiêu biểu
           </p>
           <h2 className="text-3xl sm:text-4xl font-black text-[#0f0f0f]">

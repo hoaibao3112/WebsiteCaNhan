@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-const beVietnam = Be_Vietnam_Pro({
-  weight: ['400', '500', '600', '700', '800', '900'],
-  subsets: ['vietnamese', 'latin'],
+const jakarta = Plus_Jakarta_Sans({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
   preload: true,
@@ -14,17 +14,17 @@ const beVietnam = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: 'LUMINA AGENCY — Thiết kế Website May do, Bứt phá Tăng trưởng',
-    template: '%s — LUMINA AGENCY',
+    default: 'KABO AGENCY — Thiết kế Website May đo, Bứt phá Tăng trưởng',
+    template: '%s — KABO AGENCY',
   },
   description:
     'Chúng tôi kiến tạo trải nghiệm kỹ thuật số thúc đẩy thương hiệu tiến lên. Thiết kế web may đo, SEO, Digital Marketing.',
-  keywords: 'thiết kế website, agency thiết kế web, SEO, digital marketing, lumina agency, website cao cấp',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://lumina.agency'),
+  keywords: 'thiết kế website, agency thiết kế web, SEO, digital marketing, kabo agency, website cao cấp',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kabo.agency'),
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
-    siteName: 'LUMINA AGENCY',
+    siteName: 'KABO AGENCY',
   },
   robots: {
     index: true,
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={beVietnam.variable}>
+    <html lang="vi" className={jakarta.variable}>
       <body className="flex min-h-screen flex-col bg-white text-[#0f0f0f] antialiased">
         <Navbar />
         <main className="flex-grow">{children}</main>

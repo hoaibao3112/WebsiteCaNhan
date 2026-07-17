@@ -13,6 +13,7 @@
     "@types/nodemailer": "^8.0.1",
     "bullmq": "^5.80.5",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.42.2",
     "ioredis": "^5.11.1",
     "lucide-react": "^0.400.0",
     "next": "^14.2.4",
@@ -24,6 +25,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

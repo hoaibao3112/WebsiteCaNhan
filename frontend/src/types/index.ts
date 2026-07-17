@@ -21,5 +21,5 @@ export interface Template {
   image: string;
   tags: string[];
   features: string[];
-  demoUrl?: string;
+  demoImages: string[];
 }

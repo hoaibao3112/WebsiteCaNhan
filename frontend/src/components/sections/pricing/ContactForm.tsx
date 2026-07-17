@@ -8,7 +8,7 @@ type FormState = 'idle' | 'submitting' | 'success' | 'error';
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle');
   const [errors, setErrors] = useState<Partial<Record<keyof ContactInput, string>>>({});
-  const [budget, setBudget] = useState(5000);
+  const [budget, setBudget] = useState(5000000);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -75,7 +75,7 @@ export default function ContactForm() {
         </div>
         <h3 className="text-xl font-black text-[#0f0f0f] mb-2">Yêu cầu đã gửi!</h3>
         <p className="text-[#6b7280] text-sm">
-          Chúng tôi sẽ liên hệ lại trong vòng 24 giờ. Cảm ơn bạn đã tin tưởng LUMINA AGENCY!
+          Chúng tôi sẽ liên hệ lại trong vòng 24 giờ. Cảm ơn bạn đã tin tưởng KABO AGENCY!
         </p>
       </div>
     );
@@ -100,7 +100,7 @@ export default function ContactForm() {
             aria-invalid={!!errors.firstName}
           />
           {errors.firstName && (
-            <p className="text-xs text-[#e11d48]">{errors.firstName}</p>
+            <p className="text-xs text-[#006672]">{errors.firstName}</p>
           )}
         </div>
         <div className="flex flex-col gap-1.5">
@@ -118,7 +118,7 @@ export default function ContactForm() {
             aria-invalid={!!errors.lastName}
           />
           {errors.lastName && (
-            <p className="text-xs text-[#e11d48]">{errors.lastName}</p>
+            <p className="text-xs text-[#006672]">{errors.lastName}</p>
           )}
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function ContactForm() {
           aria-invalid={!!errors.email}
         />
         {errors.email && (
-          <p className="text-xs text-[#e11d48]">{errors.email}</p>
+          <p className="text-xs text-[#006672]">{errors.email}</p>
         )}
       </div>
 
@@ -149,22 +149,22 @@ export default function ContactForm() {
           <label className="text-xs font-semibold text-[#374151]">
             Ngân sách dự kiến
           </label>
-          <span className="text-xs font-bold text-[#e11d48]">
-            ${budget.toLocaleString()}
+          <span className="text-xs font-bold text-[#006672]">
+            {budget.toLocaleString('vi-VN')} ₫
           </span>
         </div>
         <input
           type="range"
-          min={500}
-          max={100000}
-          step={500}
+          min={2000000}
+          max={20000000}
+          step={500000}
           value={budget}
           onChange={(e) => setBudget(Number(e.target.value))}
           aria-label="Ngân sách dự kiến"
         />
         <div className="flex justify-between text-[10px] text-[#9ca3af]">
-          <span>$500</span>
-          <span>$100k+</span>
+          <span>2 triệu ₫</span>
+          <span>20 triệu ₫</span>
         </div>
       </div>
 
@@ -184,7 +184,7 @@ export default function ContactForm() {
           aria-invalid={!!errors.projectDescription}
         />
         {errors.projectDescription && (
-          <p className="text-xs text-[#e11d48]">{errors.projectDescription}</p>
+          <p className="text-xs text-[#006672]">{errors.projectDescription}</p>
         )}
       </div>
 
@@ -205,7 +205,7 @@ export default function ContactForm() {
       </button>
 
       {state === 'error' && (
-        <p className="text-xs text-center text-[#e11d48]">
+        <p className="text-xs text-center text-[#006672]">
           Đã xảy ra lỗi. Vui lòng thử lại hoặc liên hệ trực tiếp.
         </p>
       )}

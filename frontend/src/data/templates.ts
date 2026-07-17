@@ -16,7 +16,11 @@ export const templates: Template[] = [
       'Testimonials carousel',
       'Free trial CTA flow',
     ],
-    demoUrl: 'https://nexcore-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80'
+    ],
   },
   {
     id: '2',
@@ -33,7 +37,11 @@ export const templates: Template[] = [
       'Filter & search nâng cao',
       'Mobile-first checkout',
     ],
-    demoUrl: 'https://aura-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&q=80',
+      'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80'
+    ],
   },
   {
     id: '3',
@@ -50,7 +58,11 @@ export const templates: Template[] = [
       'Smooth scroll animations',
       'Contact form tích hợp',
     ],
-    demoUrl: 'https://studio-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80',
+      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80',
+      'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80'
+    ],
   },
   {
     id: '4',
@@ -67,7 +79,11 @@ export const templates: Template[] = [
       'Annual report showcase',
       'Career portal tích hợp',
     ],
-    demoUrl: 'https://enterprise-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80',
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&q=80'
+    ],
   },
   {
     id: '5',
@@ -84,7 +100,11 @@ export const templates: Template[] = [
       'Waitlist form',
       'Social proof section',
     ],
-    demoUrl: 'https://applaunch-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80',
+      'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&q=80',
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80'
+    ],
   },
   {
     id: '6',
@@ -101,6 +121,10 @@ export const templates: Template[] = [
       'Newsletter signup',
       'Dark mode tối ưu',
     ],
-    demoUrl: 'https://chronicle-demo.lumina.agency',
+    demoImages: [
+      'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&q=80',
+      'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&q=80',
+      'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1200&q=80'
+    ],
   },
 ];

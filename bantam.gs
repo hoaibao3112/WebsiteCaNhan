@@ -4,20 +4,23 @@
  *  (Bản nâng cấp thiết kế UI/UX Premium, Việt hóa toàn bộ giao diện)
  * =====================================================================
  * 
- * BẢNG MÀU PHONG CÁCH LOOKER STUDIO PREMIUM (SLATE & NAVY)
+ * BẢNG MÀU PHONG CÁCH LOOKER STUDIO PREMIUM (BẢN CHI TIẾT)
  * 
- * 1. Màu chủ đạo (Primary Navy): #1E3A8A - Dùng cho tiêu đề lớn, banner chính
- * 2. Màu chữ tiêu đề card (Slate Grey): #475569 - Màu nhãn card KPI
- * 3. Màu chữ số liệu chính (Dark Slate): #0F172A - Màu số lớn trên card
- * 4. Màu nền Dashboard (Light Gray-Blue): #F8FAFC - Nền xám nhạt hiện đại
- * 5. Màu nền Card KPI (Pure White): #FFFFFF - Nền card trắng tinh tế
- * 6. Màu viền Card/Table (Slate Border): #E2E8F0 - Đường kẻ viền mảnh
- * 7. Màu nền xen kẽ (Table Zebra): #F8FAFC - Dòng xen kẽ trong bảng
+ * 1. Tiêu đề chính toàn Dashboard: Navy đậm (#1E3A8A)
+ * 2. Khối GSC (Clicks/Impressions/CTR/Position/Query): Blue (#2563EB)
+ *    - Zebra nhạt chẵn: #EFF6FF
+ * 3. Khối GA4 (Traffic/Bounce/Engagement/Conversion): Emerald (#059669)
+ *    - Zebra nhạt chẵn: #ECFDF5
+ * 4. Khối Content/Conversion (bài viết ra tiền): Violet (#7C3AED)
+ *    - Zebra nhạt chẵn: #F5F3FF
+ * 5. Khối Cảnh báo/Uptime: Red (#DC2626)
+ *    - Zebra nhạt chẵn: #FEF2F2
+ * 6. Khối Monthly Summary: Indigo (#4338CA)
  * 
- * MÀU SẮC TRẠNG THÁI MỀM MẠI (SOFT COLORS):
- * - Xanh lá (Ổn định): Nền #F0FDF4, Chữ #15803D (Green-700)
- * - Vàng (Theo dõi):   Nền #FEF9C3, Chữ #A16207 (Yellow-700)
- * - Đỏ (Khẩn cấp):     Nền #FEF2F2, Chữ #B91C1C (Red-700)
+ * NỀN TRANG TỔNG THỂ: #F1F5F9 (Xám xanh rất nhạt)
+ * NỀN CARD KPI RIÊNG BIỆT: #FFFFFF (Trắng tinh)
+ * CHỮ SỐ LIỆU CHÍNH: #0F172A (Đậm gần đen)
+ * CHỮ NHÃN PHỤ/LABEL: #64748B (Xám xanh trung tính)
  * 
  * =====================================================================
  */
@@ -35,6 +38,8 @@ const CONFIG = {
     "https://domain.com/blog/",
   ],
   TIMEZONE: "Asia/Ho_Chi_Minh",
+  API_KEY: "khoa_bao_mat_mac_dinh", // Khóa bảo mật mặc định để kết nối với Claude Desktop
+  BRAND_KEYWORDS: [], // Từ khóa thương hiệu — đọc từ Config C9
 };
 
 const SHEETS = {
@@ -84,6 +89,8 @@ function setupDashboard() {
     ["Lark Webhook URL", CONFIG.LARK_WEBHOOK_URL],
     ["Ngưỡng cảnh báo sụt giảm traffic (Ví dụ: 20%)", "20%"],
     ["Danh sách URL kiểm tra uptime (cách nhau bởi dấu phẩy)", CONFIG.IMPORTANT_URLS.join(", ")],
+    ["Mật mã kết nối API bảo mật (Cho Claude Desktop)", CONFIG.API_KEY],
+    ["Từ khóa thương hiệu (cách nhau bởi dấu phẩy, VD: tenthuonghieu,brand)", ""],
   ]);
 
   createSheetIfMissing_(ss, SHEETS.MONTHLY, [
@@ -401,15 +408,23 @@ function buildGscDashboard(suppressAlert) {
 
   // Mã màu chủ đạo chuyên nghiệp Slate & Navy
   const L = {
-    BG:       "#F8FAFC",   // Nền Dashboard xám nhạt Looker Studio
+    BG:       "#F1F5F9",   // Nền Dashboard xám xanh nhạt Looker Studio
     CARD_BG:  "#FFFFFF",   // Nền trắng thẻ card
     CARD_HDR: "#EFF6FF",   // Nền xanh nhạt tiêu đề card
     BORDER:   "#E2E8F0",   // Màu viền card mảnh slate
     TEXT_NAVY:"#0F172A",   // Chữ số liệu chính (Dark Slate)
-    TEXT_DIM: "#475569",   // Chữ nhãn card (Slate Grey)
+    TEXT_DIM: "#64748B",   // Chữ nhãn card (Slate Grey)
     HDR_BG:   "#1E3A8A",   // Nền banner chính navy đậm
-    ALT_BG:   "#F8FAFC",   // Dòng xen kẽ bảng
+    ALT_BG:   "#F8FAFC",   // Dòng xen kẽ mặc định
     LINE:     "#E2E8F0"
+  };
+
+  const ACCENTS = {
+    GSC:      "#2563EB",   // Xanh dương
+    GA4:      "#059669",   // Xanh ngọc (emerald)
+    CONTENT:  "#7C3AED",   // Tím (violet)
+    ALERTS:   "#DC2626",   // Đỏ
+    MONTHLY:  "#4338CA"    // Indigo
   };
 
   try {
@@ -427,11 +442,11 @@ function buildGscDashboard(suppressAlert) {
   const colW = [15, 180, 60, 80, 80, 70, 15, 180, 60, 80, 80, 70, 15, 180, 90, 90, 90, 70, 15, 100];
   colW.forEach((w, i) => sheet.setColumnWidth(i + 1, w));
 
-  // Phủ nền xám nhạt toàn bộ Dashboard
+  // Phủ nền xám xanh nhạt toàn bộ Dashboard
   sheet.getRange(1, 1, 65, 20).setBackground(L.BG).setFontFamily("Roboto");
 
-  // Thiết lập chiều cao dòng phân cấp visual rõ ràng
-  const rh = { 1:15, 2:50, 3:15, 4:20, 5:35, 6:15, 7:20, 8:35, 9:26, 10:15, 11:25, 12:24, 26:15, 27:25, 28:24, 42:15, 43:25, 44:24 };
+  // Thiết lập chiều cao dòng phân cấp visual rõ ràng (Card KPI cao 3 hàng)
+  const rh = { 1:15, 2:50, 3:15, 4:20, 5:22, 6:22, 7:15, 8:20, 9:22, 10:22, 11:28, 12:15, 13:25, 14:24, 28:15, 29:25, 30:24, 44:15, 45:25, 46:24 };
   for (let r = 1; r <= 60; r++) sheet.setRowHeight(r, rh[r] || 22);
 
   // === BANNER TIÊU ĐỀ CHÍNH (Dòng 2) ===
@@ -441,70 +456,70 @@ function buildGscDashboard(suppressAlert) {
     .setHorizontalAlignment("center").setVerticalAlignment("middle")
     .setValue("BÁO CÁO HIỆU SUẤT SEO & GOOGLE ANALYTICS 4");
 
-  // === THẺ KPI GOOGLE SEARCH CONSOLE (GSC) - Dòng 4-5 ===
-  setupKpiCard_(sheet, "B4:B5", "B4", "B5", "LƯỢT NHẤP (CLICKS)", L);
-  setupKpiCard_(sheet, "C4:D5", "C4:D4", "C5:D5", "LƯỢT HIỂN THỊ (IMPR)", L);
-  setupKpiCard_(sheet, "E4:F5", "E4:F4", "E5:F5", "CTR TRUNG BÌNH", L);
-  setupKpiCard_(sheet, "H4:H5", "H4", "H5", "VỊ TRÍ TRUNG BÌNH", L);
-  setupKpiCard_(sheet, "I4:J5", "I4:J4", "I5:J5", "NHẤP THƯƠNG HIỆU", L);
-  setupKpiCard_(sheet, "K4:L5", "K4:L4", "K5:L5", "TỪ KHÓA (QUERIES)", L);
-  setupKpiCard_(sheet, "N4:N5", "N4", "N5", "NHẤP 2 THÁNG TRƯỚC", L);
-  setupKpiCard_(sheet, "O4:P5", "O4:P4", "O5:P5", "NHẤP THÁNG TRƯỚC", L);
-  setupKpiCard_(sheet, "Q4:R5", "Q4:R4", "Q5:R5", "TĂNG TRƯỞNG NHẤP", L);
+  // === THẺ KPI GOOGLE SEARCH CONSOLE (GSC) - Dòng 4-6 ===
+  setupKpiCard_(sheet, "B4:B6", "B4", "B5:B6", "🖱️ LƯỢT NHẤP (CLICKS)", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "C4:D6", "C4:D4", "C5:D6", "👁️ LƯỢT HIỂN THỊ (IMPR)", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "E4:F6", "E4:F4", "E5:F6", "🎯 CTR TRUNG BÌNH", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "H4:H6", "H4", "H5:H6", "📍 VỊ TRÍ TRUNG BÌNH", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "I4:J6", "I4:J4", "I5:J6", "🔍 NHẤP THƯƠNG HIỆU", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "K4:L6", "K4:L4", "K5:L6", "🔍 TỪ KHÓA (QUERIES)", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "N4:N6", "N4", "N5:N6", "🖱️ NHẤP 2 THÁNG TRƯỚC", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "O4:P6", "O4:P4", "O5:P6", "🖱️ NHẤP THÁNG TRƯỚC", L, ACCENTS.GSC);
+  setupKpiCard_(sheet, "Q4:R6", "Q4:R4", "Q5:R6", "📈 TĂNG TRƯỞNG NHẤP", L, ACCENTS.GSC);
 
-  // === THẺ KPI GOOGLE ANALYTICS 4 (GA4) - Dòng 7-8 ===
-  setupKpiCardWithSparkline_(sheet, "B7:D8", "B7:D7", "B8", "C8", "D8", "TRAFFIC TỰ NHIÊN (GA4 SESSIONS)", L);
-  setupKpiCardWithDelta_(sheet, "E7:F8", "E7:F7", "E8", "F8", "TỶ LỆ THOÁT (BOUNCE RATE)", L);
-  setupKpiCardWithSparkline_(sheet, "H7:J8", "H7:J7", "H8", "I8", "J8", "TỶ LỆ TƯƠNG TÁC (GA4)", L);
-  setupKpiCardWithDelta_(sheet, "K7:L8", "K7:L7", "K8", "L8", "THỜI GIAN TƯƠNG TÁC TB", L);
-  setupKpiCardWithSparkline_(sheet, "N7:P8", "N7:P7", "N8", "O8", "P8", "TỶ LỆ CHUYỂN ĐỔI (GA4)", L);
-  setupKpiCardWithDelta_(sheet, "Q7:R8", "Q7:R7", "Q8", "R8", "TRẠNG THÁI HỆ THỐNG", L);
+  // === THẺ KPI GOOGLE ANALYTICS 4 (GA4) - Dòng 8-10 ===
+  setupKpiCardWithSparkline_(sheet, "B8:D10", "B8:D8", "B9:B10", "C9:C10", "D9:D10", "🚀 TRAFFIC TỰ NHIÊN (GA4)", L, ACCENTS.GA4);
+  setupKpiCardWithDelta_(sheet, "E8:F10", "E8:F8", "E9:E10", "F9:F10", "↩️ TỶ LỆ THOÁT (BOUNCE)", L, ACCENTS.GA4);
+  setupKpiCardWithSparkline_(sheet, "H8:J10", "H8:J8", "H9:H10", "I9:I10", "J9:J10", "💬 TỶ LỆ TƯƠNG TÁC", L, ACCENTS.GA4);
+  setupKpiCardWithDelta_(sheet, "K8:L10", "K8:L8", "K9:K10", "L9:L10", "⏱️ THỜI GIAN TƯƠNG TÁC", L, ACCENTS.GA4);
+  setupKpiCardWithSparkline_(sheet, "N8:P10", "N8:P8", "N9:N10", "O9:O10", "P9:P10", "💰 TỶ LỆ CHUYỂN ĐỔI", L, ACCENTS.GA4);
+  setupKpiCardWithDelta_(sheet, "Q8:R10", "Q8:R8", "Q9:Q10", "R9:R10", "🛡️ TRẠNG THÁI HỆ THỐNG", L, ACCENTS.GA4);
 
-  // === DẢI CHÚ GIẢI THÔNG TIN NGAY TRÊN DASHBOARD (Dòng 9) ===
-  sheet.getRange(9, 2, 1, 17).merge()
+  // === DẢI CHÚ GIẢI THÔNG TIN VÀ MÀU KHU VỰC NGAY TRÊN DASHBOARD (Dòng 11) ===
+  sheet.getRange(11, 2, 1, 17).merge()
     .setBackground("#F1F5F9")
-    .setFontColor("#64748B")
+    .setFontColor("#475569")
     .setFontSize(8)
     .setHorizontalAlignment("center")
     .setVerticalAlignment("middle")
-    .setValue("Chú giải trạng thái:  🟢 Ổn định (Traffic tốt hoặc tăng trưởng)   |   🟡 Theo dõi (Sụt giảm nhẹ < 20%)   |   🔴 Khẩn cấp (Sụt giảm mạnh >= 20%)")
+    .setValue("Chú thích màu:  🟦 GSC (Search Console)   |   🟩 GA4 (Analytics)   |   🟪 Bài viết ra tiền   |   🟥 Cảnh báo & Uptime    ━━━    Trạng thái: 🟢 Ổn định  🟡 Theo dõi  🔴 Khẩn cấp")
     .setBorder(true, true, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
 
   // === KHUNG CHỨA BIỂU ĐỒ & BẢNG SỐ LIỆU ===
-  // Hàng 11-25
-  setupContainer_(sheet, "B11:F25", "B11:F11", "LƯỢT NHẤP THEO THIẾT BỊ", L);
-  setupContainer_(sheet, "H11:L25", "H11:L11", "XU HƯỚNG TRAFFIC & CHUYỂN ĐỔI (GA4)", L);
+  // Hàng 13-27
+  setupContainer_(sheet, "B13:F27", "B13:F13", "LƯỢT NHẤP THEO THIẾT BỊ", L, ACCENTS.GSC);
+  setupContainer_(sheet, "H13:L27", "H13:L13", "XU HƯỚNG TRAFFIC & CHUYỂN ĐỔI (GA4)", L, ACCENTS.GA4);
   
-  setupContainer_(sheet, "N11:R25", "N11:R11", "TOP TỪ KHÓA HIỆU QUẢ", L);
-  setupTableHeader_(sheet, "N12:R12", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
-  formatTableContent_(sheet, 13, 25, 14, 18, L);
+  setupContainer_(sheet, "N13:R27", "N13:R13", "TOP TỪ KHÓA HIỆU QUẢ", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "N14:R14", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
+  formatTableContent_(sheet, 15, 27, 14, 18, L, "#EFF6FF"); // Zebra xanh dương nhạt GSC
 
-  // Hàng 27-41
-  setupContainer_(sheet, "B27:F41", "B27:F27", "HIỆU SUẤT THEO THIẾT BỊ", L);
-  setupTableHeader_(sheet, "B28:F28", ["Thiết bị", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
-  formatTableContent_(sheet, 29, 41, 2, 6, L);
+  // Hàng 29-43
+  setupContainer_(sheet, "B29:F43", "B29:F29", "HIỆU SUẤT THEO THIẾT BỊ", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "B30:F30", ["Thiết bị", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
+  formatTableContent_(sheet, 31, 43, 2, 6, L, "#EFF6FF");
 
-  setupContainer_(sheet, "H27:L41", "H27:L27", "HIỆU SUẤT TRANG ĐÍCH", L);
-  setupTableHeader_(sheet, "H28:L28", ["Trang đích", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
-  formatTableContent_(sheet, 29, 41, 8, 12, L);
+  setupContainer_(sheet, "H29:L43", "H29:L29", "HIỆU SUẤT TRANG ĐÍCH", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "H30:L30", ["Trang đích", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
+  formatTableContent_(sheet, 31, 43, 8, 12, L, "#EFF6FF");
 
-  setupContainer_(sheet, "N27:R41", "N27:R27", "TRANG TĂNG TRƯỞNG TỐT NHẤT (MoM)", L);
-  setupTableHeader_(sheet, "N28:R28", ["Trang đích", "Nhấp 2 tháng trước", "Nhấp tháng trước", "Tăng trưởng nhấp", "Tỷ lệ tăng trưởng"], L);
-  formatTableContent_(sheet, 29, 41, 14, 18, L);
+  setupContainer_(sheet, "N29:R43", "N29:R29", "TRANG TĂNG TRƯỞNG TỐT NHẤT (MoM)", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "N30:R30", ["Trang đích", "Nhấp 2 tháng trước", "Nhấp tháng trước", "Tăng trưởng nhấp", "Tỷ lệ tăng trưởng"], L);
+  formatTableContent_(sheet, 31, 43, 14, 18, L, "#EFF6FF");
 
-  // Hàng 43-55
-  setupContainer_(sheet, "B43:F55", "B43:F43", "TỪ KHÓA TỰ NHIÊN (UNBRANDED)", L);
-  setupTableHeader_(sheet, "B44:F44", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
-  formatTableContent_(sheet, 45, 55, 2, 6, L);
+  // Hàng 45-57
+  setupContainer_(sheet, "B45:F57", "B45:F45", "TỪ KHÓA TỰ NHIÊN (UNBRANDED)", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "B46:F46", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
+  formatTableContent_(sheet, 47, 57, 2, 6, L, "#EFF6FF");
 
-  setupContainer_(sheet, "H43:L55", "H43:L43", "TỪ KHÓA THƯƠNG HIỆU (BRANDED)", L);
-  setupTableHeader_(sheet, "H44:L44", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
-  formatTableContent_(sheet, 45, 55, 8, 12, L);
+  setupContainer_(sheet, "H45:L57", "H45:L45", "TỪ KHÓA THƯƠNG HIỆU (BRANDED)", L, ACCENTS.GSC);
+  setupTableHeader_(sheet, "H46:L46", ["Từ khóa", "Lượt nhấp", "Lượt hiển thị", "Vị trí TB", "CTR"], L);
+  formatTableContent_(sheet, 47, 57, 8, 12, L, "#EFF6FF");
 
-  // MỚI: Bảng hiệu suất chuyển đổi bài viết (Conversion theo trang đích - N43:R55)
-  setupContainer_(sheet, "N43:R55", "N43:R43", "HIỆU SUẤT CHUYỂN ĐỔI BÀI VIẾT (TOP CONVERSIONS)", L);
-  setupTableHeader_(sheet, "N44:R44", ["Trang đích", "Sessions GA4", "Chuyển đổi", "Tỷ lệ chuyển đổi", "Xếp hạng"], L);
-  formatTableContent_(sheet, 45, 55, 14, 18, L);
+  // Bảng hiệu suất chuyển đổi bài viết (Conversion theo trang đích - N45:R57)
+  setupContainer_(sheet, "N45:R57", "N45:R45", "HIỆU SUẤT CHUYỂN ĐỔI BÀI VIẾT (TOP CONVERSIONS)", L, ACCENTS.CONTENT);
+  setupTableHeader_(sheet, "N46:R46", ["Trang đích", "Sessions GA4", "Chuyển đổi", "Tỷ lệ chuyển đổi", "Xếp hạng"], L);
+  formatTableContent_(sheet, 47, 57, 14, 18, L, "#F5F3FF"); // Zebra tím nhạt Content
 
   sheet.setHiddenGridlines(true);
   SpreadsheetApp.flush();
@@ -516,10 +531,16 @@ function buildGscDashboard(suppressAlert) {
   }
 }
 
-function setupKpiCard_(sheet, rangeStr, labelRangeStr, valueRangeStr, label, L) {
+function setupKpiCard_(sheet, rangeStr, labelRangeStr, valueRangeStr, label, L, accentColor) {
   try {
-    sheet.getRange(rangeStr).setBackground(L.CARD_BG)
-      .setBorder(true, true, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    const range = sheet.getRange(rangeStr);
+    range.setBackground(L.CARD_BG);
+    
+    // Set mảnh viền xung quanh card (top, right, bottom)
+    range.setBorder(true, null, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    // Set viền trái dày (SOLID_THICK) tô màu accent
+    sheet.getRange(range.getRow(), range.getColumn(), range.getNumRows(), 1)
+      .setBorder(null, true, null, null, false, false, accentColor, SpreadsheetApp.BorderStyle.SOLID_THICK);
     
     const lblRange = sheet.getRange(labelRangeStr);
     if (lblRange.getNumRows() > 1 || lblRange.getNumColumns() > 1) {
@@ -540,10 +561,16 @@ function setupKpiCard_(sheet, rangeStr, labelRangeStr, valueRangeStr, label, L) 
   }
 }
 
-function setupKpiCardWithDelta_(sheet, rangeStr, labelRangeStr, valueRangeStr, deltaRangeStr, label, L) {
+function setupKpiCardWithDelta_(sheet, rangeStr, labelRangeStr, valueRangeStr, deltaRangeStr, label, L, accentColor) {
   try {
-    sheet.getRange(rangeStr).setBackground(L.CARD_BG)
-      .setBorder(true, true, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    const range = sheet.getRange(rangeStr);
+    range.setBackground(L.CARD_BG);
+    
+    // Set mảnh viền xung quanh card (top, right, bottom)
+    range.setBorder(true, null, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    // Set viền trái dày
+    sheet.getRange(range.getRow(), range.getColumn(), range.getNumRows(), 1)
+      .setBorder(null, true, null, null, false, false, accentColor, SpreadsheetApp.BorderStyle.SOLID_THICK);
     
     const lblRange = sheet.getRange(labelRangeStr);
     if (lblRange.getNumRows() > 1 || lblRange.getNumColumns() > 1) {
@@ -561,6 +588,9 @@ function setupKpiCardWithDelta_(sheet, rangeStr, labelRangeStr, valueRangeStr, d
       .setHorizontalAlignment("left").setVerticalAlignment("middle");
 
     const dltRange = sheet.getRange(deltaRangeStr);
+    if (dltRange.getNumRows() > 1 || dltRange.getNumColumns() > 1) {
+      dltRange.merge();
+    }
     dltRange.setFontSize(8).setFontWeight("bold")
       .setHorizontalAlignment("right").setVerticalAlignment("middle");
   } catch (e) {
@@ -568,10 +598,16 @@ function setupKpiCardWithDelta_(sheet, rangeStr, labelRangeStr, valueRangeStr, d
   }
 }
 
-function setupKpiCardWithSparkline_(sheet, rangeStr, labelRangeStr, valueRangeStr, sparklineRangeStr, deltaRangeStr, label, L) {
+function setupKpiCardWithSparkline_(sheet, rangeStr, labelRangeStr, valueRangeStr, sparklineRangeStr, deltaRangeStr, label, L, accentColor) {
   try {
-    sheet.getRange(rangeStr).setBackground(L.CARD_BG)
-      .setBorder(true, true, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    const range = sheet.getRange(rangeStr);
+    range.setBackground(L.CARD_BG);
+    
+    // Set mảnh viền xung quanh card (top, right, bottom)
+    range.setBorder(true, null, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
+    // Set viền trái dày
+    sheet.getRange(range.getRow(), range.getColumn(), range.getNumRows(), 1)
+      .setBorder(null, true, null, null, false, false, accentColor, SpreadsheetApp.BorderStyle.SOLID_THICK);
     
     const lblRange = sheet.getRange(labelRangeStr);
     if (lblRange.getNumRows() > 1 || lblRange.getNumColumns() > 1) {
@@ -589,9 +625,15 @@ function setupKpiCardWithSparkline_(sheet, rangeStr, labelRangeStr, valueRangeSt
       .setHorizontalAlignment("left").setVerticalAlignment("middle");
 
     const sparkRange = sheet.getRange(sparklineRangeStr);
+    if (sparkRange.getNumRows() > 1 || sparkRange.getNumColumns() > 1) {
+      sparkRange.merge();
+    }
     sparkRange.setHorizontalAlignment("center").setVerticalAlignment("middle");
 
     const dltRange = sheet.getRange(deltaRangeStr);
+    if (dltRange.getNumRows() > 1 || dltRange.getNumColumns() > 1) {
+      dltRange.merge();
+    }
     dltRange.setFontSize(8).setFontWeight("bold")
       .setHorizontalAlignment("right").setVerticalAlignment("middle");
   } catch (e) {
@@ -599,13 +641,13 @@ function setupKpiCardWithSparkline_(sheet, rangeStr, labelRangeStr, valueRangeSt
   }
 }
 
-function setupContainer_(sheet, cardRange, headerRange, title, L) {
+function setupContainer_(sheet, cardRange, headerRange, title, L, accentColor) {
   try {
     sheet.getRange(cardRange).setBackground(L.CARD_BG)
       .setBorder(true, true, true, true, false, false, L.BORDER, SpreadsheetApp.BorderStyle.SOLID);
     sheet.getRange(headerRange).merge()
-      .setBackground(L.CARD_HDR)
-      .setFontColor("#1E3A8A")
+      .setBackground(accentColor) // Màu accent đặc trưng của khối
+      .setFontColor("#FFFFFF")
       .setFontSize(9)
       .setFontWeight("bold")
       .setVerticalAlignment("middle")
@@ -641,7 +683,7 @@ function setupTableHeader_(sheet, rangeStr, headers, L) {
   }
 }
 
-function formatTableContent_(sheet, startRow, endRow, startCol, endCol, L) {
+function formatTableContent_(sheet, startRow, endRow, startCol, endCol, L, evenBgColor) {
   try {
     const range = sheet.getRange(startRow, startCol, endRow - startRow + 1, endCol - startCol + 1);
     range.setFontColor("#1E293B").setFontSize(9).setVerticalAlignment("middle");
@@ -651,8 +693,9 @@ function formatTableContent_(sheet, startRow, endRow, startCol, endCol, L) {
       sheet.getRange(startRow, startCol + 1, endRow - startRow + 1, endCol - startCol).setHorizontalAlignment("right");
     }
     
+    const dilutedBg = evenBgColor || L.ALT_BG;
     for (let r = startRow; r <= endRow; r++) {
-      const bg = r % 2 === 0 ? L.CARD_BG : L.ALT_BG;
+      const bg = r % 2 === 0 ? dilutedBg : L.CARD_BG;
       sheet.getRange(r, startCol, 1, endCol - startCol + 1).setBackground(bg);
     }
   } catch (e) {
@@ -675,13 +718,13 @@ function writeGscSampleData(suppressAlert) {
     Logger.log("Lỗi xóa protection: " + e.message);
   }
 
-  // --- 1. KPI Cards GSC ---
+  // --- 1. KPI Cards GSC (Hàng 4-6) ---
   sheet.getRange("B5").setValue(7); // Clicks
   sheet.getRange("C5").setValue(746); // Impressions
   sheet.getRange("E5").setValue(0.0094); // CTR
   sheet.getRange("H5").setValue(33.03); // Position
-  sheet.getRange("I5").setValue("=SUM(I45:I48)"); // Nhấp thương hiệu
-  sheet.getRange("K5").setValue("=COUNTA(N13:N22)"); // Số lượng từ khóa
+  sheet.getRange("I5").setValue("=SUM(I47:I50)"); // Nhấp thương hiệu (Trỏ về bảng mới dòng 47-50)
+  sheet.getRange("K5").setValue("=COUNTA(N15:N24)"); // Số lượng từ khóa (Bảng mới dòng 15-24)
   sheet.getRange("N5").setValue(13); // Clicks 2 Mo Ago
   sheet.getRange("O5").setValue(9); // Clicks Mo Ago
   sheet.getRange("Q5").setValue("=O5-N5"); // Growth
@@ -696,35 +739,35 @@ function writeGscSampleData(suppressAlert) {
   sheet.getRange("O5").setNumberFormat("#,##0");
   sheet.getRange("Q5").setNumberFormat("+#,##0;-#,##0;0");
 
-  // --- 2. KPI Cards GA4 (Tích hợp Sparkline công thức) ---
-  sheet.getRange("B8").setValue(671); // Sessions
-  sheet.getRange("C8").setValue('=SPARKLINE(GA4_Raw!B2:B22, {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "D8", "-27.9%");
+  // --- 2. KPI Cards GA4 (Hàng 8-10, tích hợp Sparkline) ---
+  sheet.getRange("B9").setValue(671); // Sessions
+  sheet.getRange("C9").setValue('=SPARKLINE(GA4_Raw!B2:B22)');
+  formatDeltaCell_(sheet, "D9", "-27.9%", false);
   
-  sheet.getRange("E8").setValue(0.462); // Bounce Rate
-  sheet.getRange("E8").setNumberFormat("0.00%");
-  formatDeltaCell_(sheet, "F8", "+19.4%");
+  sheet.getRange("E9").setValue(0.462); // Bounce Rate
+  sheet.getRange("E9").setNumberFormat("0.00%");
+  formatDeltaCell_(sheet, "F9", "+19.4%", true); // invertLogic: Bounce Rate tăng là xấu
   
-  sheet.getRange("H8").setValue(0.538); // Engagement Rate
-  sheet.getRange("H8").setNumberFormat("0.00%");
-  sheet.getRange("I8").setValue('=SPARKLINE(GA4_Raw!D2:D22, {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "J8", "-12.2%");
+  sheet.getRange("H9").setValue(0.538); // Engagement Rate
+  sheet.getRange("H9").setNumberFormat("0.00%");
+  sheet.getRange("I9").setValue('=SPARKLINE(GA4_Raw!D2:D22)');
+  formatDeltaCell_(sheet, "J9", "-12.2%", false);
   
-  sheet.getRange("K8").setValue(83); // Engagement Time
-  formatDeltaCell_(sheet, "L8", "-23.1%");
+  sheet.getRange("K9").setValue(83); // Engagement Time
+  formatDeltaCell_(sheet, "L9", "-23.1%", false);
   
-  sheet.getRange("N8").setValue(0.0224); // Conv Rate
-  sheet.getRange("N8").setNumberFormat("0.00%");
-  sheet.getRange("O8").setValue('=SPARKLINE(GA4_Raw!F2:F22, {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "P8", "-19.7%");
+  sheet.getRange("N9").setValue(0.0224); // Conv Rate
+  sheet.getRange("N9").setNumberFormat("0.00%");
+  sheet.getRange("O9").setValue('=SPARKLINE(GA4_Raw!F2:F22)');
+  formatDeltaCell_(sheet, "P9", "-19.7%", false);
   
   // Status Warning Card
-  sheet.getRange("Q8").setValue("🔴 Khẩn cấp").setFontColor("#B91C1C").setBackground("#FEF2F2");
-  sheet.getRange("R8").setValue("Lỗi Uptime: 2").setFontColor("#B91C1C").setFontSize(8).setFontWeight("bold");
+  sheet.getRange("Q9").setValue("🔴 Khẩn cấp").setFontColor("#B91C1C").setBackground("#FEF2F2");
+  sheet.getRange("R9").setValue("Lỗi Uptime: 2").setFontColor("#B91C1C").setFontSize(8).setFontWeight("bold");
 
   // Format số hàng GA4
-  sheet.getRange("B8").setNumberFormat("#,##0");
-  sheet.getRange("J8").setNumberFormat("#,##0");
+  sheet.getRange("B9").setNumberFormat("#,##0");
+  sheet.getRange("K9").setNumberFormat("#,##0");
 
   // --- 3. Ghi Bảng Thiết Bị (Device) ---
   const deviceData = [
@@ -732,11 +775,11 @@ function writeGscSampleData(suppressAlert) {
     ["Mobile", 2, 125, 28.05, 0.0160],
     ["Tablet", 0, 3, 3.33, 0.0000]
   ];
-  sheet.getRange("B29:F31").setValues(deviceData);
-  sheet.getRange("C29:C31").setNumberFormat("#,##0");
-  sheet.getRange("D29:D31").setNumberFormat("#,##0");
-  sheet.getRange("E29:E31").setNumberFormat("0.00");
-  sheet.getRange("F29:F31").setNumberFormat("0.00%");
+  sheet.getRange("B31:F33").setValues(deviceData);
+  sheet.getRange("C31:C33").setNumberFormat("#,##0");
+  sheet.getRange("D31:D33").setNumberFormat("#,##0");
+  sheet.getRange("E31:E33").setNumberFormat("0.00");
+  sheet.getRange("F31:F33").setNumberFormat("0.00%");
 
   // --- 4. Ghi Bảng Trang Đích (Landing Page) ---
   const lpData = [
@@ -746,11 +789,11 @@ function writeGscSampleData(suppressAlert) {
     ["https://domain.com/blog/content-marketing-la-gi/", 1, 30, 22.5, 0.033],
     ["https://domain.com/du-an/", 0, 15, 45.0, 0.000]
   ];
-  sheet.getRange("H29:L33").setValues(lpData);
-  sheet.getRange("I29:I33").setNumberFormat("#,##0");
-  sheet.getRange("J29:J33").setNumberFormat("#,##0");
-  sheet.getRange("K29:K33").setNumberFormat("0.00");
-  sheet.getRange("L29:L33").setNumberFormat("0.00%");
+  sheet.getRange("H31:L35").setValues(lpData);
+  sheet.getRange("I31:I35").setNumberFormat("#,##0");
+  sheet.getRange("J31:J35").setNumberFormat("#,##0");
+  sheet.getRange("K31:K35").setNumberFormat("0.00");
+  sheet.getRange("L31:L35").setNumberFormat("0.00%");
 
   // --- 5. Ghi Bảng Trang Tăng Trưởng Tốt Nhất (Best Performers) ---
   const bestPerfData = [
@@ -760,11 +803,11 @@ function writeGscSampleData(suppressAlert) {
     ["https://domain.com/blog/content-marketing-la-gi/", 0, 0, 0, 0],
     ["https://domain.com/du-an/", 0, 0, 0, 0]
   ];
-  sheet.getRange("N29:R33").setValues(bestPerfData);
-  sheet.getRange("O29:O33").setNumberFormat("#,##0");
-  sheet.getRange("P29:P33").setNumberFormat("#,##0");
-  sheet.getRange("Q29:Q33").setNumberFormat("+#,##0;-#,##0;0");
-  sheet.getRange("R29:R33").setNumberFormat("0.00%");
+  sheet.getRange("N31:R35").setValues(bestPerfData);
+  sheet.getRange("O31:O35").setNumberFormat("#,##0");
+  sheet.getRange("P31:P35").setNumberFormat("#,##0");
+  sheet.getRange("Q31:Q35").setNumberFormat("+#,##0;-#,##0;0");
+  sheet.getRange("R31:R35").setNumberFormat("0.00%");
 
   // --- 6. Ghi Bảng Top Queries ---
   const topQueriesData = [
@@ -779,11 +822,11 @@ function writeGscSampleData(suppressAlert) {
     ["google data studio expert", 0, 20, 81.20, 0.0000],
     ["looker studio developer", 0, 15, 66.45, 0.0000]
   ];
-  sheet.getRange("N13:R22").setValues(topQueriesData);
-  sheet.getRange("O13:O22").setNumberFormat("#,##0");
-  sheet.getRange("P13:P22").setNumberFormat("#,##0");
-  sheet.getRange("Q13:Q22").setNumberFormat("0.00");
-  sheet.getRange("R13:R22").setNumberFormat("0.00%");
+  sheet.getRange("N15:R24").setValues(topQueriesData);
+  sheet.getRange("O15:O24").setNumberFormat("#,##0");
+  sheet.getRange("P15:P24").setNumberFormat("#,##0");
+  sheet.getRange("Q15:Q24").setNumberFormat("0.00");
+  sheet.getRange("R15:R24").setNumberFormat("0.00%");
 
   // --- 7. Ghi Bảng Unbranded Queries ---
   const unbrandedData = [
@@ -798,11 +841,11 @@ function writeGscSampleData(suppressAlert) {
     ["tu van chien luoc seo", 0, 12, 73.50, 0.0000],
     ["viet bai chuan seo thue", 0, 8, 85.10, 0.0000]
   ];
-  sheet.getRange("B45:F54").setValues(unbrandedData);
-  sheet.getRange("C45:C54").setNumberFormat("#,##0");
-  sheet.getRange("D45:D54").setNumberFormat("#,##0");
-  sheet.getRange("E45:E54").setNumberFormat("0.00");
-  sheet.getRange("F45:F54").setNumberFormat("0.00%");
+  sheet.getRange("B47:F56").setValues(unbrandedData);
+  sheet.getRange("C47:C56").setNumberFormat("#,##0");
+  sheet.getRange("D47:D56").setNumberFormat("#,##0");
+  sheet.getRange("E47:E56").setNumberFormat("0.00");
+  sheet.getRange("F47:F56").setNumberFormat("0.00%");
 
   // --- 8. Ghi Bảng Branded Queries ---
   const brandedData = [
@@ -811,11 +854,11 @@ function writeGscSampleData(suppressAlert) {
     ["dich vu thiet ke web ca nhan", 0, 2, 4.50, 0.0000],
     ["antigravity", 0, 1, 1.20, 0.0000]
   ];
-  sheet.getRange("H45:L48").setValues(brandedData);
-  sheet.getRange("I45:I48").setNumberFormat("#,##0");
-  sheet.getRange("J45:J48").setNumberFormat("#,##0");
-  sheet.getRange("K45:K48").setNumberFormat("0.00");
-  sheet.getRange("L45:L48").setNumberFormat("0.00%");
+  sheet.getRange("H47:L50").setValues(brandedData);
+  sheet.getRange("I47:I50").setNumberFormat("#,##0");
+  sheet.getRange("J47:J50").setNumberFormat("#,##0");
+  sheet.getRange("K47:K50").setNumberFormat("0.00");
+  sheet.getRange("L47:L50").setNumberFormat("0.00%");
 
   // --- 9. Ghi Bảng Conversion Trang Đích (HIỆU SUẤT CHUYỂN ĐỔI BÀI VIẾT) ---
   const convPageData = [
@@ -832,14 +875,17 @@ function writeGscSampleData(suppressAlert) {
   while (paddedConvData.length < 10) {
     paddedConvData.push(["", "", "", "", ""]);
   }
-  sheet.getRange("N45:R54").setValues(paddedConvData);
-  sheet.getRange("O45:O54").setNumberFormat("#,##0");
-  sheet.getRange("P45:P54").setNumberFormat("#,##0");
-  sheet.getRange("Q45:Q54").setNumberFormat("0.00%");
-  sheet.getRange("R45:R54").setNumberFormat("#,##0");
+  sheet.getRange("N47:R56").setValues(paddedConvData);
+  sheet.getRange("O47:O56").setNumberFormat("#,##0");
+  sheet.getRange("P47:P56").setNumberFormat("#,##0");
+  sheet.getRange("Q47:Q56").setNumberFormat("0.00%");
+  sheet.getRange("R47:R56").setNumberFormat("#,##0");
 
   // Áp dụng định dạng màu sắc thông minh cho bảng
   applyConditionalGscFormatting_(sheet);
+
+  // Đồng bộ số liệu trend ra cột ẩn S, T, U để vẽ biểu đồ cục bộ
+  syncTrendData_(ss, sheet);
 
   SpreadsheetApp.flush();
   protectManagedSheets_(ss);
@@ -850,7 +896,8 @@ function writeGscSampleData(suppressAlert) {
 }
 
 // Tô màu định dạng % thay đổi (Tương thích tốt locale VN, màu sắc soft hài hòa)
-function formatDeltaCell_(sheet, rangeStr, pctText) {
+// invertLogic = true: tăng (n dương) là XẤU (dùng cho Bounce Rate)
+function formatDeltaCell_(sheet, rangeStr, pctText, invertLogic) {
   try {
     const cell = sheet.getRange(rangeStr);
     if (!pctText || pctText === "-") {
@@ -865,22 +912,21 @@ function formatDeltaCell_(sheet, rangeStr, pctText) {
       return;
     }
 
-    // Đối với Bounce Rate (Tỷ lệ thoát), tăng (n dương) là TỆ
-    const isBounceRate = rangeStr.indexOf("F8") === 0;
+    // invertLogic = true: tăng là xấu (Bounce Rate). Truyền rõ ràng từ nơi gọi.
     let isBad = n < 0;
-    if (isBounceRate) {
+    if (invertLogic === true) {
       isBad = n > 0;
     }
     
     if (isBad) {
       const absVal = Math.abs(n);
       if (absVal >= CONFIG.DROP_THRESHOLD_PERCENT) {
-        cell.setBackground("#FEF2F2").setFontColor("#B91C1C"); // Soft Red (Red-700)
+        cell.setBackground("#FEF2F2").setFontColor("#B91C1C"); // Soft Red
       } else {
-        cell.setBackground("#FEF9C3").setFontColor("#A16207"); // Soft Yellow (Yellow-700)
+        cell.setBackground("#FEF9C3").setFontColor("#A16207"); // Soft Yellow
       }
     } else {
-      cell.setBackground("#F0FDF4").setFontColor("#15803D"); // Soft Green (Green-700)
+      cell.setBackground("#F0FDF4").setFontColor("#15803D"); // Soft Green
     }
   } catch (e) {
     Logger.log("Lỗi formatDeltaCell: " + e.message);
@@ -893,13 +939,13 @@ function applyConditionalGscFormatting_(sheet) {
     const rules = [];
 
     const ctrRanges = [
-      sheet.getRange("F29:F41"), // Device CTR
-      sheet.getRange("L29:L41"), // LP CTR
-      sheet.getRange("R13:R22"), // Top Queries CTR
-      sheet.getRange("R29:R41"), // Best Performers Growth
-      sheet.getRange("F45:F55"), // Unbranded CTR
-      sheet.getRange("L45:L55"), // Branded CTR
-      sheet.getRange("Q45:Q54")  // LP Conv Rate (MỚI)
+      sheet.getRange("F31:F43"), // Device CTR
+      sheet.getRange("L31:L43"), // LP CTR
+      sheet.getRange("R15:R24"), // Top Queries CTR
+      sheet.getRange("R31:R43"), // Best Performers Growth
+      sheet.getRange("F47:F57"), // Unbranded CTR
+      sheet.getRange("L47:L57"), // Branded CTR
+      sheet.getRange("Q47:Q56")  // LP Conv Rate (MỚI)
     ];
 
     // CTR cao >= 1.5% -> Xanh lá soft
@@ -922,13 +968,13 @@ function applyConditionalGscFormatting_(sheet) {
 
     // Lượt nhấp / Sessions > 0 -> Xanh dương nhạt
     const clicksRanges = [
-      sheet.getRange("C29:C31"),
-      sheet.getRange("I29:I33"),
-      sheet.getRange("O13:O22"),
-      sheet.getRange("C45:C54"),
-      sheet.getRange("I45:I48"),
-      sheet.getRange("O45:O54"), // Sessions GA4
-      sheet.getRange("P45:P54")  // Conversions GA4
+      sheet.getRange("C31:C33"),
+      sheet.getRange("I31:I35"),
+      sheet.getRange("O15:O24"),
+      sheet.getRange("C47:C56"),
+      sheet.getRange("I47:I50"),
+      sheet.getRange("O47:O56"), // Sessions GA4
+      sheet.getRange("P47:P56")  // Conversions GA4
     ];
     rules.push(SpreadsheetApp.newConditionalFormatRule()
       .whenNumberGreaterThan(0)
@@ -937,11 +983,11 @@ function applyConditionalGscFormatting_(sheet) {
 
     // Vị trí trung bình tốt (<= 10) = Xanh, kém (>30) = Đỏ nhạt
     const posRanges = [
-      sheet.getRange("E29:E31"),
-      sheet.getRange("K29:K33"),
-      sheet.getRange("Q13:Q22"),
-      sheet.getRange("E45:E54"),
-      sheet.getRange("K45:K48")
+      sheet.getRange("E31:E33"),
+      sheet.getRange("K31:K35"),
+      sheet.getRange("Q15:Q24"),
+      sheet.getRange("E47:E56"),
+      sheet.getRange("K47:K50")
     ];
     rules.push(SpreadsheetApp.newConditionalFormatRule()
       .whenNumberLessThanOrEqualTo(10)
@@ -972,59 +1018,83 @@ function applyConditionalGscFormatting_(sheet) {
 // Vẽ biểu đồ trên Dashboard
 function _buildGscCharts_(ss, sheet) {
   try {
-    const ga4Sheet = ss.getSheetByName(SHEETS.GA4_RAW);
-    if (!ga4Sheet) return;
-
-    const lastGa4Row = Math.max(ga4Sheet.getLastRow(), 2);
-
-    // Biểu đồ 1: Donut Chart - Clicks by Device (B12:F25)
+    // Biểu đồ 1: Donut Chart - Clicks by Device (B14:F27)
     const donutChart = sheet.newChart()
       .setChartType(Charts.ChartType.PIE)
-      .addRange(sheet.getRange("B28:C31")) // Bao gồm tiêu đề dòng 28
+      .addRange(sheet.getRange("B30:C33")) // Bao gồm tiêu đề dòng 30
       .setNumHeaders(1)
-      .setOption("useFirstColumnAsDomain", true)
       .setOption("title", "")
       .setOption("pieHole", 0.45)
       .setOption("backgroundColor", "#FFFFFF")
-      .setOption("chartArea", { left: 40, top: 20, width: "80%", height: "80%" })
-      .setOption("legend", { position: "right", textStyle: { color: "#475569", fontSize: 9 } })
-      .setOption("colors", ["#1D4ED8", "#10B981", "#94A3B8"]) // Đồng bộ bảng màu xanh/ngọc/xám
       .setOption("width", 440).setOption("height", 290)
-      .setPosition(12, 2, 10, 10)
+      .setPosition(14, 2, 10, 10)
       .build();
     sheet.insertChart(donutChart);
 
-    // Biểu đồ 2: Trend Chart - line chart (H12:L25)
+    // Xác định số dòng dữ liệu trend thực tế ở cột ẩn S
+    let numRows = 22; // Mặc định 21 ngày + 1 tiêu đề
+    try {
+      const lastTrendRow = Math.max(sheet.getRange("S14").getNextDataCell(SpreadsheetApp.Direction.DOWN).getRow(), 15);
+      if (lastTrendRow > 14 && lastTrendRow < 1000) {
+        numRows = lastTrendRow - 13;
+      }
+    } catch(err) {
+      Logger.log("Lỗi tìm dòng trend: " + err.message);
+    }
+
+    // Biểu đồ 2: Trend Chart - line chart (H14:L27) đọc từ cột ẩn S, T, U để tránh lỗi chéo tab
     const trendChart = sheet.newChart()
       .setChartType(Charts.ChartType.LINE)
-      .addRange(ga4Sheet.getRange(1, 1, lastGa4Row, 2)) // Col A (Ngay), Col B (Sessions)
-      .addRange(ga4Sheet.getRange(1, 6, lastGa4Row, 1)) // Col F (Conversions)
+      .addRange(sheet.getRange(14, 19, numRows, 2)) // Cột S (Ngay), Cột T (Sessions)
+      .addRange(sheet.getRange(14, 21, numRows, 1)) // Cột U (Conversions)
       .setNumHeaders(1)
       .setOption("useFirstColumnAsDomain", true)
       .setOption("title", "")
       .setOption("backgroundColor", "#FFFFFF")
-      .setOption("chartArea", { left: 40, top: 20, width: "85%", height: "78%" })
-      .setOption("legend", { position: "top", textStyle: { color: "#475569", fontSize: 9 } })
-      .setOption("colors", ["#1D4ED8", "#10B981"]) // Sessions (blue-700), Conversions (emerald-500)
-      .setOption("hAxis", {
-        textStyle: { color: "#64748B", fontSize: 8 },
-        gridlines: { color: "#E2E8F0", count: 5 }
-      })
-      .setOption("vAxis", {
-        textStyle: { color: "#64748B", fontSize: 8 },
-        gridlines: { color: "#E2E8F0" },
-        minValue: 0
-      })
-      .setOption("lineWidth", 2)
-      .setOption("pointSize", 3)
       .setOption("width", 440).setOption("height", 290)
-      .setPosition(12, 8, 10, 10)
+      .setPosition(14, 8, 10, 10)
       .build();
     sheet.insertChart(trendChart);
   } catch (e) {
     Logger.log("Lỗi vẽ biểu đồ Dashboard: " + e.message);
   }
 }
+
+// Đồng bộ dữ liệu trend GA4 ra các cột ẩn S, T, U trên Dashboard để vẽ biểu đồ ổn định
+function syncTrendData_(ss, sheet) {
+  try {
+    const ga4RawSheet = ss.getSheetByName(SHEETS.GA4_RAW);
+    if (!ga4RawSheet) return;
+
+    const lastGa4Row = ga4RawSheet.getLastRow();
+    if (lastGa4Row >= 2) {
+      const dates = ga4RawSheet.getRange(2, 1, lastGa4Row - 1, 1).getValues();
+      const sessions = ga4RawSheet.getRange(2, 2, lastGa4Row - 1, 1).getValues();
+      const conversions = ga4RawSheet.getRange(2, 6, lastGa4Row - 1, 1).getValues();
+      
+      const trendData = [];
+      for (let i = 0; i < dates.length; i++) {
+        trendData.push([dates[i][0], sessions[i][0], conversions[i][0]]);
+      }
+      
+      // Xóa dữ liệu cũ cột S, T, U
+      sheet.getRange("S14:U100").clearContent();
+      
+      // Ghi dữ liệu mới
+      sheet.getRange("S14:U14").setValues([["Ngay", "Sessions", "Conversions"]]);
+      sheet.getRange(15, 19, trendData.length, 3).setValues(trendData);
+      
+      // Định dạng ngày cho cột S
+      sheet.getRange(15, 19, trendData.length, 1).setNumberFormat("dd/MM/yyyy");
+      
+      // Ẩn cột S, T, U để giữ thẩm mỹ Dashboard
+      sheet.hideColumns(19, 3);
+    }
+  } catch (e) {
+    Logger.log("Lỗi đồng bộ dữ liệu biểu đồ: " + e.message);
+  }
+}
+
 
 function rebuildDarkCharts() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -1046,10 +1116,7 @@ function rebuildDarkCharts() {
   protectManagedSheets_(ss);
   showAlert_("✅ Đã vẽ lại các biểu đồ!");
 }
-
-function darkDashboardFull() {
-  gscDashboardFull();
-}
+// darkDashboardFull() và fullSetupAndStyle() đã được hợp nhất vào gscDashboardFull() để tránh trùng lặp
 
 // Hàm khởi chạy tổng hợp toàn bộ hệ thống bằng 1-Click
 function gscDashboardFull() {
@@ -1133,7 +1200,7 @@ function styleMonthlySummary_(ss) {
 
   try {
     sheet.getRange("B1:H1").merge()
-      .setBackground("#1E3A8A")
+      .setBackground("#4338CA") // Indigo accent
       .setFontColor("#FFFFFF")
       .setFontSize(11)
       .setFontWeight("bold")
@@ -1145,8 +1212,8 @@ function styleMonthlySummary_(ss) {
   } catch (e) { Logger.log("Lỗi banner: " + e.message); }
 
   try {
-    sheet.getRange("B3:H3").setBackground("#EFF6FF")
-      .setFontColor("#1E3A8A")
+    sheet.getRange("B3:H3").setBackground("#EEF2F6")
+      .setFontColor("#4338CA")
       .setFontSize(9)
       .setFontWeight("bold")
       .setVerticalAlignment("middle")
@@ -1189,7 +1256,7 @@ function _buildMonthlySummaryCharts_(ss, sheet) {
       .setOption("backgroundColor", "#FFFFFF")
       .setOption("chartArea", { left: 50, top: 40, width: "85%", height: "70%" })
       .setOption("legend", { position: "top", textStyle: { color: "#475569", fontSize: 9 } })
-      .setOption("colors", ["#3B82F6", "#1D4ED8"])
+      .setOption("colors", ["#818CF8", "#4338CA"]) // Indigo colors
       .setOption("hAxis", { textStyle: { color: "#64748B", fontSize: 8 } })
       .setOption("vAxis", { textStyle: { color: "#64748B", fontSize: 8 }, minValue: 0 })
       .setOption("width", 500).setOption("height", 290)
@@ -1219,7 +1286,7 @@ function styleGscRaw_(ss) {
     sheet.getRange(1, 1, lastRow, lastCol).setBackground("#FFFFFF").setFontColor("#1E293B");
 
     const header = sheet.getRange(1, 1, 1, lastCol);
-    header.setBackground("#6B21A8") // Purple-800
+    header.setBackground("#2563EB") // Blue
       .setFontColor("#FFFFFF")
       .setFontWeight("bold")
       .setFontSize(11)
@@ -1240,7 +1307,7 @@ function styleGscRaw_(ss) {
   if (lastRow > 1) {
     try {
       for (let r = 2; r <= lastRow; r++) {
-        const bg = r % 2 === 0 ? "#FAF5FF" : "#FFFFFF"; // Xen kẽ tím nhạt
+        const bg = r % 2 === 0 ? "#EFF6FF" : "#FFFFFF"; // Xen kẽ xanh dương nhạt GSC
         sheet.getRange(r, 1, 1, lastCol).setBackground(bg).setFontColor("#334155").setFontSize(10);
         sheet.setRowHeight(r, 22);
       }
@@ -1281,9 +1348,9 @@ function styleGscRaw_(ss) {
 
   try {
     sheet.getRange(1, 1, lastRow, lastCol)
-      .setBorder(true, true, true, true, true, false, "#E9D5FF", SpreadsheetApp.BorderStyle.SOLID);
+      .setBorder(true, true, true, true, true, false, "#BFDBFE", SpreadsheetApp.BorderStyle.SOLID);
     sheet.getRange(1, 1, 1, lastCol)
-      .setBorder(null, null, true, null, null, null, "#6B21A8", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+      .setBorder(null, null, true, null, null, null, "#2563EB", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
     sheet.setFrozenRows(1);
   } catch (e) { Logger.log("Lỗi viền/frozen: " + e.message); }
 }
@@ -1306,7 +1373,7 @@ function styleGa4Raw_(ss) {
     sheet.getRange(1, 1, lastRow, lastCol).setBackground("#FFFFFF").setFontColor("#1E293B");
 
     sheet.getRange(1, 1, 1, lastCol)
-      .setBackground("#1D4ED8") // Blue-700
+      .setBackground("#059669") // Emerald GA4
       .setFontColor("#FFFFFF")
       .setFontWeight("bold")
       .setFontSize(11)
@@ -1327,7 +1394,7 @@ function styleGa4Raw_(ss) {
   if (lastRow > 1) {
     try {
       for (let r = 2; r <= lastRow; r++) {
-        const bg = r % 2 === 0 ? "#EFF6FF" : "#FFFFFF"; // Xen kẽ xanh dương nhạt
+        const bg = r % 2 === 0 ? "#ECFDF5" : "#FFFFFF"; // Xen kẽ xanh ngọc GA4
         sheet.getRange(r, 1, 1, lastCol).setBackground(bg).setFontSize(10);
         sheet.setRowHeight(r, 22);
       }
@@ -1373,7 +1440,7 @@ function styleGa4Raw_(ss) {
           .setBackground("#F0FDF4").setFontColor("#15803D")
           .setRanges([bounceRange]).build(),
         SpreadsheetApp.newConditionalFormatRule()
-          .whenNumberGreaterThan(20).setBackground("#EFF6FF").setFontColor("#1D4ED8").setBold(true)
+          .whenNumberGreaterThan(20).setBackground("#ECFDF5").setFontColor("#059669").setBold(true)
           .setRanges([convRange]).build(),
       ]);
     } catch (e) { Logger.log("Lỗi set conditional format: " + e.message); }
@@ -1381,9 +1448,9 @@ function styleGa4Raw_(ss) {
 
   try {
     sheet.getRange(1, 1, lastRow, lastCol)
-      .setBorder(true, true, true, true, true, false, "#BFDBFE", SpreadsheetApp.BorderStyle.SOLID);
+      .setBorder(true, true, true, true, true, false, "#A7F3D0", SpreadsheetApp.BorderStyle.SOLID);
     sheet.getRange(1, 1, 1, lastCol)
-      .setBorder(null, null, true, null, null, null, "#1D4ED8", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+      .setBorder(null, null, true, null, null, null, "#059669", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
     sheet.setFrozenRows(1);
   } catch (e) { Logger.log("Lỗi viền/frozen: " + e.message); }
 }
@@ -1406,7 +1473,7 @@ function styleContentConversion_(ss) {
     sheet.getRange(1, 1, lastRow, lastCol).setBackground("#FFFFFF").setFontColor("#1E293B");
 
     sheet.getRange(1, 1, 1, lastCol)
-      .setBackground("#15803D") // Green-700
+      .setBackground("#7C3AED") // Violet Content
       .setFontColor("#FFFFFF")
       .setFontWeight("bold")
       .setFontSize(11)
@@ -1425,11 +1492,11 @@ function styleContentConversion_(ss) {
 
   if (lastRow > 1) {
     try {
-      const medals = ["#FEF08A", "#E2E8F0", "#FFEDD5"]; // Soft gold, silver, bronze
-      const medalText = ["#854D0E", "#475569", "#9A3412"];
+      const medals = ["#F3E8FF", "#F1F5F9", "#FAE8FF"]; // Soft violet gold/silver/bronze
+      const medalText = ["#6B21A8", "#475569", "#86198F"];
       for (let r = 2; r <= lastRow; r++) {
         const rank = r - 1;
-        let bg = r % 2 === 0 ? "#F0FDF4" : "#FFFFFF";
+        let bg = r % 2 === 0 ? "#F5F3FF" : "#FFFFFF"; // Xen kẽ tím nhạt
         let fc = "#334155";
         if (rank <= 3) { bg = medals[rank - 1]; fc = medalText[rank - 1]; }
         sheet.getRange(r, 1, 1, lastCol).setBackground(bg).setFontColor(fc).setFontSize(10);
@@ -1453,7 +1520,7 @@ function styleContentConversion_(ss) {
       sheet.setConditionalFormatRules([
         SpreadsheetApp.newConditionalFormatRule()
           .whenNumberGreaterThanOrEqualTo(0.03)
-          .setBackground("#F0FDF4").setFontColor("#15803D").setBold(true)
+          .setBackground("#F5F3FF").setFontColor("#7C3AED").setBold(true)
           .setRanges([convRateRange]).build(),
         SpreadsheetApp.newConditionalFormatRule()
           .whenNumberLessThan(0.01)
@@ -1465,9 +1532,9 @@ function styleContentConversion_(ss) {
 
   try {
     sheet.getRange(1, 1, lastRow, lastCol)
-      .setBorder(true, true, true, true, true, false, "#BBF7D0", SpreadsheetApp.BorderStyle.SOLID);
+      .setBorder(true, true, true, true, true, false, "#DDD6FE", SpreadsheetApp.BorderStyle.SOLID);
     sheet.getRange(1, 1, 1, lastCol)
-      .setBorder(null, null, true, null, null, null, "#15803D", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+      .setBorder(null, null, true, null, null, null, "#7C3AED", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
     sheet.setFrozenRows(1);
   } catch (e) { Logger.log("Lỗi viền/frozen: " + e.message); }
 }
@@ -1490,7 +1557,7 @@ function styleAlertsLog_(ss) {
     sheet.getRange(1, 1, lastRow, lastCol).setBackground("#FFFFFF").setFontColor("#1E293B");
 
     sheet.getRange(1, 1, 1, lastCol)
-      .setBackground("#B91C1C") // Red-700
+      .setBackground("#DC2626") // Red Alerts
       .setFontColor("#FFFFFF")
       .setFontWeight("bold")
       .setFontSize(11)
@@ -1551,20 +1618,20 @@ function styleAlertsLog_(ss) {
     sheet.getRange(1, 1, lastRow, lastCol)
       .setBorder(true, true, true, true, true, false, "#FCA5A5", SpreadsheetApp.BorderStyle.SOLID);
     sheet.getRange(1, 1, 1, lastCol)
-      .setBorder(null, null, true, null, null, null, "#B91C1C", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+      .setBorder(null, null, true, null, null, null, "#DC2626", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
     sheet.setFrozenRows(1);
   } catch (e) { Logger.log("Lỗi viền/frozen: " + e.message); }
 }
 
 function setSheetTabColors_(ss) {
   const colors = {
-    [SHEETS.DASHBOARD]: "#2C5282",
-    [SHEETS.MONTHLY]:   "#1E3A8A",
-    [SHEETS.GSC_RAW]:   "#553C9A",
-    [SHEETS.GA4_RAW]:   "#2B6CB0",
-    [SHEETS.CONTENT]:   "#276749",
-    [SHEETS.ALERTS]:    "#742A2A",
-    [SHEETS.README]:    "#4A5568",
+    [SHEETS.DASHBOARD]: "#2563EB",
+    [SHEETS.MONTHLY]:   "#4338CA",
+    [SHEETS.GSC_RAW]:   "#2563EB",
+    [SHEETS.GA4_RAW]:   "#059669",
+    [SHEETS.CONTENT]:   "#7C3AED",
+    [SHEETS.ALERTS]:    "#DC2626",
+    [SHEETS.README]:    "#64748B",
   };
   Object.entries(colors).forEach(([name, color]) => {
     const sheet = ss.getSheetByName(name);
@@ -1572,9 +1639,7 @@ function setSheetTabColors_(ss) {
   });
 }
 
-function fullSetupAndStyle() {
-  gscDashboardFull();
-}
+// fullSetupAndStyle() đã được hợp nhất vào gscDashboardFull() — xem menu 'Thiết lập Dashboard'
 
 
 // =====================================================================
@@ -1597,6 +1662,7 @@ function buildReadmeSheet_(ss) {
     ["Lark Webhook URL:", "Điền link Lark Webhook gửi cảnh báo tự động (tại cột C dòng 5)"],
     ["Ngưỡng cảnh báo sụt giảm:", "Phần trăm traffic sụt giảm để báo động (ví dụ: 20% tại cột C dòng 6)"],
     ["Danh sách URL uptime:", "Các link web cần kiểm tra lỗi 404/500, cách nhau bằng dấu phẩy"],
+    ["Khóa API Claude Desktop:", "Mật mã dùng để Claude đọc số liệu Sheets của bạn từ xa (tại cột C dòng 8)"],
     [""],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
     ["🔐 BƯỚC 2 — CẬP NHẬT appsscript.json (Làm 1 lần)"],
@@ -1604,6 +1670,15 @@ function buildReadmeSheet_(ss) {
     [""],
     ["Trong Apps Script: Settings > Show appsscript.json in editor"],
     ["Mở file appsscript.json, dán toàn bộ nội dung cấu hình ở cuối file này vào."],
+    [""],
+    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    ["🔌 BƯỚC 3 — KẾT NỐI VỚI CLAUDE DESKTOP"],
+    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    [""],
+    ["1. Vào Deploy > New Deployment > Chọn Web App."],
+    ["2. Cấu hình: Execute as: Me | Who has access: Anyone."],
+    ["3. Copy lấy URL Web App được cấp."],
+    ["4. Gửi URL kèm khóa bảo mật (ở tab Config) cho Claude Desktop để đọc dữ liệu từ xa."],
     [""],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
     ["▶️ THỨ TỰ CHẠY HÀM KHI CÀI ĐẶT"],
@@ -1625,7 +1700,7 @@ function buildReadmeSheet_(ss) {
   sheet.getRange("A1").setFontSize(14).setFontWeight("bold").setFontColor("#2C5282").setBackground("#EBF4FF");
   sheet.setRowHeight(1, 36);
 
-  const headerRows = [3, 13, 20];
+  const headerRows = [3, 14, 21, 29];
   headerRows.forEach(row => {
     if (row <= content.length) {
       sheet.getRange(row, 1, 1, 2).setFontWeight("bold").setBackground("#2D3748").setFontColor("#FFFFFF");
@@ -1661,6 +1736,7 @@ function dailyUpdate_impl_() {
   const today = new Date();
   const yesterday = shiftDate_(today, -1);
 
+  // --- Dữ liệu theo ngày (21 ngày) cho KPI cards ---
   const gscDaily  = fetchGscDaily_(shiftDate_(today, -21), yesterday);
   const gscByPage = fetchGscByPage_(shiftDate_(yesterday, -6), yesterday, 100);
   writeGscRaw_(ss, gscByPage);
@@ -1670,6 +1746,28 @@ function dailyUpdate_impl_() {
 
   const ga4ByPage = fetchGa4ByPage_(shiftDate_(yesterday, -6), yesterday);
   writeContentConversion_(ss, ga4ByPage);
+
+  // --- Dữ liệu bổ sung cho các bảng Dashboard ---
+  // Query data (dùng chung cho Top Queries + Branded/Unbranded — tránh gọi API 2 lần cho cùng data)
+  const allQueries = fetchGscByQuery_(shiftDate_(yesterday, -6), yesterday, 500);
+  writeDashboardTopQueries_(ss, allQueries.slice(0, 10));
+
+  // Device breakdown (B31:F33)
+  const deviceData = fetchGscByDevice_(shiftDate_(yesterday, -6), yesterday);
+  writeDashboardDeviceTable_(ss, deviceData);
+
+  // Branded / Unbranded (B47:F56 và H47:L50)
+  writeDashboardBrandedUnbranded_(ss, allQueries);
+
+  // Best Performers MoM (N31:R35) — so sánh tháng hiện tại vs tháng trước
+  // Dùng fetchGscByPageTotal_ (dimension "page" duy nhất) thay vì "date"+"page" để tránh
+  // rowLimit bị cắt bớt khi 1 tháng có nhiều trang x nhiều ngày (vd 20 trang x 30 ngay = 600 dong).
+  const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  const prevMonthStart = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const prevMonthEnd   = new Date(today.getFullYear(), today.getMonth(), 0);
+  const thisMonthPages = fetchGscByPageTotal_(thisMonthStart, yesterday, 200);
+  const prevMonthPages = fetchGscByPageTotal_(prevMonthStart, prevMonthEnd, 200);
+  writeDashboardBestPerformers_(ss, thisMonthPages, prevMonthPages);
 
   updateDashboardSheet_(ss, gscDaily, ga4Daily);
 
@@ -1741,6 +1839,225 @@ function fetchGscDaily_(startDate, endDate) {
 function fetchGscByPage_(startDate, endDate, limit) {
   const rows = callSearchConsole_({ startDate: formatDate_(startDate), endDate: formatDate_(endDate), dimensions: ["date", "page"], rowLimit: limit || 100 });
   return rows.map(r => ({ date: r.keys[0], page: r.keys[1], clicks: r.clicks, impressions: r.impressions, ctr: r.ctr, position: r.position }));
+}
+
+/**
+ * Fetch GSC tổng hợp theo trang (page) DUY NHẤT (không kèm ngày).
+ * Dùng cho so sánh MoM (Best Performers) để tránh rowLimit bị cắt bớt
+ * khi dùng dimension ["date","page"] trên khoảng thời gian dài (vd 1 tháng).
+ * Trả về [{page, clicks}]
+ */
+function fetchGscByPageTotal_(startDate, endDate, limit) {
+  const rows = callSearchConsole_({
+    startDate: formatDate_(startDate),
+    endDate: formatDate_(endDate),
+    dimensions: ["page"],
+    rowLimit: limit || 200,
+  });
+  return rows.map(r => ({ page: r.keys[0], clicks: r.clicks }));
+}
+
+/**
+ * Fetch GSC theo query (từ khóa), tổng hợp theo khoảng ngày.
+ * Trả về [{query, clicks, impressions, ctr, position}]
+ */
+function fetchGscByQuery_(startDate, endDate, limit) {
+  const rows = callSearchConsole_({
+    startDate: formatDate_(startDate),
+    endDate: formatDate_(endDate),
+    dimensions: ["query"],
+    rowLimit: limit || 100,
+  });
+  return rows
+    .map(r => ({
+      query:       r.keys[0],
+      clicks:      r.clicks,
+      impressions: r.impressions,
+      ctr:         r.ctr,
+      position:    r.position,
+    }))
+    .sort((a, b) => b.clicks - a.clicks);
+}
+
+/**
+ * Fetch GSC theo thiết bị (device).
+ * Trả về [{device, clicks, impressions, ctr, position}]
+ */
+function fetchGscByDevice_(startDate, endDate) {
+  const rows = callSearchConsole_({
+    startDate: formatDate_(startDate),
+    endDate: formatDate_(endDate),
+    dimensions: ["device"],
+    rowLimit: 10,
+  });
+  return rows
+    .map(r => ({
+      device:      r.keys[0],
+      clicks:      r.clicks,
+      impressions: r.impressions,
+      ctr:         r.ctr,
+      position:    r.position,
+    }))
+    .sort((a, b) => b.clicks - a.clicks);
+}
+
+/**
+ * Ghi bảng Top Queries lên Dashboard (N15:R24)
+ */
+function writeDashboardTopQueries_(ss, queries) {
+  const sheet = ss.getSheetByName(SHEETS.DASHBOARD);
+  if (!sheet) return;
+  try {
+    sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(p => p.remove());
+  } catch (e) {}
+  const top10 = queries.slice(0, 10);
+  const rows = top10.map(q => [
+    q.query,
+    Number(q.clicks)      || 0,
+    Number(q.impressions) || 0,
+    Number(q.position)    || 0,
+    Number(q.ctr)         || 0,
+  ]);
+  while (rows.length < 10) rows.push(["", "", "", "", ""]);
+  sheet.getRange("N15:R24").setValues(rows);
+  sheet.getRange("O15:O24").setNumberFormat("#,##0");
+  sheet.getRange("P15:P24").setNumberFormat("#,##0");
+  sheet.getRange("Q15:Q24").setNumberFormat("0.00");
+  sheet.getRange("R15:R24").setNumberFormat("0.00%");
+}
+
+/**
+ * Ghi bảng Device breakdown lên Dashboard (B31:F33)
+ */
+function writeDashboardDeviceTable_(ss, devices) {
+  const sheet = ss.getSheetByName(SHEETS.DASHBOARD);
+  if (!sheet) return;
+  try {
+    sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(p => p.remove());
+  } catch (e) {}
+  const order = ["DESKTOP", "MOBILE", "TABLET"];
+  // Sắp xếp theo thứ tự Desktop → Mobile → Tablet
+  const sorted = order.map(d => {
+    const found = devices.find(r => r.device.toUpperCase() === d);
+    return found
+      ? [found.device, found.clicks, found.impressions, Number(found.position).toFixed(2), found.ctr]
+      : [d.charAt(0) + d.slice(1).toLowerCase(), 0, 0, 0, 0];
+  });
+  sheet.getRange("B31:F33").setValues(sorted);
+  sheet.getRange("C31:C33").setNumberFormat("#,##0");
+  sheet.getRange("D31:D33").setNumberFormat("#,##0");
+  sheet.getRange("E31:E33").setNumberFormat("0.00");
+  sheet.getRange("F31:F33").setNumberFormat("0.00%");
+}
+
+/**
+ * Tách branded / unbranded từ danh sách query, ghi lên Dashboard:
+ *   Unbranded → B47:F56
+ *   Branded   → H47:L50 (tối đa 4 dòng)
+ * Brand keywords lấy từ CONFIG.BRAND_KEYWORDS (mảng lowercase).
+ */
+function writeDashboardBrandedUnbranded_(ss, queries) {
+  const sheet = ss.getSheetByName(SHEETS.DASHBOARD);
+  if (!sheet) return;
+  try {
+    sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(p => p.remove());
+  } catch (e) {}
+
+  const brandKws = (CONFIG.BRAND_KEYWORDS || []).map(k => k.toLowerCase().trim()).filter(Boolean);
+
+  const isBranded = q => {
+    if (!brandKws.length) return false;
+    const lower = q.toLowerCase();
+    return brandKws.some(kw => lower.includes(kw));
+  };
+
+  const branded   = queries.filter(q => isBranded(q.query));
+  const unbranded = queries.filter(q => !isBranded(q.query));
+
+  // Unbranded (B47:F56) — tối đa 10 dòng
+  const unbRows = unbranded.slice(0, 10).map(q => [
+    q.query,
+    Number(q.clicks)      || 0,
+    Number(q.impressions) || 0,
+    Number(q.position)    || 0,
+    Number(q.ctr)         || 0,
+  ]);
+  while (unbRows.length < 10) unbRows.push(["", "", "", "", ""]);
+  sheet.getRange("B47:F56").setValues(unbRows);
+  sheet.getRange("C47:C56").setNumberFormat("#,##0");
+  sheet.getRange("D47:D56").setNumberFormat("#,##0");
+  sheet.getRange("E47:E56").setNumberFormat("0.00");
+  sheet.getRange("F47:F56").setNumberFormat("0.00%");
+
+  // Branded (H47:L50) — tối đa 4 dòng
+  const bRows = branded.slice(0, 4).map(q => [
+    q.query,
+    Number(q.clicks)      || 0,
+    Number(q.impressions) || 0,
+    Number(q.position)    || 0,
+    Number(q.ctr)         || 0,
+  ]);
+  while (bRows.length < 4) bRows.push(["", "", "", "", ""]);
+  sheet.getRange("H47:L50").setValues(bRows);
+  sheet.getRange("I47:I50").setNumberFormat("#,##0");
+  sheet.getRange("J47:J50").setNumberFormat("#,##0");
+  sheet.getRange("K47:K50").setNumberFormat("0.00");
+  sheet.getRange("L47:L50").setNumberFormat("0.00%");
+
+  // Cập nhật KPI Branded Clicks (I5) — tổng clicks branded
+  const totalBrandedClicks = branded.reduce((sum, q) => sum + (Number(q.clicks) || 0), 0);
+  sheet.getRange("I5").setValue(totalBrandedClicks);
+}
+
+/**
+ * Tính growth MoM theo Landing Page, ghi lên Best Performers (N31:R35).
+ * thisMonthRows / prevMonthRows: mảng từ fetchGscByPage_ (có page, clicks).
+ */
+function writeDashboardBestPerformers_(ss, thisMonthRows, prevMonthRows) {
+  const sheet = ss.getSheetByName(SHEETS.DASHBOARD);
+  if (!sheet) return;
+  try {
+    sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(p => p.remove());
+  } catch (e) {}
+
+  // Tổng hợp clicks theo page cho mỗi tháng
+  const aggregateByPage = rows => {
+    const map = {};
+    rows.forEach(r => {
+      if (!r.page) return;
+      map[r.page] = (map[r.page] || 0) + (Number(r.clicks) || 0);
+    });
+    return map;
+  };
+
+  const thisMap = aggregateByPage(thisMonthRows);
+  const prevMap = aggregateByPage(prevMonthRows);
+
+  // Tính growth cho tất cả page có dữ liệu tháng này
+  const performers = Object.entries(thisMap)
+    .map(([page, thisClicks]) => {
+      const prevClicks = prevMap[page] || 0;
+      const growth = thisClicks - prevClicks;
+      const rate   = prevClicks > 0 ? growth / prevClicks : (thisClicks > 0 ? 1 : 0);
+      return { page, prevClicks, thisClicks, growth, rate };
+    })
+    .sort((a, b) => b.rate - a.rate) // Sắp theo tỷ lệ tăng trưởng cao nhất
+    .slice(0, 5);
+
+  const outputRows = performers.map(p => [
+    p.page,
+    p.prevClicks,
+    p.thisClicks,
+    p.growth,
+    p.rate,
+  ]);
+  while (outputRows.length < 5) outputRows.push(["", "", "", "", ""]);
+
+  sheet.getRange("N31:R35").setValues(outputRows);
+  sheet.getRange("O31:O35").setNumberFormat("#,##0");
+  sheet.getRange("P31:P35").setNumberFormat("#,##0");
+  sheet.getRange("Q31:Q35").setNumberFormat("+#,##0;-#,##0;0");
+  sheet.getRange("R31:R35").setNumberFormat("0.00%");
 }
 
 function callSearchConsole_(body) {
@@ -1880,14 +2197,17 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
   const avgCtr = totalImpr > 0 ? totalClicks / totalImpr : 0;
   const avgPos = gscDaily.length > 0 ? gscDaily.reduce((sum, r) => sum + r.position, 0) / gscDaily.length : 0;
 
-  // Ghi số liệu lên thẻ KPI GSC
+  // Ghi số liệu lên thẻ KPI GSC (Hàng 4-6)
   sheet.getRange("B5").setValue(totalClicks);
   sheet.getRange("C5").setValue(totalImpr);
   sheet.getRange("E5").setValue(avgCtr);
   sheet.getRange("H5").setValue(avgPos);
 
-  sheet.getRange("I5").setValue("=SUM(I45:I48)"); // Nhấp thương hiệu
-  sheet.getRange("K5").setValue("=COUNTA(N13:N22)"); // Số lượng từ khóa
+  // Lưu ý: I5 (Nhấp thương hiệu) đã được ghi trực tiếp bởi writeDashboardBrandedUnbranded_()
+  // với TỔNG SỐ ĐẦY ĐỦ (không giới hạn 4 dòng hiển thị trong bảng Branded H47:L50).
+  // Không ghi đè lại bằng formula "=SUM(I47:I50)" ở đây vì sẽ làm mất số liệu
+  // của các từ khóa thương hiệu vượt quá 4 dòng hiển thị.
+  sheet.getRange("K5").setValue("=COUNTA(N15:N24)"); // Số lượng từ khóa (Bảng mới dòng 15-24)
   sheet.getRange("Q5").setValue("=O5-N5"); // Tăng trưởng nhấp
 
   // --- 2. Tính toán số liệu GA4 ---
@@ -1897,27 +2217,27 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
   const engTime  = lastAndSameWeekdayField_(ga4Daily, "avgEngagementTime");
   const convRate = computeConversionRate_(ga4Daily);
 
-  // Ghi số liệu lên thẻ KPI GA4 (Kèm Sparklines động)
-  sheet.getRange("B8").setValue(sessions.current);
-  sheet.getRange("C8").setValue('=SPARKLINE(GA4_Raw!B2:B' + (ga4Daily.length + 1) + ', {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "D8", sessions.pctText);
+  // Ghi số liệu lên thẻ KPI GA4 (Hàng 8-10, kèm Sparklines động)
+  sheet.getRange("B9").setValue(sessions.current);
+  sheet.getRange("C9").setValue('=SPARKLINE(GA4_Raw!B2:B' + (ga4Daily.length + 1) + ')');
+  formatDeltaCell_(sheet, "D9", sessions.pctText, false);
 
-  sheet.getRange("E8").setValue(bounce.current);
-  sheet.getRange("E8").setNumberFormat("0.00%");
-  formatDeltaCell_(sheet, "F8", bounce.pctText);
+  sheet.getRange("E9").setValue(bounce.current);
+  sheet.getRange("E9").setNumberFormat("0.00%");
+  formatDeltaCell_(sheet, "F9", bounce.pctText, true); // invertLogic: Bounce Rate tăng là xấu
 
-  sheet.getRange("H8").setValue(engage.current);
-  sheet.getRange("H8").setNumberFormat("0.00%");
-  sheet.getRange("I8").setValue('=SPARKLINE(GA4_Raw!D2:D' + (ga4Daily.length + 1) + ', {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "J8", engage.pctText);
+  sheet.getRange("H9").setValue(engage.current);
+  sheet.getRange("H9").setNumberFormat("0.00%");
+  sheet.getRange("I9").setValue('=SPARKLINE(GA4_Raw!D2:D' + (ga4Daily.length + 1) + ')');
+  formatDeltaCell_(sheet, "J9", engage.pctText, false);
 
-  sheet.getRange("K8").setValue(engTime.current);
-  formatDeltaCell_(sheet, "L8", engTime.pctText);
+  sheet.getRange("K9").setValue(engTime.current);
+  formatDeltaCell_(sheet, "L9", engTime.pctText, false);
 
-  sheet.getRange("N8").setValue(convRate.current);
-  sheet.getRange("N8").setNumberFormat("0.00%");
-  sheet.getRange("O8").setValue('=SPARKLINE(GA4_Raw!F2:F' + (ga4Daily.length + 1) + ', {"charttype","line";"linecolor","#1D4ED8";"linewidth",1.5})');
-  formatDeltaCell_(sheet, "P8", convRate.pctText);
+  sheet.getRange("N9").setValue(convRate.current);
+  sheet.getRange("N9").setNumberFormat("0.00%");
+  sheet.getRange("O9").setValue('=SPARKLINE(GA4_Raw!F2:F' + (ga4Daily.length + 1) + ')');
+  formatDeltaCell_(sheet, "P9", convRate.pctText, false);
 
   // Trạng thái cảnh báo sụt giảm traffic
   const trafficAlert = evaluateTrafficDropLevel_(ga4Daily);
@@ -1933,7 +2253,7 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
     statusBg = "#FEF2F2";
     statusFg = "#B91C1C";
   }
-  sheet.getRange("Q8").setValue(statusText).setBackground(statusBg).setFontColor(statusFg);
+  sheet.getRange("Q9").setValue(statusText).setBackground(statusBg).setFontColor(statusFg);
 
   // Cảnh báo Uptime/Index lỗi nếu có từ Alerts_Log
   let errorText = "Index: 🟢 Tốt";
@@ -1951,7 +2271,7 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
       }
     }
   }
-  sheet.getRange("R8").setValue(errorText).setFontColor(errorFg).setFontSize(8).setFontWeight("bold");
+  sheet.getRange("R9").setValue(errorText).setFontColor(errorFg).setFontSize(8).setFontWeight("bold");
 
   // Cập nhật số liệu động cho bảng Landing Page
   const gscRawSheet = ss.getSheetByName(SHEETS.GSC_RAW);
@@ -1991,7 +2311,7 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
         outputRows.push(["", "", "", "", ""]);
       }
       
-      sheet.getRange("H29:L33").setValues(outputRows);
+      sheet.getRange("H31:L35").setValues(outputRows);
     }
   }
 
@@ -2004,13 +2324,16 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
       while (data.length < 10) {
         data.push(["", "", "", "", ""]);
       }
-      sheet.getRange("N45:R54").setValues(data);
-      sheet.getRange("O45:O54").setNumberFormat("#,##0");
-      sheet.getRange("P45:P54").setNumberFormat("#,##0");
-      sheet.getRange("Q45:Q54").setNumberFormat("0.00%");
-      sheet.getRange("R45:R54").setNumberFormat("#,##0");
+      sheet.getRange("N47:R56").setValues(data);
+      sheet.getRange("O47:O56").setNumberFormat("#,##0");
+      sheet.getRange("P47:P56").setNumberFormat("#,##0");
+      sheet.getRange("Q47:Q56").setNumberFormat("0.00%");
+      sheet.getRange("R47:R56").setNumberFormat("#,##0");
     }
   }
+
+  // Đồng bộ số liệu trend ra cột ẩn S, T, U để vẽ biểu đồ cục bộ
+  syncTrendData_(ss, sheet);
 
   // Khởi tạo lại biểu đồ để làm mới dải dữ liệu
   sheet.getCharts().forEach(c => sheet.removeChart(c));
@@ -2129,7 +2452,8 @@ function readConfigFromSheet_() {
   const sheet = ss.getSheetByName(SHEETS.CONFIG);
   if (!sheet) return;
 
-  const data = sheet.getRange("C3:C7").getValues();
+  // Đọc C3:C9 — C9 là Brand Keywords (dòng mới)
+  const data = sheet.getRange("C3:C9").getValues();
   
   if (data[0][0]) CONFIG.GA4_PROPERTY_ID = String(data[0][0]).trim();
   if (data[1][0]) CONFIG.GSC_SITE_URL = String(data[1][0]).trim();
@@ -2147,6 +2471,15 @@ function readConfigFromSheet_() {
       .map(url => url.trim())
       .filter(url => url.length > 0);
   }
+
+  if (data[5][0]) CONFIG.API_KEY = String(data[5][0]).trim();
+
+  // C9: Từ khóa thương hiệu (cách nhau bởi dấu phẩy)
+  if (data[6][0]) {
+    CONFIG.BRAND_KEYWORDS = String(data[6][0]).split(",")
+      .map(kw => kw.trim().toLowerCase())
+      .filter(kw => kw.length > 0);
+  }
 }
 
 function styleConfigSheet_(ss) {
@@ -2158,6 +2491,22 @@ function styleConfigSheet_(ss) {
     sheet.getProtections(SpreadsheetApp.ProtectionType.RANGE).forEach(p => p.remove());
   } catch (e) {
     Logger.log("Lỗi xóa protection: " + e.message);
+  }
+
+  // Khôi phục nhãn cột B tránh lệch hàng (bao gồm dòng C9: Brand Keywords)
+  try {
+    const labels = [
+      ["GA4 Property ID (Chỉ điền số)"],
+      ["GSC Site URL (Ví dụ sc-domain:... hoặc URL)"],
+      ["Lark Webhook URL"],
+      ["Ngưỡng cảnh báo sụt giảm traffic (Ví dụ: 20%)"],
+      ["Danh sách URL kiểm tra uptime (cách nhau bởi dấu phẩy)"],
+      ["Mật mã kết nối API bảo mật (Cho Claude Desktop)"],
+      ["Từ khóa thương hiệu (cách nhau bởi dấu phẩy, VD: tenthuonghieu,brand)"],
+    ];
+    sheet.getRange("B3:B9").setValues(labels);
+  } catch (e) {
+    Logger.log("Lỗi ghi nhãn config: " + e.message);
   }
 
   try {
@@ -2183,20 +2532,20 @@ function styleConfigSheet_(ss) {
   } catch (e) { Logger.log("Lỗi style title: " + e.message); }
 
   try {
-    const labelRange = sheet.getRange("B3:B7");
+    const labelRange = sheet.getRange("B3:B9");
     labelRange.setFontColor("#4A5568")
       .setFontSize(9)
       .setFontWeight("bold")
       .setVerticalAlignment("middle")
       .setBackground("#F8FAFC");
     
-    const inputRange = sheet.getRange("C3:C7");
+    const inputRange = sheet.getRange("C3:C9");
     inputRange.setFontColor("#1A365D")
       .setFontSize(9)
       .setVerticalAlignment("middle")
       .setHorizontalAlignment("left");
     
-    sheet.getRange("B3:C7").setBorder(true, true, true, true, true, true, "#CBD5E0", SpreadsheetApp.BorderStyle.SOLID);
+    sheet.getRange("B3:C9").setBorder(true, true, true, true, true, true, "#CBD5E0", SpreadsheetApp.BorderStyle.SOLID);
     sheet.setHiddenGridlines(true);
   } catch (e) { Logger.log("Lỗi format cells: " + e.message); }
 
@@ -2206,7 +2555,8 @@ function styleConfigSheet_(ss) {
   try { if (protection.canDomainEdit()) protection.setDomainEdit(false); } catch (e) {}
   try { protection.addEditor(me); } catch (e) {}
   
-  const editRange = sheet.getRange("C3:C7");
+  // Cho phép chỉnh sửa C3:C9 (bao gồm cả dòng Brand Keywords mới)
+  const editRange = sheet.getRange("C3:C9");
   protection.setUnprotectedRanges([editRange]);
 }
 
@@ -2226,4 +2576,104 @@ function callApiWithRetry_(apiCallFn, maxRetries) {
       delay *= 2;
     }
   }
+}
+
+// =====================================================================
+// 17. ĐẦU CUỐI API CHO CLAUDE DESKTOP KẾT NỐI (MỚI)
+// =====================================================================
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const token = (e && e.parameter && e.parameter.token) ? String(e.parameter.token).trim() : "";
+  
+  // Đọc mã bảo mật API thực tế từ tab Config dòng 8
+  const configSheet = ss.getSheetByName(SHEETS.CONFIG);
+  let secureToken = "";
+  if (configSheet) {
+    secureToken = String(configSheet.getRange("C8").getValue()).trim();
+  }
+  // Nếu chưa cấu hình token trong tab Config, fallback sang CONFIG.API_KEY
+  // Nhưng nếu CONFIG.API_KEY vẫn là giá trị mặc định placeholder → DENY
+  if (!secureToken) {
+    secureToken = (CONFIG.API_KEY && CONFIG.API_KEY.indexOf("DIEN_") !== 0 && CONFIG.API_KEY !== "khoa_bao_mat_mac_dinh")
+      ? CONFIG.API_KEY
+      : "";
+  }
+
+  // === BẢO MẬT: DENY mặc định ===
+  // Từ chối nếu:
+  //   (a) secureToken chưa được cấu hình (rỗng / placeholder)
+  //   (b) token request không khớp chính xác
+  if (!secureToken || token !== secureToken) {
+    return ContentService.createTextOutput(JSON.stringify({ 
+      error: "Xác thực thất bại. Hãy cung cấp token hợp lệ trong ?token=... và đảm bảo ô C8 trong tab Config đã được điền."
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  const action = e.parameter.action || "stats";
+  let responseData = {};
+  
+  if (action === "stats") {
+    // Đọc số liệu KPI tổng hợp trực tiếp trên Dashboard
+    const sheet = ss.getSheetByName(SHEETS.DASHBOARD);
+    if (sheet) {
+      responseData = {
+        updateTime: sheet.getRange(2, 2).getValue(),
+        gsc: {
+          clicks: sheet.getRange("B5").getValue(),
+          impressions: sheet.getRange("C5").getValue(),
+          ctr: sheet.getRange("E5").getValue(),
+          position: sheet.getRange("H5").getValue(),
+          brandedClicks: sheet.getRange("I5").getValue(),
+          queriesCount: sheet.getRange("K5").getValue(),
+          growth: sheet.getRange("Q5").getValue()
+        },
+        ga4: {
+          sessions: sheet.getRange("B9").getValue(),
+          bounceRate: sheet.getRange("E9").getValue(),
+          engagementRate: sheet.getRange("H9").getValue(),
+          avgEngagementTime: sheet.getRange("K9").getValue(),
+          conversionRate: sheet.getRange("N9").getValue(),
+          systemStatus: sheet.getRange("Q9").getValue(),
+          uptimeStatus: sheet.getRange("R9").getValue()
+        }
+      };
+    }
+  } else if (action === "conversions") {
+    // Đọc số liệu trang bài viết ra tiền
+    const sheet = ss.getSheetByName(SHEETS.CONTENT);
+    if (sheet) {
+      const lastRow = sheet.getLastRow();
+      if (lastRow >= 2) {
+        const values = sheet.getRange(2, 1, lastRow - 1, 5).getValues();
+        responseData = values.map(r => ({
+          page: r[0],
+          sessions: r[1],
+          conversions: r[2],
+          conversionRate: r[3],
+          rank: r[4]
+        }));
+      }
+    }
+  } else if (action === "alerts") {
+    // Đọc danh sách log cảnh báo mới nhất
+    const sheet = ss.getSheetByName(SHEETS.ALERTS);
+    if (sheet) {
+      const lastRow = sheet.getLastRow();
+      if (lastRow >= 2) {
+        const values = sheet.getRange(2, 1, Math.min(lastRow - 1, 20), 5).getValues();
+        responseData = values.map(r => ({
+          time: r[0],
+          type: r[1],
+          level: r[2],
+          detail: r[3],
+          sentLark: r[4]
+        }));
+      }
+    }
+  } else {
+    responseData = { error: "Yêu cầu hành động (action) không hợp lệ. Các hành động khả dụng: stats, conversions, alerts." };
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(responseData))
+    .setMimeType(ContentService.MimeType.JSON);
 }

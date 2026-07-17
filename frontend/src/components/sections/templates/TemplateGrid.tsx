@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Eye } from 'lucide-react';
 import type { Template } from '@/types';
 import { cn } from '@/lib/utils';
+import FadeInView from '@/components/ui/FadeInView';
 
 const CATEGORIES = [
   { key: 'all', label: 'Tất cả' },
@@ -44,13 +45,12 @@ export default function TemplateGrid({ templates }: Props) {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((template, i) => (
+          <FadeInView key={template.id} delay={i * 0.1}>
           <div
-            key={template.id}
-            className={`template-card group flex flex-col rounded-2xl overflow-hidden border border-[#f0e8e8] bg-white hover:shadow-xl transition-all duration-300 animate-fade-in-up`}
-            style={{ animationDelay: `${i * 0.06}s` }}
+            className="template-card group flex flex-col rounded-2xl overflow-hidden border border-border bg-white hover:shadow-xl transition-all duration-300 h-full"
           >
             {/* Thumbnail */}
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#fdf5f5]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-surface">
               <img
                 src={template.image}
                 alt={template.title}
@@ -61,7 +61,7 @@ export default function TemplateGrid({ templates }: Props) {
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <Link
                   href={`/giao-dien-mau/${template.slug}`}
-                  className="flex items-center gap-2 bg-white text-[#e11d48] px-4 py-2 rounded-full font-semibold text-sm shadow-lg hover:bg-[#fff1f2] transition-colors"
+                  className="flex items-center gap-2 bg-white text-[#006672] px-4 py-2 rounded-full font-semibold text-sm shadow-lg hover:bg-[#f0f7f8] transition-colors"
                 >
                   <Eye className="h-4 w-4" />
                   Xem chi tiết
@@ -83,10 +83,10 @@ export default function TemplateGrid({ templates }: Props) {
               </p>
 
               {/* Bottom row */}
-              <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#f0e8e8]">
+              <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
                 <Link
                   href={`/giao-dien-mau/${template.slug}`}
-                  className="text-sm font-semibold text-[#e11d48] hover:underline"
+                  className="text-sm font-semibold text-[#006672] hover:underline"
                 >
                   Xem chi tiết →
                 </Link>
@@ -94,6 +94,7 @@ export default function TemplateGrid({ templates }: Props) {
               </div>
             </div>
           </div>
+          </FadeInView>
         ))}
       </div>
 
