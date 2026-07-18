@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import LayoutWrapper from '@/components/layout/LayoutWrapper';
 
 const jakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
@@ -19,17 +19,67 @@ export const metadata: Metadata = {
   },
   description:
     'Chúng tôi kiến tạo trải nghiệm kỹ thuật số thúc đẩy thương hiệu tiến lên. Thiết kế web may đo, SEO, Digital Marketing.',
-  keywords: 'thiết kế website, agency thiết kế web, SEO, digital marketing, kabo agency, website cao cấp',
+  keywords: 'thiết kế website, agency thiết kế web, SEO, digital marketing, kabo agency, website cao cấp, thiết kế web hcm',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kabo.agency'),
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
     siteName: 'KABO AGENCY',
+    images: [
+      {
+        url: '/logo-kabo.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'KABO AGENCY — Thiết kế Website Premium',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@kaboagency',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
   },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'KABO AGENCY',
+  description: 'Agency thiết kế website cao cấp, tối ưu SEO và Digital Marketing tại TP. HCM',
+  url: 'https://kabo.agency',
+  logo: 'https://kabo.agency/logo-kabo.jpg',
+  image: 'https://kabo.agency/logo-kabo.jpg',
+  telephone: '+84374170367',
+  email: 'baohoaitran3112@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'TP. Hồ Chí Minh',
+    addressRegion: 'Hồ Chí Minh',
+    addressCountry: 'VN',
+  },
+  areaServed: 'VN',
+  priceRange: '$$$',
+  sameAs: [
+    'https://www.facebook.com/tran.bao.28897',
+  ],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00',
+      closes: '18:00',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -39,23 +89,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={jakarta.variable}>
-      <body className="flex min-h-screen flex-col bg-white text-[#0f0f0f] antialiased">
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-
-        {/* Floating Contact Buttons */}
-        <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
-          <a
-            href="https://zalo.me/0900000000"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat qua Zalo"
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-600 hover:scale-110 transition-all duration-200"
-          >
-            <span className="font-bold text-[11px] leading-none">Zalo</span>
-          </a>
-        </div>
+      <body suppressHydrationWarning className="flex min-h-screen flex-col bg-white text-[#0f0f0f] antialiased">
+        <Script
+          id="json-ld-org"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          strategy="beforeInteractive"
+        />
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );

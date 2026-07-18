@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
-import type { GetTemplatesQueryDto } from './dto/templates.dto.js';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '../../database/prisma.service';
+import type { GetTemplatesQueryDto } from './dto/templates.dto';
 
 @Injectable()
 export class TemplatesService {
@@ -9,7 +10,7 @@ export class TemplatesService {
   async findAll(query: GetTemplatesQueryDto) {
     const { category, page, limit } = query;
 
-    const whereClause: { isActive: boolean; category?: string } = {
+    const whereClause: Prisma.TemplateWhereInput = {
       isActive: true,
     };
 
@@ -43,11 +44,16 @@ export class TemplatesService {
   }
 
   async findOneBySlug(slug: string) {
-    return this.prisma.template.findFirst({
+    const template = await this.prisma.template.findUnique({
       where: {
         slug,
-        isActive: true,
       },
     });
+
+    if (!template || !template.isActive) {
+      return null;
+    }
+
+    return template;
   }
 }

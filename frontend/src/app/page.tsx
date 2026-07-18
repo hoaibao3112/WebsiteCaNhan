@@ -9,17 +9,31 @@ import CtaSection from '@/components/sections/home/CtaSection';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'LUMINA AGENCY — Thiết kế Website May do, Bứt phá Tăng trưởng',
+  title: 'KABO AGENCY — Thiết kế Website May đo, Bứt phá Tăng trưởng',
   description:
-    'Chúng tôi kiến tạo trải nghiệm kỹ thuật số thúc đẩy thương hiệu tiến lên. Từ website chuyên đổi cao đến các nền tảng thương mại điện tử phức tạp.',
+    'Chúng tôi kiến tạo trải nghiệm kỹ thuật số thúc đẩy thương hiệu tiến lên. Từ website chuyển đổi cao đến các nền tảng thương mại điện tử phức tạp.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'LUMINA AGENCY — Thiết kế Website May do, Bứt phá Tăng trưởng',
+    title: 'KABO AGENCY — Thiết kế Website May đo, Bứt phá Tăng trưởng',
     description:
-      'Thiết kế Website May do, Bứt phá Tăng trưởng. Sáng tạo, Đột phá, Trải nghiệm Đỉnh Cao.',
+      'Thiết kế Website May đo, Bứt phá Tăng trưởng. Sáng tạo, Đột phá, Trải nghiệm Đỉnh Cao.',
     url: '/',
+    images: [
+      {
+        url: '/logo-kabo.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'KABO AGENCY — Thiết kế Website Premium',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'KABO AGENCY — Thiết kế Website May đo, Bứt phá Tăng trưởng',
+    description: 'Thiết kế Website May đo, Bứt phá Tăng trưởng. Sáng tạo, Đột phá.',
+    images: ['/logo-kabo.jpg'],
   },
 };
 

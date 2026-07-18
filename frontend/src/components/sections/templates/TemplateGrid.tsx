@@ -6,6 +6,8 @@ import { Eye } from 'lucide-react';
 import type { Template } from '@/types';
 import { cn } from '@/lib/utils';
 import FadeInView from '@/components/ui/FadeInView';
+import Magnetic from '@/components/ui/Magnetic';
+
 
 const CATEGORIES = [
   { key: 'all', label: 'Tất cả' },
@@ -29,18 +31,25 @@ export default function TemplateGrid({ templates }: Props) {
   return (
     <div>
       {/* Filter */}
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="flex flex-wrap gap-2.5 mb-10">
         {CATEGORIES.map((cat) => (
-          <button
-            key={cat.key}
-            type="button"
-            onClick={() => setActive(cat.key)}
-            className={cn('filter-tab', active === cat.key && 'active')}
-          >
-            {cat.label}
-          </button>
+          <Magnetic key={cat.key}>
+            <button
+              type="button"
+              onClick={() => setActive(cat.key)}
+              className={cn(
+                'filter-tab px-5 py-2 rounded-full border border-border text-sm font-semibold transition-all duration-300 cursor-pointer shadow-sm hover:scale-105 active:scale-95',
+                active === cat.key
+                  ? 'bg-[#006672] text-white border-[#006672] shadow-[0_4px_12px_rgba(0,102,114,0.2)]'
+                  : 'bg-white text-[#6b7280] hover:text-[#006672] hover:border-[#006672]'
+              )}
+            >
+              {cat.label}
+            </button>
+          </Magnetic>
         ))}
       </div>
+
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,21 +85,33 @@ export default function TemplateGrid({ templates }: Props) {
             </div>
 
             {/* Info */}
-            <div className="p-5 flex flex-col gap-2 flex-1">
-              <h3 className="font-black text-[#0f0f0f] text-base">{template.title}</h3>
+            <div className="p-6 flex flex-col gap-3 flex-1 bg-white">
+              <h3 className="font-extrabold text-[#0f0f0f] text-lg tracking-tight transition-colors duration-300 group-hover:text-[#006672]">
+                {template.title}
+              </h3>
               <p className="text-sm text-[#6b7280] leading-relaxed line-clamp-2">
                 {template.description}
               </p>
 
-              {/* Bottom row */}
-              <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
-                <Link
-                  href={`/giao-dien-mau/${template.slug}`}
-                  className="text-sm font-semibold text-[#006672] hover:underline"
-                >
-                  Xem chi tiết →
-                </Link>
-                <Eye className="h-4 w-4 text-[#9ca3af]" />
+              {/* Actions row */}
+              <div className="flex items-center gap-2 mt-auto pt-4 border-t border-[#e2ecec]/50">
+                <Magnetic>
+                  <Link
+                    href={`/giao-dien-mau/${template.slug}`}
+                    className="bg-[#006672] hover:bg-[#004d56] text-white py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition-all duration-300 block w-[160px] md:w-[180px] lg:w-[190px]"
+                  >
+                    Xem chi tiết
+                  </Link>
+                </Magnetic>
+                <Magnetic>
+                  <Link
+                    href={`/giao-dien-mau/${template.slug}`}
+                    aria-label="Xem chi tiết"
+                    className="p-2.5 rounded-xl border border-[#e2ecec] text-[#6b7280] hover:text-[#006672] hover:border-[#006672] transition-colors flex items-center justify-center aspect-square bg-white"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Link>
+                </Magnetic>
               </div>
             </div>
           </div>

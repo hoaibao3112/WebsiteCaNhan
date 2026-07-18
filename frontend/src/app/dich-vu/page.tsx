@@ -5,10 +5,17 @@ import Link from 'next/link';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Dịch vụ',
+  title: 'Dịch vụ Thiết kế Website & Digital Marketing',
   description:
-    'Chúng tôi tạo ra các trải nghiệm kỹ thuật số hiện đại, cân bằng giữa độ chính xác kỹ thuật và năng lượng sáng tạo.',
+    'KABO AGENCY cung cấp dịch vụ thiết kế website may đo, SEO tổng thể, Google Ads và Digital Marketing. Giải pháp toàn diện giúp thương hiệu bứt phá tăng trưởng.',
   alternates: { canonical: '/dich-vu' },
+  openGraph: {
+    title: 'Dịch vụ Thiết kế Website & Digital Marketing — KABO AGENCY',
+    description:
+      'Thiết kế web may đo, SEO, Digital Marketing. Giải pháp toàn diện cho doanh nghiệp Việt Nam.',
+    url: '/dich-vu',
+    images: [{ url: '/logo-kabo.jpg', width: 1200, height: 630, alt: 'KABO AGENCY Dịch vụ' }],
+  },
 };
 
 const services = [
@@ -64,7 +71,7 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="pt-16">
+    <div style={{ paddingTop: '68px' }}>
       {/* Hero */}
       <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #f4f9f9, white)' }}>
         <div className="container-lumina text-center max-w-3xl mx-auto">

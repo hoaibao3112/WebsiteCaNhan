@@ -72,10 +72,11 @@ export default function PricingSection() {
             Bảng giá dịch vụ
           </p>
           <h2 className="text-3xl sm:text-4xl font-black text-[#0f0f0f]">
-            Bảng giá dịch vụ
+            Đầu tư đúng chỗ,<br />
+            <span className="gradient-text-primary">tăng trưởng thật sự</span>
           </h2>
           <p className="mt-4 text-[#6b7280] max-w-xl mx-auto text-sm leading-relaxed">
-            Tiết kiệm chi phí với các gói dịch vụ chuẩn của chúng tôi.
+            Gói dịch vụ minh bạch, chi phí tối ưu — không phát sinh ẩn. Chọn đúng gói, bắt đầu ngay.
           </p>
         </FadeInView>
 

@@ -15,7 +15,7 @@ export const contactSchema = z.object({
   budget: z
     .coerce.number({ message: 'Ngân sách phải là số' })
     .min(2000000, 'Tối thiểu 2.000.000 ₫')
-    .max(20000000, 'Tối đa 20.000.000 ₫'),
+    .max(100000000, 'Tối đa 100.000.000 ₫'),
   projectDescription: z
     .string()
     .min(10, 'Mô tả ít nhất 10 ký tự')

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CheckCircle, ExternalLink, ArrowLeft, Layers, Smartphone, Sparkles, Check } from 'lucide-react';
+import { CheckCircle, ExternalLink, ArrowLeft, Layers, Smartphone, Sparkles, Check, Eye } from 'lucide-react';
 import { backendTemplatesService } from '@/services/templates.service';
-import TemplateDemoLightbox from '@/components/sections/templates/TemplateDemoLightbox';
 
 export const revalidate = 86400; // ISR 24 hours
 
@@ -109,10 +108,13 @@ export default async function TemplateDetailPage({ params }: Props) {
                  >
                    Dùng mẫu này ngay
                  </Link>
-                 <TemplateDemoLightbox
-                   demoImages={template.demoImages}
-                   title={template.title}
-                 />
+                  <Link
+                    href={`/giao-dien-mau/${template.slug}/demo`}
+                    className="btn-secondary text-sm flex items-center gap-2 px-6 py-3 cursor-pointer"
+                  >
+                    <Eye className="h-4.5 w-4.5" />
+                    Xem demo ảnh ({template.demoImages.length})
+                  </Link>
                </div>
              </div>
  

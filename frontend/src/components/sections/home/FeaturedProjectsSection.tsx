@@ -20,9 +20,10 @@ export default function FeaturedProjectsSection() {
           <div className="md:col-span-2 md:row-span-2 project-card group h-72 md:h-auto min-h-[300px]">
             <img
               src={featuredProjects[0]?.image}
-              alt={featuredProjects[0]?.title}
+              alt={featuredProjects[0]?.title ?? 'Dự án tiêu biểu của KABO AGENCY'}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
             />
             <div className="project-card-overlay">
               <div>

@@ -37,7 +37,7 @@ const socials = [
     label: 'Facebook',
     href: 'https://www.facebook.com/tran.bao.28897',
     icon: (
-      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="size-5" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
       </svg>
     ),
@@ -46,7 +46,7 @@ const socials = [
     label: 'Instagram',
     href: 'https://instagram.com',
     icon: (
-      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -57,7 +57,7 @@ const socials = [
     label: 'TikTok',
     href: 'https://tiktok.com',
     icon: (
-      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="size-5" fill="currentColor" viewBox="0 0 24 24">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.82a8.18 8.18 0 0 0 4.77 1.52V6.89a4.85 4.85 0 0 1-1-.2z" />
       </svg>
     ),
@@ -128,8 +128,8 @@ export default function Footer() {
                 href="mailto:baohoaitran3112@gmail.com"
                 className="flex items-center gap-3 group"
               >
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb] transition-colors group-hover:bg-[#006672] group-hover:text-white">
-                  <Mail className="h-4 w-4" />
+                <div className="size-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb] transition-colors group-hover:bg-[#006672] group-hover:text-white">
+                  <Mail className="size-4" />
                 </div>
                 <span className="text-sm text-white/60 group-hover:text-white transition-colors">
                   baohoaitran3112@gmail.com
@@ -139,16 +139,16 @@ export default function Footer() {
                 href="tel:+84374170367"
                 className="flex items-center gap-3 group"
               >
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb] transition-colors group-hover:bg-[#006672] group-hover:text-white">
-                  <Phone className="h-4 w-4" />
+                <div className="size-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb] transition-colors group-hover:bg-[#006672] group-hover:text-white">
+                  <Phone className="size-4" />
                 </div>
                 <span className="text-sm text-white/60 group-hover:text-white transition-colors">
                   0374 170 367
                 </span>
               </a>
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb]">
-                  <MapPin className="h-4 w-4" />
+                <div className="size-8 rounded-lg bg-white/10 flex items-center justify-center text-[#80c2cb]">
+                  <MapPin className="size-4" />
                 </div>
                 <span className="text-sm text-white/60">Quận 1, TP. Hồ Chí Minh</span>
               </div>
@@ -163,7 +163,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-white/50 hover:bg-[#006672] hover:text-white transition-all duration-200 hover:scale-110"
+                  className="size-9 rounded-xl bg-white/10 flex items-center justify-center text-white/50 hover:bg-[#006672] hover:text-white transition-all duration-200 hover:scale-110"
                 >
                   {s.icon}
                 </a>

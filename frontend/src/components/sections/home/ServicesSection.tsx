@@ -68,13 +68,13 @@ export default function ServicesSection() {
 
               {/* Icon */}
               <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110"
+                className="size-14 rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110"
                 style={{
                   background: service.featured ? 'rgba(255,255,255,0.15)' : service.bg,
                   color: service.featured ? 'white' : service.accent,
                 }}
               >
-                <service.Icon className="h-7 w-7" />
+                <service.Icon className="size-7" />
               </div>
 
               {/* Tag */}
@@ -94,7 +94,7 @@ export default function ServicesSection() {
 
               {/* Arrow */}
               <div className={`mt-auto flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 group-hover:gap-3 ${service.featured ? 'text-white' : 'text-[#006672]'}`}>
-                Tìm hiểu thêm <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                Tìm hiểu thêm <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </div>
           ))}

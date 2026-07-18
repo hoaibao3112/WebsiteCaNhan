@@ -1,4 +1,4 @@
-﻿/**
+/**
  * =====================================================================
  *  DASHBOARD HIỆU SUẤT SEO & GOOGLE ANALYTICS 4 - FULL v3
  *  (Bản nâng cấp thiết kế UI/UX Premium, Việt hóa toàn bộ giao diện)
@@ -82,15 +82,15 @@ function setupDashboard() {
   ]);
 
   createSheetIfMissing_(ss, SHEETS.CONFIG, [
-    ["CẤU HÌNH HỆ THỐNG / SYSTEM CONFIGURATION", ""],
-    [""],
-    ["GA4 Property ID (Chỉ điền số)", CONFIG.GA4_PROPERTY_ID],
-    ["GSC Site URL (Ví dụ sc-domain:... hoặc URL)", CONFIG.GSC_SITE_URL],
-    ["Lark Webhook URL", CONFIG.LARK_WEBHOOK_URL],
-    ["Ngưỡng cảnh báo sụt giảm traffic (Ví dụ: 20%)", "20%"],
-    ["Danh sách URL kiểm tra uptime (cách nhau bởi dấu phẩy)", CONFIG.IMPORTANT_URLS.join(", ")],
-    ["Mật mã kết nối API bảo mật (Cho Claude Desktop)", CONFIG.API_KEY],
-    ["Từ khóa thương hiệu (cách nhau bởi dấu phẩy, VD: tenthuonghieu,brand)", ""],
+    ["", "CẤU HÌNH HỆ THỐNG / SYSTEM CONFIGURATION", ""],
+    ["", ""],
+    ["", "GA4 Property ID (Chỉ điền số)", CONFIG.GA4_PROPERTY_ID],
+    ["", "GSC Site URL (Ví dụ sc-domain:... hoặc URL)", CONFIG.GSC_SITE_URL],
+    ["", "Lark Webhook URL", CONFIG.LARK_WEBHOOK_URL],
+    ["", "Ngưỡng cảnh báo sụt giảm traffic (Ví dụ: 20%)", "20%"],
+    ["", "Danh sách URL kiểm tra uptime (cách nhau bởi dấu phẩy)", CONFIG.IMPORTANT_URLS.join(", ")],
+    ["", "Mật mã kết nối API bảo mật (Cho Claude Desktop)", CONFIG.API_KEY],
+    ["", "Từ khóa thương hiệu (cách nhau bởi dấu phẩy, VD: tenthuonghieu,brand)", ""],
   ]);
 
   createSheetIfMissing_(ss, SHEETS.MONTHLY, [
@@ -1651,43 +1651,75 @@ function buildReadmeSheet_(ss) {
   sheet.clear();
 
   const content = [
-    ["📋 HƯỚNG DẪN SỬ DỤNG DASHBOARD SEO & GOOGLE ANALYTICS 4"],
+    ["BẢN HƯỚNG DẪN VẬN HÀNH & KẾT NỐI HỆ THỐNG SEO DASHBOARD (PREMIUM v3)"],
     [""],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    ["🚀 BƯỚC 1 — ĐIỀN CẤU HÌNH TẠI TAB CONFIG (Bắt buộc)"],
+    ["📂 PHẦN 1 — Ý NGHĨA VÀ CHỨC NĂNG CỦA CÁC TAB BÁO CÁO"],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    [""],
-    ["GA4 Property ID:", "Điền Property ID dạng số của Google Analytics 4 (tại cột C dòng 3)"],
-    ["GSC Site URL:", "Điền URL đầy đủ hoặc sc-domain của GSC (tại cột C dòng 4)"],
-    ["Lark Webhook URL:", "Điền link Lark Webhook gửi cảnh báo tự động (tại cột C dòng 5)"],
-    ["Ngưỡng cảnh báo sụt giảm:", "Phần trăm traffic sụt giảm để báo động (ví dụ: 20% tại cột C dòng 6)"],
-    ["Danh sách URL uptime:", "Các link web cần kiểm tra lỗi 404/500, cách nhau bằng dấu phẩy"],
-    ["Khóa API Claude Desktop:", "Mật mã dùng để Claude đọc số liệu Sheets của bạn từ xa (tại cột C dòng 8)"],
-    [""],
-    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    ["🔐 BƯỚC 2 — CẬP NHẬT appsscript.json (Làm 1 lần)"],
-    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    [""],
-    ["Trong Apps Script: Settings > Show appsscript.json in editor"],
-    ["Mở file appsscript.json, dán toàn bộ nội dung cấu hình ở cuối file này vào."],
+    ["Tab Dashboard:", "Trang tổng quan trực quan hóa toàn bộ KPI cốt lõi (Clicks, Impressions, CTR, Traffic GA4, Conversion Rate, Sparklines xu hướng), Biểu đồ tỷ lệ thiết bị, Biểu đồ xu hướng traffic tự nhiên (Organic) & chuyển đổi, Top 10 Queries hiệu quả nhất, Phân nhóm Branded/Unbranded keywords và Bảng chuyển đổi Landing Page."],
+    ["Tab Monthly_Summary:", "Báo cáo tiến độ theo tháng giúp theo dõi tăng trưởng trung và dài hạn. Chứa Biểu đồ cột biểu diễn xu hướng clicks và traffic GA4 qua các tháng."],
+    ["Tab GSC_Raw & GA4_Raw:", "Kho dữ liệu thô tải về tự động hàng ngày từ Google Search Console & Google Analytics 4 API làm cơ sở dữ liệu cho toàn bộ Dashboard."],
+    ["Tab Content_Conversion:", "Báo cáo xếp hạng chi tiết các Landing Page tạo ra nhiều lượt chuyển đổi (Conversions) nhất từ nguồn Organic Search (tính tỉ lệ chuyển đổi động)."],
+    ["Tab Alerts_Log:", "Nhật ký ghi lại lịch sử các cảnh báo sụt giảm traffic (>20% liên tiếp) và lỗi uptime 404/500 của website để theo dõi sức khỏe hệ thống."],
+    ["Tab Config:", "Cung cấp giao diện cấu hình khóa bảo mật, ID GA4, URL GSC, Webhook gửi cảnh báo Lark và danh sách URL uptime."],
     [""],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    ["🔌 BƯỚC 3 — KẾT NỐI VỚI CLAUDE DESKTOP"],
+    ["🚀 PHẦN 2 — CÁC BƯỚC THIẾT LẬP VÀ ĐỒNG BỘ (CHO NGƯỜI MỚI)"],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    ["BƯỚC 1: ĐIỀN CẤU HÌNH KẾT NỐI (Tab Config)"],
+    ["- Ô C3 (GA4 Property ID):", "Điền chuỗi số ID tài sản GA4 của bạn (Tìm trong GA4 > Quản trị > Cài đặt tài sản > Sao chép ID số)."],
+    ["- Ô C4 (GSC Site URL):", "Điền URL trang web trong Search Console. Nếu dạng Tiền tố URL thì bắt buộc có dấu gạch chéo cuối trang (VD: https://domain.com/). Nếu dạng Tên miền thì điền sc-domain:domain.com."],
+    ["- Ô C5 (Lark Webhook URL):", "Điền URL Webhook của nhóm Lark để tự động nhận tin nhắn cảnh báo khi traffic giảm hoặc web sập. Để trống nếu không dùng."],
+    ["- Ô C6 (Ngưỡng cảnh báo):", "Nhập tỷ lệ phần trăm sụt giảm traffic muốn cảnh báo (Mặc định: 20%)."],
+    ["- Ô C7 (URL Uptime):", "Điền các link bài viết quan trọng cần theo dõi hoạt động, cách nhau bởi dấu phẩy. Hệ thống sẽ check lỗi 404/500."],
+    ["- Ô C8 (Mật mã API):", "Mã khóa bảo mật tự chọn dùng để Claude Desktop hoặc ứng dụng bên ngoài kết nối đọc số liệu từ xa."],
+    ["- Ô C9 (Từ khóa thương hiệu):", "Điền tên thương hiệu/tên miền của bạn (cách nhau bởi dấu phẩy) để phân loại từ khóa Branded và Unbranded trên Dashboard."],
     [""],
-    ["1. Vào Deploy > New Deployment > Chọn Web App."],
-    ["2. Cấu hình: Execute as: Me | Who has access: Anyone."],
-    ["3. Copy lấy URL Web App được cấp."],
-    ["4. Gửi URL kèm khóa bảo mật (ở tab Config) cho Claude Desktop để đọc dữ liệu từ xa."],
+    ["BƯỚC 2: CẤP QUYỀN TRUY CẬP (AUTHORIZE SCRIPT)"],
+    ["👉 BẮT BUỘC BAN ĐẦU:", "Trong trang Apps Script Editor, bạn chọn hàm 'gscDashboardFull' ở danh sách thả xuống rồi nhấn nút 'Chạy'."],
+    ["HƯỚNG DẪN CẤP QUYỀN:", "Hệ thống sẽ hiển thị bảng 'Cần cấp quyền truy cập' -> Chọn 'Xem quyền kiểm soát' -> Chọn tài khoản Google của bạn -> Click 'Nâng cao' (Advanced) -> Chọn 'Đi tới tool GA4 (không an toàn)' -> Nhấn 'Cho phép'."],
+    ["Lưu ý quan trọng:", "Bạn phải thực hiện bước này đầu tiên thì các API của Google mới có quyền chạy tự động."],
+    [""],
+    ["BƯỚC 3: CẤU HÌNH PHÂN QUYỀN TRONG APPSSCRIPT.JSON"],
+    ["1. Bật hiển thị file cấu hình:", "Nhấp vào icon bánh răng cài đặt (Project Settings) ở menu bên trái -> Tích chọn 'Hiển thị file appsscript.json trong trình chỉnh sửa'."],
+    ["2. Cấu hình Scopes:", "Quay lại menu Mã (<>) -> Chọn file appsscript.json mới xuất hiện, xóa sạch nội dung cũ và dán toàn bộ đoạn mã JSON nằm ở [PHẦN 4] của trang hướng dẫn này vào và nhấn Ctrl+S để lưu."],
+    [""],
+    ["BƯỚC 4: TRIỂN KHAI WEB APP (DÀNH CHO KẾT NỐI CLAUDE DESKTOP / AI AGENTS)"],
+    ["1. Tạo bản triển khai mới:", "Bấm nút 'Triển khai' (Deploy) ở góc trên bên phải -> Chọn 'Bản triển khai mới' (New Deployment)."],
+    ["2. Chọn cấu hình:", "Nhấp vào biểu tượng bánh răng bên cạnh 'Chọn loại' -> Chọn 'Ứng dụng web' (Web App)."],
+    ["3. Thiết lập quyền:", "Mục 'Thực thi dưới dạng' chọn 'Tôi' (Me) | Mục 'Ai có quyền truy cập' chọn 'Mọi người' (Anyone) -> Nhấn nút 'Triển khai'."],
+    ["4. Lấy URL Web App:", "Sao chép URL ứng dụng web được cấp và gửi kèm mã bảo mật (ô Config C8) cho Claude Desktop."],
+    [""],
+    ["BƯỚC 5: KÍCH HOẠT LỊCH CHẠY TỰ ĐỘNG"],
+    ["👉 Đặt Triggers:", "Tại Apps Script Editor, chọn hàm 'createTriggers' ở danh sách thả xuống và bấm nút 'Chạy'."],
+    ["Cơ chế hoạt động:", "Trigger sẽ tự động chạy hàm cập nhật 'dailyUpdate' vào lúc 7h00 sáng mỗi ngày và kiểm tra Uptime 'checkUptime' mỗi 6 tiếng."],
     [""],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
-    ["▶️ THỨ TỰ CHẠY HÀM KHI CÀI ĐẶT"],
+    ["🛠️ PHẦN 3 — XỬ LÝ SỰ CỐ & CÁC LỖI THƯỜNG GẶP"],
     ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    ["Lỗi API 401 hoặc 403 (Unauthorized/Forbidden):", "Xảy ra do file appsscript.json chưa được dán đoạn mã phân quyền ở Bước 3, hoặc bạn chưa cấp quyền Authorize cho script ở Bước 2. Hãy làm lại hai bước này."],
+    ["Lỗi GSC 404 Site not found:", "Do điền sai GSC Site URL ở ô Config C4. Nếu thuộc tính GSC của bạn là Tiền tố URL thì bắt buộc URL điền vào phải có dấu gạch chéo cuối trang (VD: https://domain.com/ chứ không được ghi https://domain.com)."],
+    ["Bảng Best Performers bị trống trơn:", "Do Google Search Console luôn trễ dữ liệu thực tế khoảng 2-3 ngày. Ở phiên bản v3 này, chúng tôi đã sửa lỗi bằng cách so sánh Rolling 30 ngày liên tục nên bảng số liệu sẽ luôn hiển thị đầy đủ thông tin ổn định."],
+    ["Web App trả về lỗi xác thực:", "Hãy kiểm tra xem tham số truyền vào URL Web App của bạn đã khớp với mã bảo mật ở ô Config C8 chưa. Định dạng chuẩn để gọi kiểm tra: {URL_Web_App}?token={Mã_bảo_mật}&action=stats (Các action khả dụng: stats, conversions, alerts)."],
     [""],
-    ["👉", "gscDashboardFull     → CHẠY 1-CLICK: Tự động khởi tạo cấu trúc, nạp số liệu mẫu và dựng giao diện đẹp mắt."],
-    ["B1.", "createTriggers       → Đặt lịch tự động: Chạy dailyUpdate 7h sáng + kiểm tra uptime mỗi 6 giờ."],
-    ["B2.", "dailyUpdate          → Chạy thử dữ liệu thật sau khi đã cấu hình tab Config thành công."],
-    [""],
+    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    ["📄 PHẦN 4 — NỘI DUNG CẤU HÌNH FILE APPSSCRIPT.JSON"],
+    ["━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"],
+    ["{", ""],
+    ["  \"timeZone\": \"Asia/Ho_Chi_Minh\",", ""],
+    ["  \"exceptionLogging\": \"STACKDRIVER\",", ""],
+    ["  \"runtimeVersion\": \"V8\",", ""],
+    ["  \"webapp\": {", ""],
+    ["    \"executeAs\": \"USER_DEPLOYING\",", ""],
+    ["    \"access\": \"ANYONE\"", ""],
+    ["  },", ""],
+    ["  \"oauthScopes\": [", ""],
+    ["    \"https://www.googleapis.com/auth/spreadsheets\",", ""],
+    ["    \"https://www.googleapis.com/auth/script.external_request\",", ""],
+    ["    \"https://www.googleapis.com/auth/webmasters.readonly\",", ""],
+    ["    \"https://www.googleapis.com/auth/analytics.readonly\"", ""],
+    ["  ]", ""],
+    ["}", ""],
   ];
 
   sheet.getRange(1, 1, content.length, 2).setValues(
@@ -1700,15 +1732,50 @@ function buildReadmeSheet_(ss) {
   sheet.getRange("A1").setFontSize(14).setFontWeight("bold").setFontColor("#2C5282").setBackground("#EBF4FF");
   sheet.setRowHeight(1, 36);
 
-  const headerRows = [3, 14, 21, 29];
-  headerRows.forEach(row => {
-    if (row <= content.length) {
-      sheet.getRange(row, 1, 1, 2).setFontWeight("bold").setBackground("#2D3748").setFontColor("#FFFFFF");
+  // Dynamic header styling loop
+  content.forEach((row, i) => {
+    const text = row[0];
+    const rowNum = i + 1;
+    if (text.indexOf("━━━") === 0) {
+      sheet.getRange(rowNum, 1, 1, 2).setBackground("#2D3748").setFontColor("#FFFFFF");
+    } else if (
+      text.indexOf("📂 PHẦN 1") === 0 || 
+      text.indexOf("🚀 PHẦN 2") === 0 || 
+      text.indexOf("🛠️ PHẦN 3") === 0 || 
+      text.indexOf("📄 PHẦN 4") === 0
+    ) {
+      sheet.getRange(rowNum, 1, 1, 2).setFontWeight("bold").setBackground("#1E3A8A").setFontColor("#FFFFFF").setFontSize(11);
+    } else if (
+      text.indexOf("BƯỚC 1:") === 0 ||
+      text.indexOf("BƯỚC 2:") === 0 ||
+      text.indexOf("BƯỚC 3:") === 0 ||
+      text.indexOf("BƯỚC 4:") === 0 ||
+      text.indexOf("BƯỚC 5:") === 0
+    ) {
+      sheet.getRange(rowNum, 1, 1, 2).setFontWeight("bold").setBackground("#3B82F6").setFontColor("#FFFFFF").setFontSize(10);
     }
   });
 
-  sheet.setColumnWidth(1, 220);
-  sheet.setColumnWidth(2, 520);
+  // Highlight warnings & constraints
+  content.forEach((row, i) => {
+    const text = row[0];
+    const rowNum = i + 1;
+    if (
+      text.indexOf("⚠️ LƯU Ý") === 0 || 
+      text.indexOf("👉 BẮT BUỘC") === 0 || 
+      text.indexOf("👉 Đặt Triggers") === 0 || 
+      text.indexOf("HƯỚNG DẪN CẤP QUYỀN:") === 0 || 
+      text.indexOf("Lưu ý quan trọng:") === 0
+    ) {
+      sheet.getRange(rowNum, 1, 1, 2)
+        .setFontColor("#C53030")
+        .setFontWeight("bold")
+        .setBackground("#FFF5F5");
+    }
+  });
+
+  sheet.setColumnWidth(1, 240);
+  sheet.setColumnWidth(2, 580);
   sheet.setFrozenRows(1);
 }
 
@@ -1759,14 +1826,14 @@ function dailyUpdate_impl_() {
   // Branded / Unbranded (B47:F56 và H47:L50)
   writeDashboardBrandedUnbranded_(ss, allQueries);
 
-  // Best Performers MoM (N31:R35) — so sánh tháng hiện tại vs tháng trước
-  // Dùng fetchGscByPageTotal_ (dimension "page" duy nhất) thay vì "date"+"page" để tránh
-  // rowLimit bị cắt bớt khi 1 tháng có nhiều trang x nhiều ngày (vd 20 trang x 30 ngay = 600 dong).
-  const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-  const prevMonthStart = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-  const prevMonthEnd   = new Date(today.getFullYear(), today.getMonth(), 0);
-  const thisMonthPages = fetchGscByPageTotal_(thisMonthStart, yesterday, 200);
-  const prevMonthPages = fetchGscByPageTotal_(prevMonthStart, prevMonthEnd, 200);
+  // Best Performers MoM (N31:R35) — So sánh Rolling 30 ngày gần nhất (đã trừ độ trễ GSC 3 ngày) vs 30 ngày trước đó
+  const gscDelayDays = 3;
+  const thisRollingStart = shiftDate_(today, -30 - gscDelayDays);
+  const thisRollingEnd   = shiftDate_(today, -gscDelayDays);
+  const prevRollingStart = shiftDate_(today, -60 - gscDelayDays);
+  const prevRollingEnd   = shiftDate_(today, -31 - gscDelayDays);
+  const thisMonthPages = fetchGscByPageTotal_(thisRollingStart, thisRollingEnd, 200);
+  const prevMonthPages = fetchGscByPageTotal_(prevRollingStart, prevRollingEnd, 200);
   writeDashboardBestPerformers_(ss, thisMonthPages, prevMonthPages);
 
   updateDashboardSheet_(ss, gscDaily, ga4Daily);
@@ -1899,6 +1966,27 @@ function fetchGscByDevice_(startDate, endDate) {
       position:    r.position,
     }))
     .sort((a, b) => b.clicks - a.clicks);
+}
+
+/**
+ * Fetch GSC tổng clicks của cả site trong khoảng thời gian.
+ * Trả về tổng số clicks (Number)
+ */
+function fetchGscClicksForMonth_(startDate, endDate) {
+  try {
+    const rows = callSearchConsole_({
+      startDate: formatDate_(startDate),
+      endDate: formatDate_(endDate),
+      dimensions: [], // Không truyền dimension để lấy tổng clicks cả site
+      rowLimit: 1
+    });
+    if (rows && rows.length > 0) {
+      return Number(rows[0].clicks) || 0;
+    }
+  } catch (e) {
+    Logger.log("Lỗi fetchGscClicksForMonth: " + e.message);
+  }
+  return 0;
 }
 
 /**
@@ -2208,6 +2296,20 @@ function updateDashboardSheet_(ss, gscDaily, ga4Daily) {
   // Không ghi đè lại bằng formula "=SUM(I47:I50)" ở đây vì sẽ làm mất số liệu
   // của các từ khóa thương hiệu vượt quá 4 dòng hiển thị.
   sheet.getRange("K5").setValue("=COUNTA(N15:N24)"); // Số lượng từ khóa (Bảng mới dòng 15-24)
+
+  // Tính toán và cập nhật số liệu Clicks MoM thực tế vào N5 và O5
+  const today = new Date();
+  const firstDayPrevMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const lastDayPrevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+  const firstDay2MonthsAgo = new Date(today.getFullYear(), today.getMonth() - 2, 1);
+  const lastDay2MonthsAgo = new Date(today.getFullYear(), today.getMonth() - 1, 0);
+
+  const clicksMonthAgo = fetchGscClicksForMonth_(firstDayPrevMonth, lastDayPrevMonth);
+  const clicks2MonthsAgo = fetchGscClicksForMonth_(firstDay2MonthsAgo, lastDay2MonthsAgo);
+
+  sheet.getRange("N5").setValue(clicks2MonthsAgo);
+  sheet.getRange("O5").setValue(clicksMonthAgo);
+
   sheet.getRange("Q5").setValue("=O5-N5"); // Tăng trưởng nhấp
 
   // --- 2. Tính toán số liệu GA4 ---
@@ -2609,7 +2711,7 @@ function doGet(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   }
   
-  const action = e.parameter.action || "stats";
+  const action = (e && e.parameter && e.parameter.action) || "stats";
   let responseData = {};
   
   if (action === "stats") {

@@ -4,6 +4,7 @@
 @source "../app/**/*.{ts,tsx,js,jsx}";
 @source "../lib/**/*.{ts,tsx,js,jsx}";
 
+/* force rebuild: v11 */
 /* ==========================================
    LUMINA AGENCY — Design System Tokens
    Tailwind CSS v4 @theme
@@ -26,6 +27,19 @@
   --color-foreground: #0f0f0f;
   --color-muted: #6b7280;
   --color-border: #e2ecec;
+
+  /* Custom theme tokens from HTML template */
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container: #eceeef;
+  --color-surface-variant: #e1e3e4;
+  --color-outline-variant: #bcc9cb;
+  --color-on-surface-variant: #3d494b;
+  --color-secondary: #6b5f00;
+  --color-secondary-fixed: #fbe449;
+  --color-on-secondary-container: #716500;
+
+  --shadow-soft-float: 0px 10px 30px rgba(0, 31, 36, 0.05);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 31, 36, 0.07);
 
   /* Typography - linked to next/font/google dynamic variable */
   --font-sans: var(--font-sans), "Inter", sans-serif;
@@ -577,3 +591,30 @@ input[type="range"]::-moz-range-thumb {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
+
+/* ==========================================
+   Visual Enhancements & Custom Animations
+   ========================================== */
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  z-index: 1;
+  animation: float-blob 20s infinite alternate;
+}
+
+@keyframes float-blob {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -50px) scale(1.1); }
+  100% { transform: translate(-20px, 20px) scale(0.9); }
+}
+

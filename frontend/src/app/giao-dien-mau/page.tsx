@@ -21,7 +21,12 @@ export default async function TemplateLibraryPage() {
   const templates = await backendTemplatesService.getAllTemplates();
 
   return (
-    <div className="pt-16">
+    <div style={{ paddingTop: '68px' }} className="relative overflow-hidden bg-white">
+      {/* Ambient Background Blobs */}
+      <div className="bg-blob bg-[#80c2cb]/20 w-[500px] h-[500px] -top-32 -left-32 pointer-events-none" />
+      <div className="bg-blob bg-[#fefce8]/40 w-[400px] h-[400px] top-[20%] -right-32 pointer-events-none" style={{ animationDelay: '-5s' }} />
+      <div className="bg-blob bg-[#80c2cb]/15 w-[600px] h-[600px] bottom-[10%] left-[10%] pointer-events-none" style={{ animationDelay: '-10s' }} />
+
       {/* Hero */}
       <section
         className="section-padding"

@@ -1,21 +1,19 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Phone, CheckCircle } from 'lucide-react';
 
 export default function CtaSection() {
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section aria-label="Bắt đầu hành trình" className="section-padding relative overflow-hidden">
       {/* Animated gradient background */}
       <div className="absolute inset-0 animate-gradient-bg opacity-70" />
 
       {/* Decorative blobs */}
       <div
-        className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-20 blur-3xl pointer-events-none"
+        className="absolute top-0 right-0 size-72 rounded-full opacity-20 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #006672 0%, transparent 70%)' }}
       />
       <div
-        className="absolute bottom-0 left-0 w-56 h-56 rounded-full opacity-15 blur-3xl pointer-events-none"
+        className="absolute bottom-0 left-0 size-56 rounded-full opacity-15 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #ca8a04 0%, transparent 70%)' }}
       />
 
@@ -24,7 +22,7 @@ export default function CtaSection() {
 
           {/* Badge */}
           <div className="section-label">
-            <Sparkles className="h-3 w-3" />
+            <Sparkles className="size-3" />
             Bắt đầu ngay hôm nay
           </div>
 
@@ -47,21 +45,21 @@ export default function CtaSection() {
               href="/quy-trinh#contact"
               className="btn-primary text-base px-8 py-4 gap-2"
             >
-              Nhận báo giá miễn phí <ArrowRight className="h-5 w-5" />
+              Nhận báo giá miễn phí <ArrowRight className="size-5" />
             </Link>
             <a
               href="tel:+84123456789"
               className="btn-secondary text-base px-8 py-4 gap-2"
             >
-              <Phone className="h-5 w-5" /> Gọi tư vấn ngay
+              <Phone className="size-5" /> Gọi tư vấn ngay
             </a>
           </div>
 
           {/* Trust row */}
           <div className="flex flex-wrap justify-center items-center gap-6 pt-4 text-xs text-[#9ca3af]">
-            <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#006672]" /> Miễn phí tư vấn</span>
-            <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#006672]" /> Không ràng buộc</span>
-            <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#006672]" /> Bảo hành 12 tháng</span>
+            <span className="flex items-center gap-1.5"><CheckCircle className="size-3.5 text-[#006672]" /> Miễn phí tư vấn</span>
+            <span className="flex items-center gap-1.5"><CheckCircle className="size-3.5 text-[#006672]" /> Không ràng buộc</span>
+            <span className="flex items-center gap-1.5"><CheckCircle className="size-3.5 text-[#006672]" /> Bảo hành 12 tháng</span>
           </div>
         </div>
       </div>

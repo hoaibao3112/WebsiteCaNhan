@@ -79,7 +79,7 @@ export default function ProcessSection() {
                     >
                       <div className="flex items-center gap-3 mb-3">
                         <div className="p-1.5 rounded-lg bg-[#f0f7f8] text-[#006672]">
-                          <step.Icon className="h-5 w-5" />
+                          <step.Icon className="size-5" />
                         </div>
                         <span className="text-xs font-black text-[#006672] tracking-widest">BƯỚC {step.number}</span>
                       </div>
@@ -90,7 +90,7 @@ export default function ProcessSection() {
 
                   {/* Center dot */}
                   <div className="absolute left-0 md:static md:flex md:shrink-0 z-10">
-                    <div className="w-12 h-12 rounded-full border-2 border-[#006672] bg-white flex items-center justify-center text-[#006672] font-black text-sm shadow-[0_0_0_6px_rgba(0,102,114,0.08)]">
+                    <div className="size-12 rounded-full border-2 border-[#006672] bg-white flex items-center justify-center text-[#006672] font-black text-sm shadow-[0_0_0_6px_rgba(0,102,114,0.08)]">
                       {step.number}
                     </div>
                   </div>

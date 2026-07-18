@@ -5,20 +5,21 @@ import PortfolioGrid from '@/components/sections/portfolio/PortfolioGrid';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Kho lưu trữ Dự án',
+  title: 'Portfolio & Dự án Đã Thực Hiện',
   description:
-    'Trưng bày những trải nghiệm kỹ thuật số gần đây và ấn tượng nhất của chúng tôi. Từ các trang dịch chuyên đổi cao đến các nền tảng thương mại điện tử phức tạp.',
+    'Khám phá portfolio của KABO AGENCY — những dự án website, landing page và e-commerce ấn tượng. Từ startup đến doanh nghiệp lớn, chúng tôi đã giúp hàng trăm thương hiệu bứt phá.',
   alternates: { canonical: '/du-an' },
   openGraph: {
-    title: 'Kho lưu trữ Dự án — KABO AGENCY',
-    description: 'Portfolio của KABO AGENCY — những dự án website ấn tượng nhất.',
+    title: 'Portfolio Dự án Thực Chiến — KABO AGENCY',
+    description: 'Portfolio của KABO AGENCY — những dự án website ấn tượng nhất, thực chiến và chuyển đổi cao.',
     url: '/du-an',
+    images: [{ url: '/logo-kabo.jpg', width: 1200, height: 630, alt: 'KABO AGENCY Portfolio' }],
   },
 };
 
 export default function PortfolioPage() {
   return (
-    <div className="pt-16">
+    <div style={{ paddingTop: '68px' }}>
       {/* Header */}
       <section className="section-padding" style={{ background: 'linear-gradient(to bottom, #f4f9f9, white)' }}>
         <div className="container-lumina">

@@ -88,7 +88,7 @@ export default function Navbar() {
               href="/quy-trinh#contact"
               className="btn-primary text-sm py-2.5 px-5 gap-1.5"
             >
-              Nhận báo giá <ArrowRight className="h-3.5 w-3.5" />
+              Nhận báo giá <ArrowRight className="size-3.5" />
             </Link>
           </div>
 
@@ -99,7 +99,7 @@ export default function Navbar() {
             className="md:hidden p-2 rounded-lg text-[#374151] hover:bg-[#f0f7f8] hover:text-[#006672] transition-colors"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </nav>
       </div>
@@ -128,7 +128,7 @@ export default function Navbar() {
           ))}
           <div className="pt-3 border-t border-[#e2ecec] mt-2 flex flex-col gap-2">
             <a href="tel:+84374170367" className="flex items-center justify-center gap-2 text-sm text-center text-[#6b7280] font-medium py-2 hover:text-[#006672] transition-colors">
-              <Phone className="h-4 w-4" /> 0374 170 367
+              <Phone className="size-4" /> 0374 170 367
             </a>
             <Link
               href="/quy-trinh#contact"
