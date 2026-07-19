@@ -1,4 +1,8 @@
+'use client';
+
 import { MessageCircle, Palette, Zap, Search, Rocket } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ui/ScrollReveal';
 
 const steps = [
   {
@@ -39,7 +43,7 @@ export default function ProcessSection() {
       <div className="container-lumina">
 
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
+        <ScrollReveal direction="up" className="text-center mb-16">
           <div className="section-label w-fit mx-auto mb-4">
             Quy trình làm việc
           </div>
@@ -51,56 +55,81 @@ export default function ProcessSection() {
           <p className="mt-4 text-[#6b7280] max-w-xl mx-auto text-sm leading-relaxed">
             Quy trình minh bạch, cộng tác chặt chẽ — bạn luôn biết chúng tôi đang làm gì.
           </p>
-        </div>
+        </ScrollReveal>
 
-        {/* Steps — alternating layout on desktop */}
+        {/* Steps — staggered alternating layout */}
         <div className="relative max-w-4xl mx-auto">
 
-          {/* Center vertical line */}
-          <div
-            className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5"
-            style={{ background: 'linear-gradient(to bottom, #006672 0%, #80c2cb 60%, transparent 100%)' }}
-          />
+          {/* Center vertical line — animated draw */}
+          <ScrollReveal direction="none" className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 overflow-hidden">
+            <motion.div
+              className="w-full h-full"
+              style={{ background: 'linear-gradient(to bottom, #006672 0%, #80c2cb 60%, transparent 100%)' }}
+              initial={{ scaleY: 0, originY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </ScrollReveal>
 
-          <div className="flex flex-col gap-10">
+          <StaggerContainer className="flex flex-col gap-10" staggerDelay={0.15}>
             {steps.map((step, index) => {
               const isRight = index % 2 === 0;
               return (
-                <div
+                <StaggerItem
                   key={step.number}
-                  className={`relative flex items-center gap-0 md:gap-8 animate-fade-in-up-delay-${index + 1} ${
-                    isRight ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
+                  direction={isRight ? 'left' : 'right'}
                 >
-                  {/* Content */}
-                  <div className={`flex-1 ${isRight ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'} pl-16 md:pl-0`}>
-                    <div
-                      className={`inline-block group bg-white border border-[#e2ecec] rounded-2xl p-6 shadow-sm hover:shadow-[0_12px_40px_rgba(0,102,114,0.10)] hover:-translate-y-1 transition-all duration-400 text-left`}
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-1.5 rounded-lg bg-[#f0f7f8] text-[#006672]">
-                          <step.Icon className="size-5" />
+                  <div
+                    className={`relative flex items-center gap-0 md:gap-8 ${
+                      isRight ? 'md:flex-row' : 'md:flex-row-reverse'
+                    }`}
+                  >
+                    {/* Content card */}
+                    <div className={`flex-1 ${isRight ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'} pl-16 md:pl-0`}>
+                      <motion.div
+                        whileHover={{
+                          y: -4,
+                          boxShadow: '0 16px 48px rgba(0,102,114,0.12)',
+                          borderColor: '#80c2cb',
+                        }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                        className="inline-block group bg-white border border-[#e2ecec] rounded-2xl p-6 shadow-sm text-left"
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <motion.div
+                            whileHover={{ rotate: 15, scale: 1.1 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                            className="p-1.5 rounded-lg bg-[#f0f7f8] text-[#006672]"
+                          >
+                            <step.Icon className="size-5" />
+                          </motion.div>
+                          <span className="text-xs font-black text-[#006672] tracking-widest">BƯỚC {step.number}</span>
                         </div>
-                        <span className="text-xs font-black text-[#006672] tracking-widest">BƯỚC {step.number}</span>
-                      </div>
-                      <h3 className="text-lg font-extrabold text-[#0f0f0f] mb-2">{step.title}</h3>
-                      <p className="text-sm text-[#6b7280] leading-relaxed">{step.description}</p>
+                        <h3 className="text-lg font-extrabold text-[#0f0f0f] mb-2">{step.title}</h3>
+                        <p className="text-sm text-[#6b7280] leading-relaxed">{step.description}</p>
+                      </motion.div>
                     </div>
-                  </div>
 
-                  {/* Center dot */}
-                  <div className="absolute left-0 md:static md:flex md:shrink-0 z-10">
-                    <div className="size-12 rounded-full border-2 border-[#006672] bg-white flex items-center justify-center text-[#006672] font-black text-sm shadow-[0_0_0_6px_rgba(0,102,114,0.08)]">
-                      {step.number}
+                    {/* Center dot — pulse ring */}
+                    <div className="absolute left-0 md:static md:flex md:shrink-0 z-10">
+                      <motion.div
+                        whileInView={{ scale: [0.6, 1.1, 1] }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                        className="size-12 rounded-full border-2 border-[#006672] bg-white flex items-center justify-center text-[#006672] font-black text-sm shadow-[0_0_0_6px_rgba(0,102,114,0.08)]"
+                      >
+                        {step.number}
+                      </motion.div>
                     </div>
-                  </div>
 
-                  {/* Spacer */}
-                  <div className="hidden md:block flex-1" />
-                </div>
+                    {/* Spacer */}
+                    <div className="hidden md:block flex-1" />
+                  </div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         </div>
       </div>
     </section>
