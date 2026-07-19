@@ -1,8 +1,0 @@
-DATABASE_URL=postgresql://postgres.ufqzgyfdeliahuytfrmc:Kimloan%40%40123@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?schema=frontend
-NEXT_PUBLIC_API_URL=https://website-studio-backend.onrender.com
-API_KEY=studiocanhan_secure_api_key_7799
-REDIS_URL=your_external_redis_url_here
-SMTP_HOST=dummy
-SMTP_PORT=2525
-SMTP_USER=dummy
-SMTP_PASSWORD=dummy
