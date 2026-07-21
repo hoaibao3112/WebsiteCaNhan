@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { projects } from '@/data/projects';
 import PortfolioGrid from '@/components/sections/portfolio/PortfolioGrid';
+import { customPagesService } from '@/services/custom-pages.service';
+import BuilderCanvas from '@/components/sections/builder/BuilderCanvas';
 
 export const revalidate = 86400;
 
@@ -17,7 +19,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const pageData = await customPagesService.getPageBySlug('du-an');
+
+  if (pageData && pageData.pbConfig) {
+    return (
+      <div className="min-h-screen bg-white">
+        <BuilderCanvas
+          pbConfig={pageData.pbConfig}
+          selectedId={null}
+          allowEdit={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* Header */}

@@ -4,6 +4,8 @@ import { Check, Zap, ShieldCheck, Sparkles, ArrowRight, Clock, Star, Users } fro
 import ContactForm from '@/components/sections/pricing/ContactForm';
 import ProcessTabs from '@/components/sections/process/ProcessTabs';
 import FadeInView from '@/components/ui/FadeInView';
+import { customPagesService } from '@/services/custom-pages.service';
+import BuilderCanvas from '@/components/sections/builder/BuilderCanvas';
 
 export const revalidate = 86400;
 
@@ -90,7 +92,21 @@ const trustItems = [
   { Icon: Sparkles, text: 'Báo giá miễn phí' },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const pageData = await customPagesService.getPageBySlug('quy-trinh');
+
+  if (pageData && pageData.pbConfig) {
+    return (
+      <div className="min-h-screen bg-white">
+        <BuilderCanvas
+          pbConfig={pageData.pbConfig}
+          selectedId={null}
+          allowEdit={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ paddingTop: '68px' }} className="bg-surface text-on-surface">
 

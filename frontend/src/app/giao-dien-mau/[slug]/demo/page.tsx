@@ -36,9 +36,12 @@ export default async function TemplateDemoPage({ params }: Props) {
 
   return (
     <TemplateDemoClient
-      demoImages={template.demoImages}
       title={template.title}
       slug={slug}
+      price={(template.price ?? 0).toString()}
+      pbConfig={template.pbConfig}
+      demoImages={template.demoImages}
+      image={template.image}
     />
   );
 }

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Globe, Search, Megaphone, CheckCircle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { customPagesService } from '@/services/custom-pages.service';
+import BuilderCanvas from '@/components/sections/builder/BuilderCanvas';
 
-export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Dịch vụ Thiết kế Website & Digital Marketing',
@@ -69,7 +71,21 @@ const services = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const pageData = await customPagesService.getPageBySlug('dich-vu');
+
+  if (pageData && pageData.pbConfig) {
+    return (
+      <div className="min-h-screen bg-white">
+        <BuilderCanvas
+          pbConfig={pageData.pbConfig}
+          selectedId={null}
+          allowEdit={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* Hero */}

@@ -28,3 +28,9 @@ logs/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Scraper & Temp Media Dump Files
+*.mp4
+next_data_sample.json
+tempi_templates.json
+videoframe_*.png

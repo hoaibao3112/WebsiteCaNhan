@@ -1,11 +1,163 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Star, Zap, TrendingUp } from 'lucide-react';
-import { motion, useReducedMotion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useEffect, useRef } from 'react';
-import ShaderBackground from '@/components/ui/ShaderBackground';
-import Magnetic from '@/components/ui/Magnetic';
+import Image from 'next/image';
+import { ArrowRight, Star, Zap, TrendingUp, Play } from 'lucide-react';
+import { motion, useReducedMotion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+
+const IMAGES = [
+  { src: '/hero-card-1.png', alt: 'Giao diện cửa hàng online KABO' },
+  { src: '/hero-card-2.png', alt: 'Giao diện nhà hàng KABO' },
+  { src: '/hero-card-3.png', alt: 'Giao diện spa KABO' },
+  { src: '/hero-visual.png', alt: 'Nền tảng kéo thả KABO' }
+];
+
+function HeroImageSlider() {
+  const [current, setCurrent] = useState(0);
+  const shouldReduce = useReducedMotion();
+  const [progress, setProgress] = useState(0);
+
+  const handleNext = () => {
+    setCurrent((prev) => (prev + 1) % IMAGES.length);
+    setProgress(0);
+  };
+
+  // Autoplay and progress bar
+  useEffect(() => {
+    const duration = 5000; // 5 seconds per slide
+    const intervalTime = 50; // update progress every 50ms
+    const steps = duration / intervalTime;
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      setProgress((currentStep / steps) * 100);
+
+      if (currentStep >= steps) {
+        handleNext();
+        currentStep = 0;
+      }
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [current]);
+
+  return (
+    <div className="relative w-full h-full select-none">
+      {/* Background glow shadow */}
+      <div className="absolute inset-4 rounded-3xl bg-gradient-to-br from-[#6366f1]/20 via-[#a855f7]/15 to-[#06b6d4]/10 blur-2xl" />
+
+      {/* Main Slider Container */}
+      <div
+        className="relative z-10 w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(99,102,241,0.2)] border border-[#e5e7eb] bg-white cursor-pointer"
+        onClick={handleNext}
+      >
+        {/* Render stacked absolute images to prevent blank white flashes during transition */}
+        {IMAGES.map((img, idx) => (
+          <motion.div
+            key={idx}
+            initial={false}
+            animate={{
+              opacity: current === idx ? 1 : 0,
+              scale: current === idx ? 1.025 : 1,
+              zIndex: current === idx ? 10 : 0
+            }}
+            transition={{
+              opacity: { duration: 0.8, ease: 'easeInOut' },
+              scale: { duration: 0.8, ease: 'easeInOut' }
+            }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={img.src}
+              alt={img.alt}
+              fill
+              className="object-cover object-top"
+              priority={idx === 0}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </motion.div>
+        ))}
+
+        {/* Top-right index pill */}
+        <div className="absolute top-4 right-4 z-20 bg-black/45 backdrop-blur-md px-3 py-1 rounded-full text-white text-[11px] font-bold">
+          {current + 1} / {IMAGES.length}
+        </div>
+
+        {/* Progress bar at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-[4px] bg-black/10 z-20">
+          <div
+            className="h-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] transition-all ease-linear"
+            style={{ width: `${progress}%`, transitionDuration: '50ms' }}
+          />
+        </div>
+
+        {/* Floating indicators / dots */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-black/35 backdrop-blur-md px-3.5 py-2.5 rounded-full">
+          {IMAGES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrent(idx);
+                setProgress(0);
+              }}
+              className="relative size-3 flex items-center justify-center rounded-full"
+              type="button"
+            >
+              {current === idx && (
+                <motion.span
+                  layoutId="activeDot"
+                  className="absolute inset-0 rounded-full border border-white"
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                />
+              )}
+              <span className={`size-1.5 rounded-full transition-colors duration-300 ${
+                current === idx ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
+              }`} />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating badge — bottom left */}
+      <motion.div
+        className="absolute -bottom-4 -left-4 z-20 bg-white rounded-2xl shadow-2xl border border-[#f0f0f0] px-4 py-3 flex items-center gap-3"
+        animate={shouldReduce ? {} : { y: [0, -8, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <div className="size-9 rounded-xl bg-[#fef9c3] flex items-center justify-center shrink-0">
+          <Star className="size-4.5 text-[#f59e0b] fill-[#f59e0b]" />
+        </div>
+        <div>
+          <p className="text-xs font-black text-[#0f0f0f]">98% hài lòng</p>
+          <p className="text-[10px] text-[#9ca3af]">Khách hàng</p>
+        </div>
+      </motion.div>
+
+      {/* Floating badge — top right */}
+      <motion.div
+        className="absolute -top-4 -right-4 z-20 bg-[#6366f1] rounded-2xl shadow-xl px-4 py-3 flex items-center gap-2"
+        animate={shouldReduce ? {} : { x: [0, 6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+      >
+        <Zap className="size-4 text-white" />
+        <span className="text-xs font-bold text-white">120+ Dự án</span>
+      </motion.div>
+
+      {/* Floating badge — right middle */}
+      <motion.div
+        className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-2xl shadow-xl border border-[#f0f0f0] px-3 py-2.5 flex items-center gap-2"
+        animate={shouldReduce ? {} : { y: [0, 6, 0] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+      >
+        <TrendingUp className="size-4 text-[#22c55e]" />
+        <span className="text-xs font-bold text-[#0f0f0f]">+42% tăng trưởng</span>
+      </motion.div>
+    </div>
+  );
+}
 
 /* ── Animated counter ── */
 function AnimatedCounter({ value, suffix = '' }: { value: number; suffix?: string }) {
@@ -21,279 +173,142 @@ function AnimatedCounter({ value, suffix = '' }: { value: number; suffix?: strin
     return ctrl.stop;
   }, [isInView, value, count, shouldReduce]);
 
+  return <motion.span ref={ref}>{shouldReduce ? `${value}${suffix}` : rounded}</motion.span>;
+}
+
+/* ── Typewriter ── */
+const WORDS = ['nhanh chóng.', 'đột phá.', 'chuyên nghiệp.', 'tăng trưởng.'];
+
+function TypewriterWord() {
+  const [idx, setIdx] = useState(0);
+  const [text, setText] = useState('');
+  const [deleting, setDeleting] = useState(false);
+  const t = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const word = WORDS[idx];
+    if (!deleting && text.length < word.length)
+      t.current = setTimeout(() => setText(word.slice(0, text.length + 1)), 70);
+    else if (!deleting && text.length === word.length)
+      t.current = setTimeout(() => setDeleting(true), 1800);
+    else if (deleting && text.length > 0)
+      t.current = setTimeout(() => setText(word.slice(0, text.length - 1)), 40);
+    else { setDeleting(false); setIdx(i => (i + 1) % WORDS.length); }
+    return () => { if (t.current) clearTimeout(t.current); };
+  }, [text, deleting, idx]);
+
   return (
-    <motion.span ref={ref}>
-      {shouldReduce ? `${value}${suffix}` : rounded}
-    </motion.span>
+    <span className="bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
+      {text}<span className="animate-pulse text-[#6366f1]">|</span>
+    </span>
   );
 }
 
-const stats = [
-  { value: 120, suffix: '+', label: 'Dự án hoàn thành' },
-  { value: 98, suffix: '%', label: 'Khách hàng hài lòng' },
-  { value: 5, suffix: '★', label: 'Đánh giá trung bình' },
+const STATS = [
+  { value: 120, suffix: '+', label: 'Dự án', color: '#6366f1' },
+  { value: 98,  suffix: '%', label: 'Hài lòng',  color: '#10b981' },
+  { value: 5,   suffix: '★', label: 'Đánh giá',  color: '#f59e0b' },
 ];
-
-function useLineAnim(shouldReduce: boolean) {
-  return (delay: number) => {
-    if (shouldReduce) return {};
-    return {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.6, delay, ease: 'easeOut' as const },
-    };
-  };
-}
 
 export default function HeroSection() {
   const shouldReduce = useReducedMotion();
-  const anim = useLineAnim(!!shouldReduce);
+
+  const anim = (delay: number) =>
+    shouldReduce ? {} : {
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.55, delay, ease: 'easeOut' as const },
+    };
 
   return (
-    <section className="relative overflow-hidden min-h-screen flex flex-col justify-center pt-20 pb-16 bg-white">
-      {/* Decorative background blobs */}
-      <div className="bg-blob bg-[#80c2cb]/20 w-[500px] h-[500px] -top-32 -left-32 pointer-events-none" />
-      <div
-        className="bg-blob bg-[#ca8a04]/15 w-[400px] h-[400px] -bottom-32 -right-32 pointer-events-none"
-        style={{ animationDelay: '-5s' }}
-      />
-      <div
-        className="bg-blob bg-[#006672]/5 w-[700px] h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{ animationDelay: '-10s' }}
-      />
+    <section className="relative overflow-hidden min-h-screen flex flex-col justify-center pt-24 pb-16 bg-white">
 
-      {/* Floating badge top-right */}
-      <motion.div
-        className="absolute top-32 right-8 hidden lg:flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg border border-[#e2ecec]"
-        animate={shouldReduce ? {} : { y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <Sparkles className="size-4 text-[#ca8a04]" />
-        <span className="text-xs font-bold text-[#0f0f0f]">Premium Design</span>
-      </motion.div>
+      {/* Background blobs */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-[#6366f1]/8 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#a855f7]/6 blur-3xl" />
+      </div>
 
-      {/* Floating badge left */}
-      <motion.div
-        className="absolute top-48 left-8 hidden lg:flex items-center gap-2 bg-[#006672] rounded-full px-4 py-2 shadow-lg"
-        animate={shouldReduce ? {} : { x: [0, 8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-      >
-        <Star className="size-3.5 text-white fill-white" />
-        <span className="text-xs font-bold text-white">Top Rated</span>
-      </motion.div>
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 w-full z-10 relative">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
-      <div className="container-lumina w-full z-10 relative">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+          {/* ══ LEFT ══ */}
+          <div className="flex flex-col gap-8 max-w-[520px]">
 
-          {/* ── Left Column ── */}
-          <div className="flex flex-col gap-7">
+            {/* Headline */}
+            <div>
+              <motion.p {...anim(0.08)} className="text-[11px] font-bold tracking-widest uppercase text-[#6366f1] mb-4 flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-[#6366f1] animate-pulse inline-block" />
+                Thiết kế Website · KABO Agency
+              </motion.p>
 
-            {/* Badge */}
-            <motion.div {...anim(0)} className="section-label w-fit">
-              <Zap className="size-3" />
-              Sáng Tạo Đột Phá · Trải Nghiệm Đỉnh Cao
-            </motion.div>
+              <h1 className="text-[44px] sm:text-[54px] lg:text-[62px] font-black leading-[1.06] tracking-tight">
+                <motion.span {...anim(0.12)} className="block text-[#0f0f0f]">Tạo Website &</motion.span>
+                <motion.span {...anim(0.2)} className="block text-[#0f0f0f]">Landing Page</motion.span>
+                <motion.span {...anim(0.28)} className="block min-h-[1.12em]">
+                  <TypewriterWord />
+                </motion.span>
+              </h1>
+            </div>
 
-            {/* Headline — line-by-line reveal */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold leading-[1.08] tracking-tight">
-              <motion.span {...anim(0.1)} className="block text-[#0f0f0f]">
-                Thiết kế{' '}
-                <span className="animate-shimmer-text">Website</span>
-              </motion.span>
-              <motion.span {...anim(0.22)} className="block text-[#0f0f0f]">
-                May đo,
-              </motion.span>
-              <motion.span {...anim(0.34)} className="block gradient-text-primary">
-                Bứt phá Tăng trưởng
-              </motion.span>
-            </h1>
-
-            {/* Subtext */}
-            <motion.p {...anim(0.46)} className="text-base text-[#6b7280] leading-relaxed max-w-md">
-              Trong thế giới số, sự hiện diện của bạn là thương hiệu. Chúng tôi kiến tạo những
-              trải nghiệm kỹ thuật số <strong className="text-[#0f0f0f]">thúc đẩy tăng trưởng</strong> thực sự.
+            {/* Short description */}
+            <motion.p {...anim(0.38)} className="text-[#6b7280] text-[15px] leading-[1.75] max-w-[400px]">
+              Kéo thả dễ dàng, giao diện đẹp chuẩn —{' '}
+              <span className="font-semibold text-[#0f0f0f]">không cần biết code</span>.
             </motion.p>
 
             {/* CTAs */}
-            <motion.div {...anim(0.56)} className="flex flex-col sm:flex-row gap-3 pt-1">
-              <Magnetic>
-                <motion.div
-                  whileHover={shouldReduce ? {} : { scale: 1.04, boxShadow: '0 8px 30px rgba(0,102,114,0.25)' }}
-                  whileTap={shouldReduce ? {} : { scale: 0.97 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  className="rounded-full"
-                >
-                  <Link href="/quy-trinh#contact" className="btn-primary text-sm justify-center sm:justify-start gap-2">
-                    Nhận báo giá miễn phí
-                    <motion.span
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <ArrowRight className="size-4" />
-                    </motion.span>
-                  </Link>
-                </motion.div>
-              </Magnetic>
-              <Magnetic>
-                <motion.div
-                  whileHover={shouldReduce ? {} : { scale: 1.03 }}
-                  whileTap={shouldReduce ? {} : { scale: 0.97 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  className="rounded-full"
-                >
-                  <Link href="/du-an" className="btn-secondary text-sm justify-center sm:justify-start">
-                    Xem dự án →
-                  </Link>
-                </motion.div>
-              </Magnetic>
+            <motion.div {...anim(0.46)} className="flex gap-3">
+              <motion.div
+                whileHover={shouldReduce ? {} : { scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Link href="/quy-trinh#contact"
+                  className="flex items-center gap-2.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-extrabold py-4 px-8 rounded-2xl text-sm shadow-lg shadow-[#6366f1]/25 hover:shadow-xl hover:shadow-[#6366f1]/35 transition-all duration-200">
+                  Dùng thử miễn phí
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
+                    <ArrowRight className="size-4" />
+                  </motion.span>
+                </Link>
+              </motion.div>
+
+              <motion.div whileHover={shouldReduce ? {} : { scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/giao-dien-mau"
+                  className="flex items-center gap-2 border-2 border-[#e5e7eb] hover:border-[#6366f1]/40 text-[#374151] hover:text-[#6366f1] font-extrabold py-4 px-7 rounded-2xl text-sm bg-white hover:bg-[#fafbff] transition-all duration-200">
+                  <Play className="size-3.5 fill-current" />
+                  Xem mẫu
+                </Link>
+              </motion.div>
             </motion.div>
 
-            {/* Stats — animated counter */}
-            <motion.div {...anim(0.66)} className="flex flex-wrap gap-8 pt-6 border-t border-[#e2ecec]">
-              {stats.map((s, i) => (
-                <motion.div
-                  key={i}
-                  className="flex flex-col"
-                  whileHover={{ y: -2 }}
-                  transition={{ type: 'spring', stiffness: 400 }}
-                >
-                  <span className="text-2xl font-extrabold text-[#006672] leading-none tabular-nums">
+            {/* Divider */}
+            <motion.div {...anim(0.54)} className="h-px bg-gradient-to-r from-[#e5e7eb] via-[#6366f1]/20 to-transparent" />
+
+            {/* Stats */}
+            <motion.div {...anim(0.6)} className="flex gap-6">
+              {STATS.map((s, i) => (
+                <motion.div key={i} className="flex flex-col gap-0.5"
+                  whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+                  <span className="text-[28px] font-black tabular-nums leading-none" style={{ color: s.color }}>
                     <AnimatedCounter value={s.value} suffix={s.suffix} />
                   </span>
-                  <span className="text-xs text-[#9ca3af] mt-1">{s.label}</span>
+                  <span className="text-xs text-[#9ca3af] font-medium">{s.label}</span>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Clients */}
-            <motion.div {...anim(0.74)} className="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <span className="text-[10px] font-bold text-[#9ca3af] uppercase tracking-widest">Đối tác tin dùng:</span>
-              {['BRAND ONE', 'TECH CO', 'NEXUS', 'ELEVATE'].map((name) => (
-                <motion.span
-                  key={name}
-                  className="text-xs font-black text-zinc-300 tracking-wider cursor-default"
-                  whileHover={{ color: '#006672', scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {name}
-                </motion.span>
-              ))}
-            </motion.div>
           </div>
 
-          {/* ── Right Column — Hero Visual ── */}
+          {/* ══ RIGHT — Interactive image slideshow ══ */}
           <motion.div
-            className="relative h-[420px] lg:h-[520px]"
+            className="relative h-[460px] lg:h-[540px]"
             initial={shouldReduce ? {} : { opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           >
-            {/* Main card */}
-            <motion.div
-              className="absolute inset-0 rounded-3xl overflow-hidden border border-[#e2ecec] shadow-[0_30px_80px_rgba(0,102,114,0.08)] bg-white"
-              whileHover={{ boxShadow: '0 40px_100px_rgba(0,102,114,0.13)' }}
-              transition={{ duration: 0.4 }}
-            >
-              {/* WebGL Shader Background Overlay */}
-              <div className="absolute inset-0 z-0 opacity-40">
-                <ShaderBackground />
-              </div>
-
-              {/* Header bar */}
-              <div className="relative z-10 flex items-center gap-2 px-4 py-3 bg-[#f8fafa]/80 backdrop-blur-sm border-b border-[#e2ecec]">
-                <div className="size-3 rounded-full bg-[#006672] animate-pulse-soft" />
-                <div className="size-3 rounded-full bg-[#ca8a04]" />
-                <div className="size-3 rounded-full bg-zinc-300" />
-                <div className="flex-1 mx-3 h-5 rounded bg-[#f0f7f8]/90 flex items-center px-3">
-                  <span className="text-[9px] text-zinc-400 font-mono">kabo.agency</span>
-                </div>
-              </div>
-
-              {/* Content area */}
-              <div className="relative z-10 p-6 flex flex-col h-full gap-4 bg-white/10 backdrop-blur-[2px]">
-                {/* Mock heading */}
-                <div className="flex flex-col gap-2">
-                  <div className="h-3 rounded-full bg-[#006672] w-3/4 opacity-80" />
-                  <div className="h-2.5 rounded-full bg-zinc-100 w-full" />
-                  <div className="h-2.5 rounded-full bg-zinc-100 w-5/6" />
-                </div>
-
-                {/* Mock cards — staggered appear */}
-                <div className="grid grid-cols-2 gap-3 mt-2">
-                  {[
-                    { color: 'bg-[#006672]', label: 'UX/UI Design' },
-                    { color: 'bg-[#ca8a04]', label: 'Web Dev' },
-                    { color: 'bg-zinc-800', label: 'SEO & Ads' },
-                    { color: 'bg-[#80c2cb]', label: 'Branding' },
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-                      whileHover={{ scale: 1.04 }}
-                      className="rounded-xl bg-white/70 border border-[#e2ecec]/50 p-3 flex items-center gap-2 backdrop-blur-sm cursor-default"
-                    >
-                      <div className={`size-6 rounded-lg ${item.color} opacity-90`} />
-                      <span className="text-[10px] font-semibold text-zinc-500">{item.label}</span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Mock chart — animated bars */}
-                <div className="flex-1 flex items-end gap-1.5 pt-2">
-                  {[40, 65, 45, 80, 55, 90, 70, 95].map((h, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex-1 rounded-t-md"
-                      initial={{ height: 0 }}
-                      animate={{ height: `${h}%` }}
-                      transition={{ duration: 0.7, delay: 0.8 + i * 0.06, ease: 'easeOut' }}
-                      style={{
-                        background: i === 7 ? '#006672' : `rgba(0,102,114,${0.15 + i * 0.08})`,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
-                  <div className="flex items-center gap-1.5">
-                    <TrendingUp className="size-3.5 text-[#006672]" />
-                    <span className="text-[10px] font-bold text-[#006672]">+42% tăng trưởng</span>
-                  </div>
-                  <span className="text-[9px] text-zinc-400 font-mono">100% Core Web Vitals</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Floating metric card */}
-            <motion.div
-              className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl border border-[#e2ecec] px-4 py-3 flex items-center gap-3"
-              animate={shouldReduce ? {} : { y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              whileHover={{ scale: 1.06 }}
-            >
-              <div className="size-10 rounded-xl bg-[#f0f7f8] flex items-center justify-center">
-                <Star className="size-5 text-[#ca8a04] fill-[#ca8a04]" />
-              </div>
-              <div>
-                <p className="text-xs font-black text-[#0f0f0f]">98% hài lòng</p>
-                <p className="text-[10px] text-[#9ca3af]">Khách hàng</p>
-              </div>
-            </motion.div>
-
-            {/* Floating metric card 2 */}
-            <motion.div
-              className="absolute -top-4 -right-4 bg-[#006672] rounded-2xl shadow-xl px-4 py-3 flex items-center gap-2"
-              animate={shouldReduce ? {} : { x: [0, 8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              whileHover={{ scale: 1.06 }}
-            >
-              <Zap className="size-4 text-white" />
-              <span className="text-xs font-bold text-white">120+ Dự án</span>
-            </motion.div>
+            <HeroImageSlider />
           </motion.div>
+
         </div>
       </div>
     </section>

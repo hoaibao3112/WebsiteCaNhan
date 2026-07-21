@@ -103,8 +103,8 @@ export default async function TemplateDetailPage({ params }: Props) {
                {/* CTAs */}
                <div className="flex flex-wrap gap-3 pt-2">
                  <Link
-                   href="/quy-trinh#contact"
-                   className="btn-primary text-sm"
+                   href={`/builder/${template.slug}`}
+                   className="btn-primary text-sm animate-pulse-subtle"
                  >
                    Dùng mẫu này ngay
                  </Link>
@@ -115,6 +115,17 @@ export default async function TemplateDetailPage({ params }: Props) {
                     <Eye className="h-4.5 w-4.5" />
                     Xem demo ảnh ({template.demoImages.length})
                   </Link>
+                  {template.liveUrl && (
+                    <a
+                      href={template.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary text-sm flex items-center gap-2 px-6 py-3 cursor-pointer"
+                    >
+                      <ExternalLink className="h-4.5 w-4.5" />
+                      Xem bản thử thực tế
+                    </a>
+                  )}
                </div>
              </div>
  

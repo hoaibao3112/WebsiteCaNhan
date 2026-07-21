@@ -1,156 +1,169 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
-import Magnetic from '@/components/ui/Magnetic';
+import { 
+  ArrowLeft, Monitor, Tablet, Smartphone, Wand2 
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import BuilderCanvas from '@/components/sections/builder/BuilderCanvas';
 
 interface Props {
-  demoImages: string[];
   title: string;
   slug: string;
+  price: string;
+  pbConfig: any;
+  demoImages: string[];
+  image: string;
 }
 
-export default function TemplateDemoClient({ demoImages, title, slug }: Props) {
-  const router = useRouter();
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function TemplateDemoClient({ title, slug, price, pbConfig, demoImages, image }: Props) {
+  const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
-  const handleNext = () => {
-    if (demoImages.length > 1) {
-      setActiveIndex((prev) => (prev + 1) % demoImages.length);
+  // Format price helper
+  const renderPriceLabel = () => {
+    const numPrice = parseFloat(price);
+    if (isNaN(numPrice) || numPrice === 0) {
+      return 'Miễn phí';
     }
+    return `$${numPrice.toFixed(2)}`;
   };
 
-  const handlePrev = () => {
-    if (demoImages.length > 1) {
-      setActiveIndex((prev) => (prev - 1 + demoImages.length) % demoImages.length);
-    }
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
-        handleNext();
-      } else if (e.key === 'ArrowLeft') {
-        handlePrev();
-      } else if (e.key === 'Escape') {
-        router.push(`/giao-dien-mau/${slug}`);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [demoImages, slug]);
-
-  if (!demoImages || demoImages.length === 0) return null;
+  const hasLiveConfig = pbConfig && typeof pbConfig === 'object' && Object.keys(pbConfig).length > 0;
 
   return (
-    <div className="min-h-screen bg-[#f8fafb] flex flex-col items-center relative select-none">
-      {/* Floating Header Actions (Back button & Page tabs) */}
-      <div className="fixed top-6 left-6 right-6 z-50 flex items-center justify-between pointer-events-none">
-        {/* Back Link */}
-        <div className="pointer-events-auto">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col relative select-none">
+      
+      {/* 1. Mockup Header Bar (mimicking Tempi.vn mockup header) */}
+      <header className="h-16 w-full bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm z-50 sticky top-0">
+        
+        {/* Left: Back Link */}
+        <div className="flex items-center gap-3">
           <Link
-            href={`/giao-dien-mau/${slug}`}
-            className="flex items-center gap-2 px-5 py-3 bg-white/70 hover:bg-white/90 text-[#0f0f0f] rounded-full shadow-[0_12px_40px_rgba(0,102,114,0.12)] border border-white/50 hover:scale-105 transition-all text-sm font-bold backdrop-blur-xl cursor-pointer"
+            href={`/giao-dien-mau`}
+            className="p-2 hover:bg-gray-100 text-gray-500 hover:text-gray-900 rounded-xl transition-colors flex items-center justify-center cursor-pointer"
+            title="Quay lại thư viện"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Quay lại chi tiết
+            <ArrowLeft className="h-5 w-5" />
+          </Link>
+          <span className="font-extrabold text-sm text-gray-800 line-clamp-1 max-w-[200px] md:max-w-xs">
+            {title}
+          </span>
+        </div>
+
+        {/* Center: Responsive Viewport Toggles */}
+        <div className="flex items-center gap-1.5 bg-gray-100 p-1 rounded-xl">
+          <button
+            type="button"
+            onClick={() => setViewport('desktop')}
+            className={cn(
+              'p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center',
+              viewport === 'desktop'
+                ? 'bg-white text-[#006672] shadow-sm'
+                : 'text-gray-400 hover:text-gray-700'
+            )}
+            title="Giao diện máy tính"
+          >
+            <Monitor className="h-4.5 w-4.5" />
+          </button>
+          
+          <button
+            type="button"
+            onClick={() => setViewport('tablet')}
+            className={cn(
+              'p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center',
+              viewport === 'tablet'
+                ? 'bg-white text-[#006672] shadow-sm'
+                : 'text-gray-400 hover:text-gray-700'
+            )}
+            title="Giao diện máy tính bảng"
+          >
+            <Tablet className="h-4.5 w-4.5" />
+          </button>
+          
+          <button
+            type="button"
+            onClick={() => setViewport('mobile')}
+            className={cn(
+              'p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center',
+              viewport === 'mobile'
+                ? 'bg-white text-[#006672] shadow-sm'
+                : 'text-gray-400 hover:text-gray-700'
+            )}
+            title="Giao diện điện thoại"
+          >
+            <Smartphone className="h-4.5 w-4.5" />
+          </button>
+        </div>
+
+        {/* Right: Price & CTA to launch builder */}
+        <div className="flex items-center gap-4">
+          <div className="text-right hidden sm:block">
+            <span className="text-xs font-bold text-gray-400 block uppercase tracking-wider">
+              Giá Mẫu
+            </span>
+            <span className="text-sm font-extrabold text-[#006672]">
+              {renderPriceLabel()}
+            </span>
+          </div>
+
+          <Link
+            href={`/builder/${slug}`}
+            className="flex items-center gap-2 bg-[#a855f7] hover:bg-[#9333ea] text-white px-5 py-2.5 rounded-xl font-extrabold text-xs shadow-md shadow-purple-200 hover:scale-[1.02] active:scale-95 transition-all text-center uppercase tracking-wider"
+          >
+            <Wand2 className="h-3.5 w-3.5" />
+            Tạo website
           </Link>
         </div>
+      </header>
 
-        {/* Page Switcher Tabs */}
-        {demoImages.length > 1 && (
-          <div className="pointer-events-auto flex items-center gap-1.5 p-1.5 bg-white/70 backdrop-blur-xl rounded-full border border-white/50 shadow-[0_12px_40px_rgba(0,102,114,0.12)]">
-            {demoImages.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setActiveIndex(i)}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
-                  activeIndex === i
-                    ? 'bg-[#006672] text-white shadow-[0_4px_12px_rgba(0,102,114,0.25)] scale-105'
-                    : 'text-[#374151] hover:text-[#006672] hover:bg-white/40'
-                }`}
-              >
-                Trang {i + 1}
-              </button>
-            ))}
+      {/* 2. Responsive Render Viewport Workspace */}
+      <main className="flex-1 overflow-y-auto w-full flex justify-center items-start bg-[#f0f2f5] py-8 px-4">
+        
+        <div
+          className={cn(
+            'transition-all duration-300 ease-in-out bg-white overflow-hidden shadow-2xl border border-gray-200/50',
+            viewport === 'desktop' && 'w-full max-w-[1280px] rounded-2xl',
+            viewport === 'tablet' && 'w-[768px] rounded-2xl min-h-[1024px]',
+            viewport === 'mobile' && 'w-[375px] rounded-[32px] min-h-[812px] border-[6px] border-gray-800'
+          )}
+        >
+          {/* Inner scrolling device viewport frame */}
+          <div className="w-full h-full">
+            {hasLiveConfig ? (
+              // Renders live canvas from database configs
+              <BuilderCanvas
+                pbConfig={pbConfig}
+                selectedId={null}
+                allowEdit={false}
+              />
+            ) : (
+              // Static Fallback Images if pbConfig is absent
+              <div className="flex flex-col items-center">
+                {demoImages && demoImages.length > 0 ? (
+                  demoImages.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`${title} Preview ${i + 1}`}
+                      className="w-full h-auto block select-none pointer-events-none"
+                      loading="lazy"
+                    />
+                  ))
+                ) : (
+                  <img
+                    src={image}
+                    alt={title}
+                    className="w-full h-auto block select-none pointer-events-none"
+                    loading="eager"
+                  />
+                )}
+              </div>
+            )}
           </div>
-        )}
-
-        {/* Empty placeholder to balance flex row on desktop */}
-        <div className="w-[145px] hidden sm:block pointer-events-none" />
-      </div>
-
-      {/* Main Single Image Viewer Area */}
-      <div className="w-full flex-1 flex justify-center items-start pt-28 pb-10 relative group">
-        {/* Left Arrow Button */}
-        {demoImages.length > 1 && (
-          <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden md:block">
-            <Magnetic>
-              <button
-                type="button"
-                onClick={handlePrev}
-                className="w-14 h-14 bg-white/95 hover:bg-white text-[#0f0f0f] rounded-full shadow-2xl border border-[#e2ecec] flex items-center justify-center transition-all hover:scale-110 cursor-pointer backdrop-blur-md"
-                aria-label="Ảnh trước"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-            </Magnetic>
-          </div>
-        )}
-
-        {/* The Image Wrapper Container */}
-        <div className="w-full max-w-[1600px] mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden border border-[#e2ecec]">
-          <img
-            src={demoImages[activeIndex]}
-            alt={`${title} Screen ${activeIndex + 1}`}
-            className="w-full h-auto block select-none pointer-events-none"
-            loading="eager"
-          />
         </div>
+      </main>
 
-        {/* Right Arrow Button */}
-        {demoImages.length > 1 && (
-          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:block">
-            <Magnetic>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="w-14 h-14 bg-white/95 hover:bg-white text-[#0f0f0f] rounded-full shadow-2xl border border-[#e2ecec] flex items-center justify-center transition-all hover:scale-110 cursor-pointer backdrop-blur-md"
-                aria-label="Ảnh sau"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </Magnetic>
-          </div>
-        )}
-      </div>
-
-      {/* Floating control bar for Mobile devices */}
-      {demoImages.length > 1 && (
-        <div className="fixed bottom-6 z-40 md:hidden flex items-center gap-6 px-6 py-3 bg-white/95 backdrop-blur-md rounded-full border border-[#e2ecec] shadow-2xl">
-          <button
-            type="button"
-            onClick={handlePrev}
-            className="text-sm font-extrabold text-[#6b7280] hover:text-[#006672] transition-colors"
-          >
-            Trước
-          </button>
-          <span className="text-xs font-mono font-bold text-[#374151]">
-            {activeIndex + 1} / {demoImages.length}
-          </span>
-          <button
-            type="button"
-            onClick={handleNext}
-            className="text-sm font-extrabold text-[#6b7280] hover:text-[#006672] transition-colors"
-          >
-            Sau
-          </button>
-        </div>
-      )}
     </div>
   );
 }

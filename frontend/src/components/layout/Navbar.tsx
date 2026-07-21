@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/du-an', label: 'Dự án' },
   { href: '/dich-vu', label: 'Dịch vụ' },
   { href: '/giao-dien-mau', label: 'Giao diện mẫu' },
+  { href: '/bang-gia', label: '🔥 Bảng giá' },
   { href: '/quy-trinh', label: 'Quy trình' },
 ];
 

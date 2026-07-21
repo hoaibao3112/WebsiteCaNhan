@@ -20,6 +20,9 @@ function mapTemplate(t: any): Template {
     tags: t.tags || [],
     features: t.features || [],
     demoImages: t.demoImages || [],
+    liveUrl: t.liveUrl || null,
+    pbConfig: t.pbConfig || null,
+    price: t.price ? parseFloat(t.price) : 0,
   };
 }
 

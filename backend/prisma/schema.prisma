@@ -19,10 +19,24 @@ model Template {
   features    String[]
   price       Decimal  @db.Decimal(12, 2)
   isActive    Boolean  @default(true)
+  liveUrl     String?
+  pbConfig    Json?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([category])
   @@index([isActive])
+  @@index([slug])
+}
+
+model CustomPage {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  templateId  String
+  pbConfig    Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@index([slug])
 }
