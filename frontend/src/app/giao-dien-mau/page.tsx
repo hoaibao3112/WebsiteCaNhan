@@ -29,17 +29,17 @@ export default async function TemplateLibraryPage() {
 
       {/* Hero */}
       <section
-        className="section-padding"
+        className="pt-6 sm:pt-10 pb-16"
         style={{ background: 'linear-gradient(to bottom, #f4f9f9, white)' }}
       >
-        <div className="container-lumina">
-          <div className="text-center max-w-3xl mx-auto mb-14 animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl font-black text-[#0f0f0f] leading-tight mb-4">
+        <div className="container-lumina w-full flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center text-center max-w-3xl w-full mx-auto mb-10 animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0f0f0f] leading-tight mb-3 text-center">
               Thư viện{' '}
               <span className="text-[#006672]">Premium</span>
             </h1>
-            <p className="text-[#6b7280] text-base leading-relaxed">
-              Khám phá bộ sưu tập các giao diện website cao cấp được thiết kế tỉ mỉ, tối ưu chuyển đổi và sẵn sàng để tuỳ biến cho thương hiệu của bạn. Sự kết hợp hoàn hảo giữa thẩm mỹ hiện đại và hiệu suất vượt trội.
+            <p className="text-[#6b7280] text-sm sm:text-base leading-relaxed text-center max-w-2xl">
+              Khám phá bộ sưu tập các giao diện website cao cấp được thiết kế tỉ mỉ, tối ưu chuyển đổi và sẵn sàng để tuỳ biến cho thương hiệu của bạn.
             </p>
           </div>
 

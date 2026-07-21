@@ -20,32 +20,32 @@ const plans = [
       { label: 'Bảo mật nâng cao', ok: false },
     ],
     cta: 'Chọn gói này',
-    href: '/quy-trinh#contact',
+    href: 'https://zalo.me/0374170367',
   },
   {
-    name: 'DOANH NGHIỆP',
-    subtitle: 'Tối ưu cho doanh nghiệp vừa và nhỏ.',
-    price: '$2,499',
-    period: '/dự án',
+    name: 'Pro',
+    subtitle: 'Cho doanh nghiệp vừa & nhỏ',
+    price: '24.990.000₫',
+    period: 'trọn gói',
     featured: true,
     badge: 'Phổ biến nhất',
     features: [
-      { label: 'Website (5–10 trang)', ok: true },
-      { label: 'Responsive đa thiết bị', ok: true },
-      { label: 'Thiết kế Figma tuỳ chỉnh', ok: true },
-      { label: 'Hệ thống CMS quản trị', ok: true },
-      { label: 'Tối ưu SEO On-page', ok: true },
-      { label: 'Train quản trị website', ok: true },
-      { label: 'Hỗ trợ 3 tháng sau bàn giao', ok: true },
-      { label: 'Tích hợp thanh toán', ok: false },
+      { label: 'Giao diện thiết kế theo yêu cầu', ok: true },
+      { label: 'Lên tới 10 trang nội dung', ok: true },
+      { label: 'Tối ưu chuẩn SEO On-page', ok: true },
+      { label: 'Tích hợp CMS quản trị bài viết', ok: true },
+      { label: 'Form liên hệ + Zalo / Facebook', ok: true },
+      { label: 'Hỗ trợ kỹ thuật 12 tháng', ok: true },
+      { label: 'Tốc độ load dưới 1.5 giây', ok: true },
+      { label: 'Bảo mật SSL + Backup tự động', ok: true },
     ],
-    cta: 'Chọn gói này',
-    href: '/quy-trinh#contact',
+    cta: 'Bắt đầu ngay',
+    href: 'https://zalo.me/0374170367',
   },
   {
-    name: 'CAO CẤP',
-    subtitle: 'Giải pháp toàn diện cho doanh nghiệp lớn.',
-    price: 'Tuỳ chỉnh',
+    name: 'Enterprise',
+    subtitle: 'Giải pháp thương mại & ứng dụng lớn',
+    price: 'Liên hệ',
     period: '',
     featured: false,
     features: [
@@ -59,7 +59,7 @@ const plans = [
       { label: 'Tích hợp AI / tự động hoá', ok: true },
     ],
     cta: 'Liên hệ tư vấn',
-    href: '/quy-trinh#contact',
+    href: 'https://zalo.me/0374170367',
   },
 ];
 
@@ -164,8 +164,10 @@ export default function PricingSection() {
               </div>
 
               {/* CTA */}
-              <Link
+              <a
                 href={plan.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`block text-center py-4 px-8 rounded-full font-bold text-base transition-all duration-200 mt-auto ${
                   plan.featured
                     ? 'bg-white text-[#006672] hover:bg-[#f0f7f8] shadow-md'
@@ -173,7 +175,7 @@ export default function PricingSection() {
                 }`}
               >
                 {plan.cta}
-              </Link>
+              </a>
             </div>
             </FadeInView>
           ))}

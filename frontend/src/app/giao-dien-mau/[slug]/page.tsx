@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CheckCircle, ExternalLink, ArrowLeft, Layers, Smartphone, Sparkles, Check, Eye } from 'lucide-react';
+import { CheckCircle2, ExternalLink, ArrowLeft, Layers, Smartphone, Sparkles, Check, Eye, Zap, ShieldCheck, Wand2 } from 'lucide-react';
 import { backendTemplatesService } from '@/services/templates.service';
 
 export const revalidate = 86400; // ISR 24 hours
@@ -158,40 +158,125 @@ export default async function TemplateDetailPage({ params }: Props) {
       </section>
 
       {/* Feature cards section */}
-      <section className="section-padding bg-zinc-50 border-y border-[#f0e8e8]">
-        <div className="container-lumina">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-black text-[#0f0f0f]">
-              Tính năng nổi bật
+      <section className="py-20 sm:py-28 bg-[#fafbfc] border-y border-[#e2ecec]">
+        <div className="container-lumina max-w-[1340px] mx-auto px-4 sm:px-8 flex flex-col items-center">
+          <div className="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#006672]/10 text-[#006672] font-black text-xs uppercase tracking-wider mb-3">
+              <Sparkles className="size-3.5" />
+              Đặc Quyền Giao Diện Premium
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0f0f0f] leading-tight text-center">
+              Tính Năng Nổi Bật & Tối Ưu Tối Đa
             </h2>
-            <p className="mt-2 text-sm text-[#6b7280]">
-              Mọi tính năng được chăm chút để đem lại hiệu suất tốt nhất.
+            <p className="mt-4 text-sm sm:text-base text-[#6b7280] leading-relaxed text-center max-w-2xl">
+              Mọi mẫu website tại KABO Agency đều được thiết kế tỉ mỉ, tích hợp chuẩn hóa công nghệ mới nhất để mang lại hiệu suất kinh doanh vượt trội.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featureCards.map((feat) => (
-              <div key={feat.number} className="card-lumina p-8 bg-white flex flex-col gap-4">
-                <span className="text-3xl font-black text-[#006672]/20">{feat.number}</span>
-                <h3 className="text-lg font-bold text-[#0f0f0f]">{feat.title}</h3>
-                <p className="text-sm text-[#6b7280] leading-relaxed">{feat.desc}</p>
-              </div>
-            ))}
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-14">
+            {[
+              {
+                icon: Sparkles,
+                color: 'text-[#006672]',
+                bgColor: 'bg-[#006672]/10 border-[#006672]/20',
+                title: 'Giao Diện Chuẩn UI/UX Quốc Tế',
+                desc: 'Thiết kế tinh tế, màu sắc hài hòa và bố cục chuẩn mực mang lại trải nghiệm thị giác ấn tượng, thu hút khách hàng ngay từ ánh nhìn đầu tiên.',
+                badge: 'Thiết kế độc quyền',
+              },
+              {
+                icon: Zap,
+                color: 'text-amber-600',
+                bgColor: 'bg-amber-500/10 border-amber-500/20',
+                title: 'Tối Ưu Tốc Độ Load Dưới 1s',
+                desc: 'Mã nguồn sạch, nén hình ảnh chuẩn WebP/AVIF giúp website tải tức thì, đạt điểm tối đa Google PageSpeed Insights.',
+                badge: 'PageSpeed 99/100',
+              },
+              {
+                icon: Smartphone,
+                color: 'text-indigo-600',
+                bgColor: 'bg-indigo-500/10 border-indigo-500/20',
+                title: 'Tương Thích Mobile 100%',
+                desc: 'Hiển thị hoàn hảo và mượt mà trên mọi thiết bị: iPhone, Android, Tablet, Macbook cho đến màn hình PC 4K.',
+                badge: 'Fully Responsive',
+              },
+              {
+                icon: ShieldCheck,
+                color: 'text-emerald-600',
+                bgColor: 'bg-emerald-500/10 border-emerald-500/20',
+                title: 'Chuẩn SEO Google & Tăng CTR',
+                desc: 'Tích hợp sẵn cấu trúc thẻ Heading, Meta Tags, OpenGraph, Schema Markup giúp từ khóa của bạn nhanh chóng thăng hạng Top Google.',
+                badge: 'Google SEO Ready',
+              },
+              {
+                icon: Layers,
+                color: 'text-blue-600',
+                bgColor: 'bg-blue-500/10 border-blue-500/20',
+                title: 'Đầy Đủ Các Trang & Form Đăng Ký',
+                desc: 'Trang chủ, Giới thiệu, Sản phẩm/Dịch vụ, Bài viết tin tức và Form nhận tư vấn kết nối trực tiếp với Zalo / Hotline.',
+                badge: 'Trọn gói tính năng',
+              },
+              {
+                icon: Wand2,
+                color: 'text-purple-600',
+                bgColor: 'bg-purple-500/10 border-purple-500/20',
+                title: 'Dễ Dàng Tùy Biến Theo Yêu Cầu',
+                desc: 'Đội ngũ KABO Agency hỗ trợ tùy chỉnh màu sắc, logo, hình ảnh, văn bản và bố cục theo chính xác nhận diện thương hiệu của bạn.',
+                badge: 'Hỗ trợ 24/7',
+              },
+            ].map((feat, i) => {
+              const IconComp = feat.icon;
+              return (
+                <div
+                  key={i}
+                  className="group relative p-8 sm:p-10 rounded-3xl bg-white border border-[#e5e7eb] hover:border-[#006672]/30 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center justify-between"
+                >
+                  <div className="flex flex-col items-center w-full">
+                    {/* Top Icon & Badge */}
+                    <div className="flex flex-col items-center gap-3 mb-6">
+                      <div className={`p-4.5 rounded-2xl border ${feat.bgColor} transition-transform group-hover:scale-110 duration-300 shadow-sm`}>
+                        <IconComp className={`size-7 ${feat.color}`} />
+                      </div>
+                      <span className="text-[11px] font-extrabold px-3.5 py-1 rounded-full bg-[#f3f4f6] text-[#4b5563] group-hover:bg-[#006672] group-hover:text-white transition-colors">
+                        {feat.badge}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-black text-[#0f0f0f] group-hover:text-[#006672] transition-colors mb-3 leading-snug text-center">
+                      {feat.title}
+                    </h3>
+                    <p className="text-sm text-[#6b7280] leading-relaxed text-center">
+                      {feat.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-6 mt-6 border-t border-[#f3f4f6] w-full flex items-center justify-center gap-2 text-xs font-extrabold text-[#006672]">
+                    <CheckCircle2 className="size-4 text-emerald-500" />
+                    <span>Đã được kiểm định chất lượng</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Core Checklists */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mt-12 pt-8 border-t border-zinc-200">
-            {[
-              { text: 'Thiết kế chuẩn UI/UX' },
-              { text: 'Hiệu năng và tốc độ tối ưu' },
-              { text: 'Responsive 100% các thiết bị' },
-              { text: 'Tích hợp đầy đủ các trang' },
-            ].map((item) => (
-              <div key={item.text} className="flex items-center gap-3">
-                <Check className="h-5 w-5 text-[#006672] shrink-0" />
-                <span className="text-sm font-semibold text-[#374151]">{item.text}</span>
+          {/* Bottom Commitment Banner */}
+          <div className="mt-16 w-full p-6 sm:p-10 rounded-3xl bg-gradient-to-r from-[#006672] to-[#004d56] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="flex items-center gap-5 text-center sm:text-left">
+              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md shrink-0">
+                <Sparkles className="size-8 text-amber-300" />
               </div>
-            ))}
+              <div>
+                <h4 className="text-xl font-black">Bàn giao Full Nguồn Code & Tên Miền</h4>
+                <p className="text-xs sm:text-sm text-white/80 mt-1">Đã bao gồm cấu hình hosting, bảo mật SSL và hướng dẫn quản trị chi tiết.</p>
+              </div>
+            </div>
+            <a
+              href="https://zalo.me/0374170367"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 bg-white text-[#006672] hover:bg-amber-300 hover:text-[#0f0f0f] rounded-2xl font-black text-sm whitespace-nowrap shadow-xl transition-all"
+            >
+              Tư Vấn & Báo Giá Ngay →
+            </a>
           </div>
         </div>
       </section>
@@ -246,9 +331,14 @@ export default async function TemplateDetailPage({ params }: Props) {
           <p className="text-[#6b7280] text-sm mb-8 max-w-md mx-auto">
             Hãy liên hệ ngay để nhận tư vấn miễn phí từ đội ngũ thiết kế của chúng tôi.
           </p>
-          <Link href="/quy-trinh#contact" className="btn-primary text-base px-8 py-4">
+          <a
+            href="https://zalo.me/0374170367"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-base px-8 py-4"
+          >
             Nhận tư vấn ngay →
-          </Link>
+          </a>
         </div>
       </section>
     </div>

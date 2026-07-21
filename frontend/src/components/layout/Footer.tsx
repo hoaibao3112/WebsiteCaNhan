@@ -34,6 +34,13 @@ const footerLinks = [
 
 const socials = [
   {
+    label: 'Zalo',
+    href: 'https://zalo.me/0374170367',
+    icon: (
+      <span className="font-extrabold text-xs tracking-wider">ZALO</span>
+    ),
+  },
+  {
     label: 'Facebook',
     href: 'https://www.facebook.com/tran.bao.28897',
     icon: (
@@ -89,12 +96,14 @@ export default function Footer() {
                 Biến ý tưởng thành <span className="text-[#ca8a04]">website thực tế</span>
               </h3>
             </div>
-            <Link
-              href="/quy-trinh#contact"
+            <a
+              href="https://zalo.me/0374170367"
+              target="_blank"
+              rel="noopener noreferrer"
               className="shrink-0 inline-flex items-center gap-2 bg-[#006672] hover:bg-[#004d56] text-white font-bold text-sm px-6 py-3 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,102,114,0.4)]"
             >
               Nhận tư vấn miễn phí →
-            </Link>
+            </a>
           </div>
         </div>
       </div>

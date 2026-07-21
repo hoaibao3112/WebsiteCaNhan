@@ -326,6 +326,26 @@ export default function ContactForm() {
         </p>
       )}
 
+      {/* Direct Contact Buttons (Zalo / Facebook) */}
+      <div className="pt-3 border-t border-[#e2ecec] mt-2 flex flex-col sm:flex-row gap-3">
+        <a
+          href="https://zalo.me/0374170367"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 bg-[#0068ff] hover:bg-[#0052cc] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+        >
+          <span>Chat Zalo (0374 170 367)</span>
+        </a>
+        <a
+          href="https://www.facebook.com/tran.bao.28897"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 bg-[#1877f2] hover:bg-[#165ebc] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+        >
+          <span>Facebook Cá Nhân</span>
+        </a>
+      </div>
+
       <p className="text-center text-xs text-[#3d494b] opacity-70">
         Thông tin của bạn được bảo mật tuyệt đối và chỉ dùng để liên lạc tư vấn.
       </p>

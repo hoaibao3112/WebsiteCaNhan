@@ -277,13 +277,15 @@ export default function PricingPage() {
                   </div>
 
                   {/* Bottom CTA Button */}
-                  <Link
-                    href="/quy-trinh#contact"
+                  <a
+                    href="https://zalo.me/0374170367"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`w-full py-3.5 rounded-2xl text-xs font-extrabold text-center transition-all duration-200 flex items-center justify-center gap-2 mt-auto ${plan.buttonClass}`}
                   >
                     {plan.buttonText}
                     <ArrowRight className="size-3.5" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             ))}
@@ -384,12 +386,14 @@ export default function PricingPage() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-indigo-100">
-                <Link
-                  href="/quy-trinh#contact"
+                <a
+                  href="https://zalo.me/0374170367"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-xs font-bold text-[#6366f1] hover:text-[#4f46e5] flex items-center gap-1"
                 >
                   Yêu cầu tư vấn tính năng riêng →
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -451,13 +455,15 @@ export default function PricingPage() {
             Bắt đầu tạo website ngay hôm nay. Hỗ trợ thiết kế, cấu hình tên miền và tối ưu SEO trọn gói.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Link
-              href="/quy-trinh#contact"
+            <a
+              href="https://zalo.me/0374170367"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-[#4f46e5] hover:bg-indigo-50 font-extrabold py-4 px-8 rounded-2xl text-sm transition-all duration-200 shadow-xl shadow-black/10 flex items-center justify-center gap-2"
             >
               Liên hệ tư vấn ngay
               <ArrowRight className="size-4" />
-            </Link>
+            </a>
             <Link
               href="/giao-dien-mau"
               className="border-2 border-white/40 hover:border-white text-white font-extrabold py-4 px-8 rounded-2xl text-sm transition-all duration-200"

@@ -85,12 +85,14 @@ export default function Navbar() {
             >
               0374 170 367
             </a>
-            <Link
-              href="/quy-trinh#contact"
+            <a
+              href="https://zalo.me/0374170367"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary text-sm py-2.5 px-5 gap-1.5"
             >
               Nhận báo giá <ArrowRight className="size-3.5" />
-            </Link>
+            </a>
           </div>
 
           {/* ── Mobile Toggle ── */}
@@ -131,12 +133,14 @@ export default function Navbar() {
             <a href="tel:+84374170367" className="flex items-center justify-center gap-2 text-sm text-center text-[#6b7280] font-medium py-2 hover:text-[#006672] transition-colors">
               <Phone className="size-4" /> 0374 170 367
             </a>
-            <Link
-              href="/quy-trinh#contact"
+            <a
+              href="https://zalo.me/0374170367"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary w-full justify-center text-sm"
             >
               Nhận báo giá miễn phí
-            </Link>
+            </a>
           </div>
         </div>
       </div>

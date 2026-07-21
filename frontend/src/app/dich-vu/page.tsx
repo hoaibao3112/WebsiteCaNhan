@@ -181,9 +181,14 @@ export default async function ServicesPage() {
           <p className="text-[#6b7280] text-sm mb-8">
             Liên hệ ngay để nhận tư vấn miễn phí và báo giá chi tiết trong 24 giờ.
           </p>
-          <Link href="/quy-trinh#contact" className="btn-primary text-base px-8 py-4">
+          <a
+            href="https://zalo.me/0374170367"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-base px-8 py-4"
+          >
             Nhận báo giá miễn phí →
-          </Link>
+          </a>
         </div>
       </section>
     </div>

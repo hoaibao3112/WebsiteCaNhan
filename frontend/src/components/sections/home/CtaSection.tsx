@@ -71,7 +71,12 @@ export default function CtaSection() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                <Link href="/quy-trinh#contact" className="btn-primary text-base px-8 py-4 gap-2 w-full sm:w-auto justify-center">
+                <a
+                  href="https://zalo.me/0374170367"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary text-base px-8 py-4 gap-2 w-full sm:w-auto justify-center"
+                >
                   Nhận báo giá miễn phí
                   <motion.span
                     animate={{ x: [0, 4, 0] }}
@@ -79,7 +84,7 @@ export default function CtaSection() {
                   >
                     <ArrowRight className="size-5" />
                   </motion.span>
-                </Link>
+                </a>
               </motion.div>
 
               <motion.div
@@ -87,8 +92,8 @@ export default function CtaSection() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                <a href="tel:+84123456789" className="btn-secondary text-base px-8 py-4 gap-2 w-full sm:w-auto justify-center">
-                  <Phone className="size-5" /> Gọi tư vấn ngay
+                <a href="tel:+84374170367" className="btn-secondary text-base px-8 py-4 gap-2 w-full sm:w-auto justify-center">
+                  <Phone className="size-5" /> Gọi tư vấn ngay (0374 170 367)
                 </a>
               </motion.div>
             </div>
