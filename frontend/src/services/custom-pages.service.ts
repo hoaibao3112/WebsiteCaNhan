@@ -9,7 +9,7 @@ export const customPagesService = {
         headers: {
           'x-api-key': env.API_KEY,
         },
-        cache: 'no-store', // Always fetch fresh page builder data
+        next: { revalidate: 60 }, // Cache and revalidate every 60s for high performance
       });
 
       if (!res.ok) {
@@ -18,7 +18,10 @@ export const customPagesService = {
       }
 
       return await res.json();
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.digest === 'DYNAMIC_SERVER_USAGE') {
+        throw error;
+      }
       console.error('Error fetching custom page:', error);
       return null;
     }
