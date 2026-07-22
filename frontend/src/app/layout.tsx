@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     title: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp — May Đo Giao Diện Chuẩn SEO',
     description: 'Kho +100 giao diện website cao cấp, thiết kế trọn gói chuẩn SEO Google.',
   },
+  verification: {
+    google: '6630c178e9553708',
+  },
   robots: {
     index: true,
     follow: true,
