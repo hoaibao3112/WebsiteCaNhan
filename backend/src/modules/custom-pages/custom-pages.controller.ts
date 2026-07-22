@@ -9,7 +9,7 @@ export class CustomPagesController {
   constructor(private readonly customPagesService: CustomPagesService) {}
 
   @Post()
-  async createCustomPage(@Body() body: any) {
+  async createCustomPage(@Body() body: unknown) {
     const validation = createCustomPageSchema.safeParse(body);
     if (!validation.success) {
       throw new BadRequestException({
@@ -17,15 +17,8 @@ export class CustomPagesController {
         details: validation.error.flatten().fieldErrors,
       });
     }
-
-    try {
-      return await this.customPagesService.create(validation.data);
-    } catch (error) {
-      throw new BadRequestException({
-        message: 'Failed to create custom page (possibly duplicate slug)',
-        details: error instanceof Error ? error.message : String(error),
-      });
-    }
+    // Không catch ở đây — để AllExceptionsFilter bắt P2002 → 409 Conflict
+    return this.customPagesService.create(validation.data);
   }
 
   @Get(':slug')
@@ -38,7 +31,7 @@ export class CustomPagesController {
   }
 
   @Put(':slug')
-  async updateCustomPage(@Param('slug') slug: string, @Body() body: any) {
+  async updateCustomPage(@Param('slug') slug: string, @Body() body: unknown) {
     const validation = updateCustomPageSchema.safeParse(body);
     if (!validation.success) {
       throw new BadRequestException({
@@ -46,14 +39,7 @@ export class CustomPagesController {
         details: validation.error.flatten().fieldErrors,
       });
     }
-
-    try {
-      return await this.customPagesService.update(slug, validation.data);
-    } catch (error) {
-      throw new BadRequestException({
-        message: 'Failed to update custom page',
-        details: error instanceof Error ? error.message : String(error),
-      });
-    }
+    // Không catch ở đây — để filter xử lý Prisma errors
+    return this.customPagesService.update(slug, validation.data);
   }
 }

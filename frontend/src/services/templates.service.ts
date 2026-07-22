@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { env } from '@/config/env.validation';
 import type { Template } from '@/types';
 import { templates as mockTemplates } from '@/data/templates';
@@ -23,81 +25,120 @@ const AGENCY_IMAGES = [
   'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
 ];
 
+// Deterministic hash từ string — thay thế Math.random() để tránh SSR hydration mismatch
+function hashString(str: string): number {
+  return Array.from(str).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+}
+
+const CATEGORY_KEYWORD_MAP: Array<{ keywords: string[]; image: string }> = [
+  {
+    keywords: ['tiệc cưới', 'thiệp cưới', 'đám cưới', 'iwedding'],
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
+  },
+  {
+    keywords: ['portfolio', 'profile', 'cá nhân', 'cv'],
+    image: PORTFOLIO_IMAGES[0], // fallback — sẽ được override bằng numId bên dưới nếu cần
+  },
+  {
+    keywords: ['tài chính', 'luật', 'đầu tư', 'ngân hàng'],
+    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80',
+  },
+  {
+    keywords: ['thời trang', 'mẹ & bé', 'mẹ và bé', 'phụ kiện', 'kính mắt', 'bán lẻ', 'shop', 'store'],
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+  },
+  {
+    keywords: ['mỹ phẩm', 'làm đẹp', 'beauty'],
+    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+  },
+  {
+    keywords: ['spa', 'chăm sóc sức khoẻ', 'sức khoẻ', 'nha khoa', 'phòng khám', 'thú cưng', 'làm tóc'],
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80',
+  },
+  {
+    keywords: ['nhà hàng', 'bar', 'pub', 'club', 'trà', 'cà phê', 'tiệm bánh', 'nước uống', 'đồ uống', 'ăn uống'],
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
+  },
+  {
+    keywords: ['bất động sản', 'villa', 'homestay', 'khách sạn', 'nội thất', 'xây dựng', 'co-working'],
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+  },
+  {
+    keywords: ['phần mềm', 'app', 'saas', 'công nghệ', 'điện tử'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+  },
+  {
+    keywords: ['du lịch', 'nghỉ dưỡng', 'khám phá', 'leo núi'],
+    image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
+  },
+  {
+    keywords: ['gym', 'yoga', 'thể thao'],
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
+  },
+  {
+    keywords: ['agency', 'marketing', 'coaching', 'tư vấn'],
+    image: AGENCY_IMAGES[0],
+  },
+  {
+    keywords: ['quà tết', 'hoa', 'tâm linh', 'gốm'],
+    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80',
+  },
+  {
+    keywords: ['vận tải', 'logistics', 'xe máy'],
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+  },
+  {
+    keywords: ['cây cảnh', 'nông nghiệp', 'chăn nuôi', 'carbon'],
+    image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80',
+  },
+  {
+    keywords: ['sách', 'khoá học', 'sinh viên', 'tài liệu', 'phi lợi nhuận', 'hội thảo', 'sự kiện'],
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80',
+  },
+];
+
 export function getTemplateCoverImage(title: string, rawImage?: string, id?: string): string {
   if (rawImage && !rawImage.includes('photo-1507238691740-187a5b1d37b8')) {
     return rawImage;
   }
 
   const name = (title || '').toLowerCase();
-  const numId = parseInt(id || '0', 10) || Math.floor(Math.random() * 100);
+  // Dùng hash string thay Math.random() để đảm bảo deterministic trên SSR
+  const numId = parseInt(id || '0', 10) || hashString(title || '');
 
-  if (name.includes('tiệc cưới') || name.includes('thiệp cưới') || name.includes('đám cưới') || name.includes('iwedding')) {
-    return 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80';
-  }
-  if (name.includes('portfolio') || name.includes('profile') || name.includes('cá nhân') || name.includes('cv')) {
+  // Portfolio/CV cần index rotation riêng
+  if (['portfolio', 'profile', 'cá nhân', 'cv'].some((kw) => name.includes(kw))) {
     return PORTFOLIO_IMAGES[numId % PORTFOLIO_IMAGES.length];
   }
-  if (name.includes('agency') || name.includes('marketing') || name.includes('coaching') || name.includes('tư vấn')) {
+
+  // Agency/marketing cần index rotation riêng
+  if (['agency', 'marketing', 'coaching', 'tư vấn'].some((kw) => name.includes(kw))) {
     return AGENCY_IMAGES[numId % AGENCY_IMAGES.length];
   }
-  if (name.includes('tài chính') || name.includes('luật') || name.includes('đầu tư') || name.includes('ngân hàng')) {
-    return 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80';
-  }
-  if (name.includes('thời trang') || name.includes('mẹ & bé') || name.includes('mẹ và bé') || name.includes('phụ kiện') || name.includes('kính mắt') || name.includes('bán lẻ') || name.includes('shop') || name.includes('store')) {
-    return 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80';
-  }
-  if (name.includes('mỹ phẩm') || name.includes('làm đẹp') || name.includes('beauty')) {
-    return 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80';
-  }
-  if (name.includes('spa') || name.includes('chăm sóc sức khoẻ') || name.includes('sức khoẻ') || name.includes('nha khoa') || name.includes('phòng khám') || name.includes('thú cưng') || name.includes('làm tóc')) {
-    return 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80';
-  }
-  if (name.includes('nhà hàng') || name.includes('bar') || name.includes('pub') || name.includes('club') || name.includes('trà') || name.includes('cà phê') || name.includes('tiệm bánh') || name.includes('nước uống') || name.includes('đồ uống') || name.includes('ăn uống')) {
-    return 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';
-  }
-  if (name.includes('bất động sản') || name.includes('villa') || name.includes('homestay') || name.includes('khách sạn') || name.includes('nội thất') || name.includes('xây dựng') || name.includes('co-working')) {
-    return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80';
-  }
-  if (name.includes('phần mềm') || name.includes('app') || name.includes('saas') || name.includes('công nghệ') || name.includes('điện tử')) {
-    return 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80';
-  }
-  if (name.includes('du lịch') || name.includes('nghỉ dưỡng') || name.includes('khám phá') || name.includes('leo núi')) {
-    return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
-  }
-  if (name.includes('gym') || name.includes('yoga') || name.includes('thể thao')) {
-    return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80';
-  }
-  if (name.includes('quà tết') || name.includes('hoa') || name.includes('tâm linh') || name.includes('gốm')) {
-    return 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80';
-  }
-  if (name.includes('vận tải') || name.includes('logistics') || name.includes('xe máy')) {
-    return 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80';
-  }
-  if (name.includes('cây cảnh') || name.includes('nông nghiệp') || name.includes('chăn nuôi') || name.includes('carbon')) {
-    return 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80';
-  }
-  if (name.includes('sách') || name.includes('khoá học') || name.includes('sinh viên') || name.includes('tài liệu') || name.includes('phi lợi nhuận') || name.includes('hội thảo') || name.includes('sự kiện')) {
-    return 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80';
-  }
+
+  const matched = CATEGORY_KEYWORD_MAP.find((item) =>
+    item.keywords.some((kw) => name.includes(kw)),
+  );
+  if (matched) return matched.image;
 
   return AGENCY_IMAGES[numId % AGENCY_IMAGES.length];
 }
 
-function mapTemplate(t: any): Template {
+function mapTemplate(t: Record<string, unknown>): Template {
   return {
-    id: t.id,
-    slug: t.slug,
-    title: t.title,
-    category: t.category,
-    categoryLabel: categoryLabels[t.category] || t.category,
-    description: t.description,
-    image: getTemplateCoverImage(t.title, t.image, t.id),
-    tags: t.tags || [],
-    features: t.features || [],
-    demoImages: t.demoImages || [],
-    liveUrl: t.liveUrl || null,
-    pbConfig: t.pbConfig || null,
-    price: t.price ? parseFloat(t.price) : 0,
+    id: t.id as string,
+    slug: t.slug as string,
+    title: t.title as string,
+    category: t.category as string,
+    categoryLabel: categoryLabels[t.category as string] || (t.category as string),
+    description: t.description as string,
+    image: getTemplateCoverImage(t.title as string, t.image as string | undefined, t.id as string | undefined),
+    tags: (t.tags as string[]) || [],
+    features: (t.features as string[]) || [],
+    demoImages: (t.demoImages as string[]) || [],
+    liveUrl: (t.liveUrl as string | null) || null,
+    pbConfig: (t.pbConfig as Record<string, unknown> | null) || null,
+    price: t.price ? parseFloat(t.price as string) : 0,
   };
 }
 
@@ -105,7 +146,7 @@ export const backendTemplatesService = {
   async getAllTemplates(): Promise<Template[]> {
     try {
       const url = `${env.NEXT_PUBLIC_API_URL}/api/templates?limit=100`;
-      
+
       const res = await fetch(url, {
         headers: {
           'x-api-key': env.API_KEY,
@@ -117,18 +158,21 @@ export const backendTemplatesService = {
         throw new Error(`Failed to fetch templates: ${res.statusText}`);
       }
 
-      const data = await res.json();
+      const data = await res.json() as { templates: Record<string, unknown>[] };
       return (data.templates || []).map(mapTemplate);
     } catch (error) {
-      console.warn('⚠️ [API Fallback] Error fetching templates from backend API, falling back to mock data:', error instanceof Error ? error.message : error);
-      return mockTemplates.map(mapTemplate);
+      console.warn(
+        '⚠️ [API Fallback] Error fetching templates from backend API, falling back to mock data:',
+        error instanceof Error ? error.message : error,
+      );
+      return mockTemplates.map((t) => mapTemplate(t as unknown as Record<string, unknown>));
     }
   },
 
   async getTemplateBySlug(slug: string): Promise<Template | null> {
     try {
       const url = `${env.NEXT_PUBLIC_API_URL}/api/templates/${slug}`;
-      
+
       const res = await fetch(url, {
         headers: {
           'x-api-key': env.API_KEY,
@@ -141,12 +185,15 @@ export const backendTemplatesService = {
         throw new Error(`Failed to fetch template by slug ${slug}: ${res.statusText}`);
       }
 
-      const data = await res.json();
+      const data = await res.json() as Record<string, unknown>;
       return mapTemplate(data);
     } catch (error) {
-      console.warn(`⚠️ [API Fallback] Error fetching template detail for slug '${slug}', falling back to mock data:`, error instanceof Error ? error.message : error);
+      console.warn(
+        `⚠️ [API Fallback] Error fetching template detail for slug '${slug}', falling back to mock data:`,
+        error instanceof Error ? error.message : error,
+      );
       const found = mockTemplates.find((t) => t.slug === slug);
-      return found ? mapTemplate(found) : null;
+      return found ? mapTemplate(found as unknown as Record<string, unknown>) : null;
     }
   },
 };

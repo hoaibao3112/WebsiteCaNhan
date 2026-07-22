@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { env } from '@/config/env.validation';
 import type { CustomPage } from '@/types';
 
@@ -9,7 +11,7 @@ export const customPagesService = {
         headers: {
           'x-api-key': env.API_KEY,
         },
-        next: { revalidate: 60 }, // Cache and revalidate every 60s for high performance
+        next: { revalidate: 60 },
       });
 
       if (!res.ok) {
@@ -17,9 +19,9 @@ export const customPagesService = {
         throw new Error(`Failed to fetch custom page ${slug}: ${res.statusText}`);
       }
 
-      return await res.json();
-    } catch (error: any) {
-      if (error?.digest === 'DYNAMIC_SERVER_USAGE') {
+      return await res.json() as CustomPage;
+    } catch (error: unknown) {
+      if ((error as { digest?: string })?.digest === 'DYNAMIC_SERVER_USAGE') {
         throw error;
       }
       console.error('Error fetching custom page:', error);
@@ -27,7 +29,12 @@ export const customPagesService = {
     }
   },
 
-  async createPage(data: { slug: string; title: string; templateId: string; pbConfig: any }): Promise<CustomPage | null> {
+  async createPage(data: {
+    slug: string;
+    title: string;
+    templateId: string;
+    pbConfig: Record<string, unknown>;
+  }): Promise<CustomPage | null> {
     try {
       const url = `${env.NEXT_PUBLIC_API_URL}/api/custom-pages`;
       const res = await fetch(url, {
@@ -43,14 +50,17 @@ export const customPagesService = {
         throw new Error(`Failed to create custom page: ${res.statusText}`);
       }
 
-      return await res.json();
+      return await res.json() as CustomPage;
     } catch (error) {
       console.error('Error creating custom page:', error);
       return null;
     }
   },
 
-  async updatePage(slug: string, data: { title?: string; pbConfig?: any }): Promise<CustomPage | null> {
+  async updatePage(
+    slug: string,
+    data: { title?: string; pbConfig?: Record<string, unknown> },
+  ): Promise<CustomPage | null> {
     try {
       const url = `${env.NEXT_PUBLIC_API_URL}/api/custom-pages/${slug}`;
       const res = await fetch(url, {
@@ -66,7 +76,7 @@ export const customPagesService = {
         throw new Error(`Failed to update custom page: ${res.statusText}`);
       }
 
-      return await res.json();
+      return await res.json() as CustomPage;
     } catch (error) {
       console.error('Error updating custom page:', error);
       return null;

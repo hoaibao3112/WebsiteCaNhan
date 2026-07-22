@@ -14,7 +14,7 @@ export class TemplatesService {
       isActive: true,
     };
 
-    if (category && category !== 'all' && category !== 'All') {
+    if (category && category !== 'all') {
       whereClause.category = category;
     }
 
@@ -44,16 +44,12 @@ export class TemplatesService {
   }
 
   async findOneBySlug(slug: string) {
-    const template = await this.prisma.template.findUnique({
+    // Dùng findFirst để filter isActive trong DB query — nhất quán với findAll
+    return this.prisma.template.findFirst({
       where: {
         slug,
+        isActive: true,
       },
     });
-
-    if (!template || !template.isActive) {
-      return null;
-    }
-
-    return template;
   }
 }

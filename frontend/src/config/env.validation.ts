@@ -9,7 +9,7 @@ const envSchema = z.object({
   SMTP_PASSWORD: z.string().default('mock_password'),
   DEFAULT_ACCOUNT_ID: z.string().default('lumina-agency-default'),
   NEXT_PUBLIC_API_URL: z.string().default('http://localhost:5000'),
-  API_KEY: z.string().default('studiocanhan_secure_api_key_7799'),
+  API_KEY: z.string().min(1, 'API_KEY is required'),
 });
 
 let parsedEnvCache: z.infer<typeof envSchema> | null = null;
@@ -23,10 +23,9 @@ export function validateEnv(): z.infer<typeof envSchema> {
   const result = envSchema.safeParse(process.env);
 
   if (!result.success) {
-    console.warn('⚠️ Missing or invalid environment variables, using fallbacks:');
-    console.warn(JSON.stringify(result.error.format(), null, 2));
-    // Return parsed result with default fallback values rather than crashing runtime
-    return envSchema.parse({});
+    console.error('❌ Missing required environment variables:');
+    console.error(JSON.stringify(result.error.format(), null, 2));
+    throw new Error('Invalid environment variables. Check logs above.');
   }
 
   return result.data;
