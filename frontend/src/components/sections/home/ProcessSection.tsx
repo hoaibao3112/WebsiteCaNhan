@@ -76,7 +76,6 @@ function StepCard({
             boxShadow: `0 20px 56px ${step.color}22`,
             borderColor: step.color + '60',
           }}
-          transition_hover={{ type: 'spring', stiffness: 300, damping: 22 }}
           className="inline-block group bg-white border border-[#e2ecec] rounded-2xl p-6 shadow-sm text-left cursor-default"
         >
           <div className="flex items-center gap-3 mb-3">

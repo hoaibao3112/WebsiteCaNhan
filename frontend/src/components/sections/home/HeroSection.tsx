@@ -7,10 +7,13 @@ import { motion, useReducedMotion, useInView, useMotionValue, useTransform, anim
 import { useEffect, useRef, useState } from 'react';
 
 const IMAGES = [
-  { src: '/hero-card-1.png', alt: 'Giao diện cửa hàng online KABO' },
-  { src: '/hero-card-2.png', alt: 'Giao diện nhà hàng KABO' },
-  { src: '/hero-card-3.png', alt: 'Giao diện spa KABO' },
-  { src: '/hero-visual.png', alt: 'Nền tảng kéo thả KABO' }
+  { src: '/hero-card-1.png', title: 'Thương mại điện tử Premium', tag: 'E-Commerce' },
+  { src: '/hero-card-2.png', title: 'Nhà hàng & F&B Cao cấp', tag: 'Restaurant' },
+  { src: '/hero-card-3.png', title: 'Spa & Chăm sóc sức khỏe', tag: 'Beauty & Wellness' },
+  { src: '/bento-ai.png', title: 'Thiết kế thông minh với AI', tag: 'AI Powered' },
+  { src: '/hero-visual.png', title: 'Trình dựng kéo thả KABO', tag: 'Drag & Drop' },
+  { src: '/pricing-cover-ecommerce.png', title: 'Shop bán hàng online', tag: 'Online Store' },
+  { src: '/bento-model.png', title: 'Thời trang & Lookbook', tag: 'Fashion' },
 ];
 
 function HeroImageSlider() {
@@ -23,10 +26,15 @@ function HeroImageSlider() {
     setProgress(0);
   };
 
+  const handlePrev = () => {
+    setCurrent((prev) => (prev - 1 + IMAGES.length) % IMAGES.length);
+    setProgress(0);
+  };
+
   // Autoplay and progress bar
   useEffect(() => {
-    const duration = 5000; // 5 seconds per slide
-    const intervalTime = 50; // update progress every 50ms
+    const duration = 4500; // 4.5 seconds per slide
+    const intervalTime = 50;
     const steps = duration / intervalTime;
     let currentStep = 0;
 
@@ -44,57 +52,97 @@ function HeroImageSlider() {
   }, [current]);
 
   return (
-    <div className="relative w-full h-full select-none">
+    <div className="relative w-full h-[420px] sm:h-[480px] select-none flex items-center justify-center">
       {/* Background glow shadow */}
-      <div className="absolute inset-4 rounded-3xl bg-gradient-to-br from-[#6366f1]/20 via-[#a855f7]/15 to-[#06b6d4]/10 blur-2xl" />
+      <div className="absolute inset-4 rounded-3xl bg-gradient-to-br from-[#6366f1]/25 via-[#a855f7]/20 to-[#06b6d4]/15 blur-3xl pointer-events-none" />
 
-      {/* Main Slider Container */}
-      <div
-        className="relative z-10 w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(99,102,241,0.2)] border border-[#e5e7eb] bg-white cursor-pointer"
-        onClick={handleNext}
-      >
-        {/* Render stacked absolute images to prevent blank white flashes during transition */}
-        {IMAGES.map((img, idx) => (
-          <motion.div
-            key={idx}
-            initial={false}
-            animate={{
-              opacity: current === idx ? 1 : 0,
-              scale: current === idx ? 1.025 : 1,
-              zIndex: current === idx ? 10 : 0
-            }}
-            transition={{
-              opacity: { duration: 0.8, ease: 'easeInOut' },
-              scale: { duration: 0.8, ease: 'easeInOut' }
-            }}
-            className="absolute inset-0 w-full h-full"
-          >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
-              className="object-cover object-top"
-              priority={idx === 0}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </motion.div>
-        ))}
+      {/* 3D Stacked Cards Container */}
+      <div className="relative w-full h-full cursor-pointer" onClick={handleNext}>
+        <AnimatePresence mode="popLayout">
+          {IMAGES.map((img, idx) => {
+            const total = IMAGES.length;
+            const offset = (idx - current + total) % total;
+            const isVisible = offset <= 3; // Show top 4 stacked cards
 
-        {/* Top-right index pill */}
-        <div className="absolute top-4 right-4 z-20 bg-black/45 backdrop-blur-md px-3 py-1 rounded-full text-white text-[11px] font-bold">
-          {current + 1} / {IMAGES.length}
-        </div>
+            if (!isVisible) return null;
+
+            // Stack layer offset properties
+            const stackScale = 1 - offset * 0.05;
+            const stackY = offset * 14;
+            const stackX = offset === 1 ? 14 : offset === 2 ? -12 : offset === 3 ? 8 : 0;
+            const stackRotate = offset === 1 ? 3 : offset === 2 ? -2.5 : offset === 3 ? 1.5 : 0;
+            const stackOpacity = 1 - offset * 0.22;
+            const zIndex = total - offset;
+
+            return (
+              <motion.div
+                key={img.src}
+                initial={{ opacity: 0, scale: 0.85, y: 40, rotate: 6 }}
+                animate={{
+                  opacity: stackOpacity,
+                  scale: stackScale,
+                  y: stackY,
+                  x: stackX,
+                  rotate: stackRotate,
+                  zIndex,
+                }}
+                exit={{
+                  opacity: 0,
+                  x: 160,
+                  rotate: 15,
+                  scale: 0.9,
+                  transition: { duration: 0.45, ease: [0.32, 0.72, 0, 1] },
+                }}
+                transition={{
+                  duration: 0.55,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={offset === 0 && !shouldReduce ? { scale: 1.02, y: -4 } : {}}
+                className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.18)] border border-[#e5e7eb] bg-white"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.title}
+                  fill
+                  className="object-cover object-top"
+                  priority={offset === 0}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+
+                {/* Gradient overlay for text contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+                {/* Card Title & Tag Badge */}
+                <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end">
+                  <div>
+                    <span className="inline-block px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-bold tracking-wider uppercase mb-1.5 border border-white/20">
+                      {img.tag}
+                    </span>
+                    <p className="text-white font-extrabold text-base sm:text-lg leading-snug drop-shadow-sm">
+                      {img.title}
+                    </p>
+                  </div>
+
+                  {/* Card count pill */}
+                  <div className="bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-white text-[11px] font-bold shrink-0 border border-white/10">
+                    {idx + 1} / {total}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
 
         {/* Progress bar at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-[4px] bg-black/10 z-20">
+        <div className="absolute bottom-0 left-6 right-6 h-[4px] bg-white/20 backdrop-blur-md rounded-full overflow-hidden z-40 pointer-events-none">
           <div
-            className="h-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] transition-all ease-linear"
+            className="h-full bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#06b6d4] transition-all ease-linear"
             style={{ width: `${progress}%`, transitionDuration: '50ms' }}
           />
         </div>
 
-        {/* Floating indicators / dots */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-black/35 backdrop-blur-md px-3.5 py-2.5 rounded-full">
+        {/* Navigation Dot Indicators */}
+        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-40 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md border border-[#f0f0f0]">
           {IMAGES.map((_, idx) => (
             <button
               key={idx}
@@ -105,16 +153,17 @@ function HeroImageSlider() {
               }}
               className="relative size-3 flex items-center justify-center rounded-full"
               type="button"
+              aria-label={`Chuyển tới ảnh ${idx + 1}`}
             >
               {current === idx && (
                 <motion.span
-                  layoutId="activeDot"
-                  className="absolute inset-0 rounded-full border border-white"
+                  layoutId="activeHeroDot"
+                  className="absolute inset-0 rounded-full border-2 border-[#6366f1]"
                   transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                 />
               )}
               <span className={`size-1.5 rounded-full transition-colors duration-300 ${
-                current === idx ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
+                current === idx ? 'bg-[#6366f1]' : 'bg-[#9ca3af]/40 hover:bg-[#6366f1]/60'
               }`} />
             </button>
           ))}

@@ -1,5 +1,3 @@
-import 'server-only';
-
 import { env } from '@/config/env.validation';
 import type { Template } from '@/types';
 import { templates as mockTemplates } from '@/data/templates';
@@ -129,7 +127,7 @@ function mapTemplate(t: Record<string, unknown>): Template {
     id: t.id as string,
     slug: t.slug as string,
     title: t.title as string,
-    category: t.category as string,
+    category: t.category as Template['category'],
     categoryLabel: categoryLabels[t.category as string] || (t.category as string),
     description: t.description as string,
     image: getTemplateCoverImage(t.title as string, t.image as string | undefined, t.id as string | undefined),

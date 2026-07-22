@@ -1,5 +1,3 @@
-import 'server-only';
-
 import { env } from '@/config/env.validation';
 import type { CustomPage } from '@/types';
 
