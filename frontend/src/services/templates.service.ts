@@ -100,13 +100,12 @@ const CATEGORY_KEYWORD_MAP: Array<{ keywords: string[]; image: string }> = [
 ];
 
 export function getTemplateCoverImage(title: string, rawImage?: string, id?: string): string {
-  if (rawImage && !rawImage.includes('photo-1507238691740-187a5b1d37b8')) {
-    return rawImage;
-  }
-
   const name = (title || '').toLowerCase();
-  // Dùng hash string thay Math.random() để đảm bảo deterministic trên SSR
   const numId = parseInt(id || '0', 10) || hashString(title || '');
+
+  if (name.includes('tiệc cưới') || name.includes('thiệp cưới') || name.includes('đám cưới') || name.includes('iwedding')) {
+    return '/demo/to-chuc-tiec-cuoi-6655/hero.png';
+  }
 
   // Portfolio/CV cần index rotation riêng
   if (['portfolio', 'profile', 'cá nhân', 'cv'].some((kw) => name.includes(kw))) {
@@ -116,6 +115,14 @@ export function getTemplateCoverImage(title: string, rawImage?: string, id?: str
   // Agency/marketing cần index rotation riêng
   if (['agency', 'marketing', 'coaching', 'tư vấn'].some((kw) => name.includes(kw))) {
     return AGENCY_IMAGES[numId % AGENCY_IMAGES.length];
+  }
+
+  if (['tài chính', 'luật', 'đầu tư', 'ngân hàng'].some((kw) => name.includes(kw))) {
+    return '/demo/cong-ty-tai-chinh/hero.png';
+  }
+
+  if (['doanh nghiệp', 'xây dựng', 'bất động sản', 'kiến trúc'].some((kw) => name.includes(kw))) {
+    return numId % 2 === 0 ? '/demo/enterprise-construction/hero.png' : '/demo/enterprise-b2b-tech/hero.png';
   }
 
   const matched = CATEGORY_KEYWORD_MAP.find((item) =>
