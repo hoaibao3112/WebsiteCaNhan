@@ -332,7 +332,14 @@ function mapTemplate(t: Record<string, unknown>): Template {
   const titleStr = (t.title as string) || '';
   const slugStr = (t.slug as string) || '';
   const rawDemo = (t.demoImages as string[]) || [];
-  const demoImages = rawDemo.length > 0 ? rawDemo : getDefaultDemoImages(titleStr, slugStr);
+
+  // Lọc chỉ giữ lại các đường dẫn là ảnh chụp màn hình giao diện website (Web UI Mockups)
+  const validDemo = rawDemo.filter((url) =>
+    url.startsWith('/demo/') ||
+    ['photo-1507238691740', 'photo-1460925895917', 'photo-1551288049', 'photo-1522542550221', 'photo-1559028012', 'photo-1542744094'].some((key) => url.includes(key)),
+  );
+
+  const demoImages = validDemo.length >= 3 ? validDemo : getDefaultDemoImages(titleStr, slugStr);
 
   return {
     id: t.id as string,
