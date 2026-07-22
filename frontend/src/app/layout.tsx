@@ -21,6 +21,15 @@ export const metadata: Metadata = {
     'Dịch vụ thiết kế website trọn gói theo yêu cầu cho mọi ngành nghề: Shop bán hàng, Spa, Cà phê, Doanh nghiệp, Bất động sản. Kho +100 mẫu giao diện cao cấp, chuẩn SEO Google, tối ưu Mobile, tặng Tên miền & SSL.',
   keywords:
     'thiết kế website, dịch vụ làm website, thiết kế web trọn gói, làm web chuẩn seo, mẫu website đẹp, thiết kế website đồng tháp, dịch vụ làm web bán hàng, thiết kế web doanh nghiệp, webmaydo',
+  icons: {
+    icon: [
+      { url: '/logo-kabo.jpg' },
+      { url: '/logo-kabo.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/logo-kabo.jpg', sizes: '192x192', type: 'image/jpeg' },
+    ],
+    shortcut: '/logo-kabo.jpg',
+    apple: '/logo-kabo.jpg',
+  },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laixechienthangdongthap.com'),
   openGraph: {
     type: 'website',
