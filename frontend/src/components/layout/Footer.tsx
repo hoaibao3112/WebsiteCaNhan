@@ -110,7 +110,7 @@ export default function Footer() {
 
       {/* Main Footer Grid */}
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-10 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 lg:gap-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-16">
 
           {/* Brand Column — wider */}
           <div className="md:col-span-2 flex flex-col gap-6">

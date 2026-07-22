@@ -100,10 +100,10 @@ export default function PricingSection() {
                     : `0 24px 64px ${plan.accentColor}22`,
                 }}
                 transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                className={`relative rounded-3xl flex flex-col justify-between min-h-[640px] h-full ${
+                className={`relative rounded-3xl flex flex-col justify-between min-h-[580px] sm:min-h-[640px] h-full ${
                   plan.featured
-                    ? 'card-lumina-featured p-10 scale-105 shadow-2xl z-10'
-                    : 'card-lumina p-10'
+                    ? 'card-lumina-featured p-6 sm:p-10 scale-100 lg:scale-105 shadow-2xl z-10'
+                    : 'card-lumina p-6 sm:p-10'
                 }`}
               >
                 {/* Animated gradient border on hover for non-featured */}

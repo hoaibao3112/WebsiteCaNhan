@@ -30,6 +30,17 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   return (
     <header
       className={cn(
