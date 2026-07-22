@@ -994,6 +994,28 @@ function getTemplateCoverImage(title: string, rawImage?: string): string {
   return 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80';
 }
 
+function getSeedDemoImages(title: string, slug?: string): string[] {
+  const name = (title || '').toLowerCase();
+  const slugStr = (slug || '').toLowerCase();
+
+  if (slugStr === 'to-chuc-tiec-cuoi-6655' || name.includes('tiệc cưới') || name.includes('thiệp cưới') || name.includes('đám cưới') || name.includes('iwedding')) {
+    return [
+      '/demo/to-chuc-tiec-cuoi-6655/hero.png',
+      '/demo/to-chuc-tiec-cuoi-6655/services.png',
+      '/demo/to-chuc-tiec-cuoi-6655/gallery.png',
+      '/demo/to-chuc-tiec-cuoi-6655/pricing.png',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80',
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=80',
+    ];
+  }
+
+  return [
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+    'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&q=80',
+    'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+  ];
+}
+
 async function main() {
   console.log('🌱 Start seeding real templates...');
 
@@ -1047,6 +1069,7 @@ async function main() {
         price: new Prisma.Decimal(dynamic.price),
         tags: dynamic.tags,
         features: dynamic.features,
+        demoImages: getSeedDemoImages(title, slug),
         liveUrl,
         pbConfig: pbConfig ? (pbConfig as any) : Prisma.DbNull,
       };
