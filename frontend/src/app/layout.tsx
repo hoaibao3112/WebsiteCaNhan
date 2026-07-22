@@ -14,29 +14,34 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: 'KABO AGENCY — Thiết kế Website May đo, Bứt phá Tăng trưởng',
-    template: '%s — KABO AGENCY',
+    default: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp — May Đo Giao Diện Chuẩn SEO',
+    template: '%s — Dịch Vụ Thiết Kế Website Chuyên Nghiệp',
   },
   description:
-    'Chúng tôi kiến tạo trải nghiệm kỹ thuật số thúc đẩy thương hiệu tiến lên. Thiết kế web may đo, SEO, Digital Marketing.',
-  keywords: 'thiết kế website, agency thiết kế web, SEO, digital marketing, kabo agency, website cao cấp, thiết kế web hcm',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kabo.agency'),
+    'Dịch vụ thiết kế website trọn gói theo yêu cầu cho mọi ngành nghề: Shop bán hàng, Spa, Cà phê, Doanh nghiệp, Bất động sản. Kho +100 mẫu giao diện cao cấp, chuẩn SEO Google, tối ưu Mobile, tặng Tên miền & SSL.',
+  keywords:
+    'thiết kế website, dịch vụ làm website, thiết kế web trọn gói, làm web chuẩn seo, mẫu website đẹp, thiết kế website đồng tháp, dịch vụ làm web bán hàng, thiết kế web doanh nghiệp, webmaydo',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laixechienthangdongthap.com'),
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
-    siteName: 'KABO AGENCY',
+    siteName: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp',
+    title: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp — May Đo Giao Diện Chuẩn SEO',
+    description:
+      'Tạo website sang trọng, chuẩn SEO Google cho mọi ngành nghề. Tăng tốc độ bán hàng, tối ưu hiển thị Mobile.',
     images: [
       {
         url: '/logo-kabo.jpg',
         width: 1200,
         height: 630,
-        alt: 'KABO AGENCY — Thiết kế Website Premium',
+        alt: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@kaboagency',
+    title: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp — May Đo Giao Diện Chuẩn SEO',
+    description: 'Kho +100 giao diện website cao cấp, thiết kế trọn gói chuẩn SEO Google.',
   },
   robots: {
     index: true,
@@ -53,31 +58,31 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: 'KABO AGENCY',
-  description: 'Agency thiết kế website cao cấp, tối ưu SEO và Digital Marketing tại TP. HCM',
-  url: 'https://kabo.agency',
-  logo: 'https://kabo.agency/logo-kabo.jpg',
-  image: 'https://kabo.agency/logo-kabo.jpg',
+  '@type': 'ProfessionalService',
+  name: 'Dịch Vụ Thiết Kế Website Chuyên Nghiệp',
+  description: 'Chuyên thiết kế website may đo trọn gói, tối ưu chuẩn SEO Google, giao diện cao cấp cho mọi ngành nghề.',
+  url: 'https://www.laixechienthangdongthap.com',
+  logo: 'https://www.laixechienthangdongthap.com/logo-kabo.jpg',
+  image: 'https://www.laixechienthangdongthap.com/logo-kabo.jpg',
   telephone: '+84374170367',
   email: 'baohoaitran3112@gmail.com',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'TP. Hồ Chí Minh',
-    addressRegion: 'Hồ Chí Minh',
+    addressLocality: 'TP. Cao Lãnh',
+    addressRegion: 'Đồng Tháp',
     addressCountry: 'VN',
   },
   areaServed: 'VN',
-  priceRange: '$$$',
+  priceRange: '$$',
   sameAs: [
     'https://www.facebook.com/tran.bao.28897',
   ],
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       opens: '08:00',
-      closes: '18:00',
+      closes: '22:00',
     },
   ],
 };

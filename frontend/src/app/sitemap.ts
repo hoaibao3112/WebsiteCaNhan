@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://kabo.agency';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laixechienthangdongthap.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
