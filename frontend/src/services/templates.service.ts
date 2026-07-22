@@ -9,18 +9,18 @@ const categoryLabels: Record<string, string> = {
 };
 
 const PORTFOLIO_IMAGES = [
-  'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80',
-  'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=800&q=80',
-  'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80',
-  'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&q=80',
-  'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80',
+  '/demo/portfolio-1/hero.png',
+  '/demo/portfolio-2/hero.png',
+  '/demo/portfolio-3/hero.png',
+  '/demo/portfolio-motion-designer/hero.png',
+  '/demo/portfolio-product-manager/hero.png',
 ];
 
 const AGENCY_IMAGES = [
-  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-  'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80',
-  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
+  '/demo/agency-marketing/hero.png',
+  '/demo/enterprise-b2b-tech/hero.png',
+  '/demo/enterprise-construction/hero.png',
+  '/demo/cong-ty-tai-chinh/hero.png',
 ];
 
 // Deterministic hash từ string — thay thế Math.random() để tránh SSR hydration mismatch
@@ -31,71 +31,71 @@ function hashString(str: string): number {
 const CATEGORY_KEYWORD_MAP: Array<{ keywords: string[]; image: string }> = [
   {
     keywords: ['tiệc cưới', 'thiệp cưới', 'đám cưới', 'iwedding'],
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
+    image: '/demo/to-chuc-tiec-cuoi-6655/hero.png',
   },
   {
     keywords: ['portfolio', 'profile', 'cá nhân', 'cv'],
-    image: PORTFOLIO_IMAGES[0], // fallback — sẽ được override bằng numId bên dưới nếu cần
+    image: PORTFOLIO_IMAGES[0],
   },
   {
     keywords: ['tài chính', 'luật', 'đầu tư', 'ngân hàng'],
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80',
+    image: '/demo/cong-ty-tai-chinh/hero.png',
   },
   {
     keywords: ['thời trang', 'mẹ & bé', 'mẹ và bé', 'phụ kiện', 'kính mắt', 'bán lẻ', 'shop', 'store'],
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&q=80',
   },
   {
     keywords: ['mỹ phẩm', 'làm đẹp', 'beauty'],
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&q=80',
   },
   {
     keywords: ['spa', 'chăm sóc sức khoẻ', 'sức khoẻ', 'nha khoa', 'phòng khám', 'thú cưng', 'làm tóc'],
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80',
   },
   {
     keywords: ['nhà hàng', 'bar', 'pub', 'club', 'trà', 'cà phê', 'tiệm bánh', 'nước uống', 'đồ uống', 'ăn uống'],
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=800&q=80',
   },
   {
     keywords: ['bất động sản', 'villa', 'homestay', 'khách sạn', 'nội thất', 'xây dựng', 'co-working'],
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+    image: '/demo/enterprise-construction/hero.png',
   },
   {
     keywords: ['phần mềm', 'app', 'saas', 'công nghệ', 'điện tử'],
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    image: '/demo/enterprise-b2b-tech/hero.png',
   },
   {
     keywords: ['du lịch', 'nghỉ dưỡng', 'khám phá', 'leo núi'],
-    image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80',
   },
   {
     keywords: ['gym', 'yoga', 'thể thao'],
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80',
   },
   {
     keywords: ['agency', 'marketing', 'coaching', 'tư vấn'],
-    image: AGENCY_IMAGES[0],
+    image: '/demo/agency-marketing/hero.png',
   },
   {
     keywords: ['hoa tươi', 'hoa', 'florist'],
-    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80',
   },
   {
     keywords: ['quà tết', 'tâm linh', 'gốm'],
-    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80',
   },
   {
     keywords: ['vận tải', 'logistics', 'xe máy'],
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+    image: '/demo/enterprise-b2b-tech/hero.png',
   },
   {
     keywords: ['cây cảnh', 'nông nghiệp', 'chăn nuôi', 'carbon'],
-    image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&q=80',
   },
   {
     keywords: ['sách', 'khoá học', 'sinh viên', 'tài liệu', 'phi lợi nhuận', 'hội thảo', 'sự kiện'],
-    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80',
   },
 ];
 
@@ -162,37 +162,37 @@ export function getDefaultDemoImages(title: string, slug?: string): string[] {
 
   if (name.includes('chăm sóc sức khoẻ') || name.includes('spa') || name.includes('sức khoẻ') || name.includes('thư giãn')) {
     return [
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=80',
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=1200&q=80',
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&q=80',
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=1200&q=80',
     ];
   }
 
   if (name.includes('trà') || name.includes('cà phê') || name.includes('cafe') || name.includes('nước uống')) {
     return [
-      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80',
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80',
-      'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&q=80',
-      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=1200&q=80',
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
     ];
   }
 
   if (name.includes('hoa') || name.includes('hoa tươi') || name.includes('florist')) {
     return [
-      'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=1200&q=80',
-      'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=1200&q=80',
-      'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=1200&q=80',
-      'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('cây cảnh') || name.includes('nông nghiệp') || name.includes('cây xanh')) {
     return [
-      'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=1200&q=80',
-      'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=1200&q=80',
-      'https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=1200&q=80',
-      'https://images.unsplash.com/photo-1545241047-6083a3684587?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
@@ -216,91 +216,91 @@ export function getDefaultDemoImages(title: string, slug?: string): string[] {
 
   if (name.includes('gốm') || name.includes('đồ gốm') || name.includes('pottery') || name.includes('ceramic')) {
     return [
-      'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80',
-      'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=1200&q=80',
-      'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1200&q=80',
-      'https://images.unsplash.com/photo-1531877025230-f7e45e74d32e?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=1200&q=80',
     ];
   }
 
   if (name.includes('nội thất') || name.includes('nhà cửa') || name.includes('interior') || name.includes('furniture')) {
     return [
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80',
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80',
-      'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('kính mắt') || name.includes('kính') || name.includes('eyewear') || name.includes('optics')) {
     return [
-      'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=1200&q=80',
-      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=1200&q=80',
-      'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=1200&q=80',
-      'https://images.unsplash.com/photo-1508296695146-257a814070b4?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('ăn uống') || name.includes('nhà hàng') || name.includes('bistro') || name.includes('dining')) {
     return [
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80',
-      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
-      'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=1200&q=80',
-      'https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=1200&q=80',
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
     ];
   }
 
   if (name.includes('mỹ phẩm') || name.includes('làm đẹp') || name.includes('beauty') || name.includes('cosmetic')) {
     return [
-      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&q=80',
-      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=80',
-      'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=1200&q=80',
-      'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('xe máy') || name.includes('motor') || name.includes('xe')) {
     return [
-      'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=1200&q=80',
-      'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=1200&q=80',
-      'https://images.unsplash.com/photo-1558980664-769d59546b3d?w=1200&q=80',
-      'https://images.unsplash.com/photo-1508357941501-0924cf312bbd?w=1200&q=80',
+      '/demo/enterprise-b2b-tech/hero.png',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
     ];
   }
 
   if (name.includes('đóng chai') || name.includes('đồ uống') || name.includes('beverage') || name.includes('drink')) {
     return [
-      'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=1200&q=80',
-      'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=1200&q=80',
-      'https://images.unsplash.com/photo-1556881286-fc6915169721?w=1200&q=80',
-      'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744094-3a31b272c490?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('thực phẩm chức năng') || name.includes('chức năng') || name.includes('supplement') || name.includes('vitamin')) {
     return [
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=80',
-      'https://images.unsplash.com/photo-1577401239170-897942555fb3?w=1200&q=80',
-      'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=1200&q=80',
-      'https://images.unsplash.com/photo-1550572017-edd951b55104?w=1200&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('điện tử') || name.includes('gadget') || name.includes('thiết bị')) {
     return [
-      'https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=1200&q=80',
-      'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&q=80',
-      'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&q=80',
-      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80',
+      '/demo/enterprise-b2b-tech/hero.png',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
   if (name.includes('mẹ & bé') || name.includes('mẹ và bé') || name.includes('baby') || name.includes('trẻ em')) {
     return [
-      'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1200&q=80',
-      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=1200&q=80',
-      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=1200&q=80',
-      'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
     ];
   }
 
