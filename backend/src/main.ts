@@ -22,11 +22,14 @@ async function bootstrap() {
   // Apply Global Exceptions Filter
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Expose Health Check endpoint directly on HTTP Adapter (Express instance)
+  // Expose Root and Health Check endpoints directly on HTTP Adapter (Express instance)
   const server = app.getHttpAdapter().getInstance();
-  server.get('/api/health', (req: any, res: any) => {
-    res.json({ status: 'OK', timestamp: new Date() });
-  });
+  const healthHandler = (_req: any, res: any) => {
+    res.json({ status: 'OK', message: 'Studio Ca Nhan API is running', timestamp: new Date() });
+  };
+  server.get('/', healthHandler);
+  server.head('/', healthHandler);
+  server.get('/api/health', healthHandler);
 
   const PORT = process.env.PORT || 5000;
   await app.listen(PORT);
