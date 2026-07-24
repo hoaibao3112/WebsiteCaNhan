@@ -28,3 +28,43 @@ model ContactSubmission {
   @@index([status])
   @@map("contact_submissions")
 }
+
+model BlogCategory {
+  id          String     @id @default(cuid())
+  accountId   String
+  name        String
+  slug        String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  posts       BlogPost[]
+
+  @@unique([accountId, slug])
+  @@index([accountId])
+  @@map("blog_categories")
+}
+
+model BlogPost {
+  id              String        @id @default(cuid())
+  accountId       String
+  categoryId      String?
+  category        BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  title           String
+  slug            String
+  summary         String?       @db.Text
+  content         String        @db.Text
+  metaTitle       String?
+  metaDescription String?       @db.Text
+  featuredImage   String?
+  tags            String[]      @default([])
+  isPublished     Boolean       @default(true)
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([accountId, slug])
+  @@index([accountId])
+  @@index([accountId, isPublished])
+  @@index([accountId, slug])
+  @@map("blog_posts")
+}

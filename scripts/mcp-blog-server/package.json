@@ -1,0 +1,13 @@
+{
+  "name": "kabo-blog-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server kết nối Claude Desktop với Website KABO để tự động đăng bài blog",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.5.0"
+  }
+}

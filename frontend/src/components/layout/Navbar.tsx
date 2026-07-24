@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/giao-dien-mau', label: 'Giao diện mẫu' },
   { href: '/bang-gia', label: '🔥 Bảng giá' },
   { href: '/quy-trinh', label: 'Quy trình' },
+  { href: '/blog', label: 'Blog' },
 ];
 
 export default function Navbar() {
