@@ -32,9 +32,9 @@ export const revalidate = 60;
 
 function PostMeta({ publishedAt, content }: { publishedAt: Date | null; content: string }) {
   return (
-    <div className="flex items-center gap-3 text-[11px] text-gray-400 font-medium">
-      <span className="flex items-center gap-1">
-        <Calendar className="size-3 text-[#006672]" />
+    <div className="flex items-center gap-4 text-xs text-gray-400 font-medium">
+      <span className="flex items-center gap-1.5">
+        <Calendar className="size-3.5 text-[#006672]" />
         {publishedAt
           ? new Date(publishedAt).toLocaleDateString('vi-VN', {
               day: '2-digit',
@@ -43,18 +43,18 @@ function PostMeta({ publishedAt, content }: { publishedAt: Date | null; content:
             })
           : 'Mới đăng'}
       </span>
-      <span className="flex items-center gap-1">
-        <Clock className="size-3 text-emerald-500" />
+      <span className="flex items-center gap-1.5">
+        <Clock className="size-3.5 text-emerald-500" />
         {BlogService.calculateReadingTime(content)} phút đọc
       </span>
     </div>
   );
 }
 
-function CategoryBadge({ name, position = 'top-3 left-3' }: { name: string; position?: string }) {
+function CategoryBadge({ name, position = 'top-4 left-4' }: { name: string; position?: string }) {
   return (
     <span
-      className={`absolute ${position} z-10 bg-white/95 backdrop-blur-sm text-[#006672] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm`}
+      className={`absolute ${position} z-10 bg-white/95 backdrop-blur-sm text-[#006672] text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-emerald-100`}
     >
       {name}
     </span>
@@ -83,7 +83,7 @@ export default async function BlogListPage({
   const gridPosts = heroPost ? posts.slice(1) : posts;
 
   return (
-    <div className="min-h-screen bg-[#f5f7f8]" style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}>
+    <div className="min-h-screen bg-[#f8fafb]" style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}>
 
       {/* ══ HERO HEADER ══════════════════════════════════════════════════════ */}
       <div
@@ -95,18 +95,18 @@ export default async function BlogListPage({
           className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
+            backgroundSize: '24px 24px',
           }}
         />
 
-        <div className="relative max-w-4xl mx-auto px-4 md:px-8 py-14 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 md:px-8 py-16 md:py-20 text-center">
           {/* eyebrow */}
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-[11px] font-bold tracking-[0.15em] uppercase px-4 py-1.5 rounded-full mb-5">
-            <Rss className="size-3" /> KABO BLOG & INSIGHTS
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-xs font-bold tracking-[0.15em] uppercase px-4 py-1.5 rounded-full mb-6">
+            <Rss className="size-3.5" /> KABO BLOG & INSIGHTS
           </div>
 
           <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4 tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 tracking-tight"
             style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
           >
             Góc Chia Sẻ Kiến Thức
@@ -114,7 +114,7 @@ export default async function BlogListPage({
             <span className="text-emerald-300">Web & SEO</span>
           </h1>
 
-          <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-white/70 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-10">
             Cập nhật liên tục kinh nghiệm thiết kế website, chiến lược Marketing số
             và công nghệ mới nhất dành cho doanh nghiệp Việt Nam.
           </p>
@@ -122,8 +122,8 @@ export default async function BlogListPage({
           {/* Search */}
           <form action="/blog" method="GET" className="max-w-xl mx-auto">
             {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
-            <div className="flex items-center bg-white rounded-2xl shadow-xl shadow-black/20 overflow-hidden">
-              <Search className="size-4 text-gray-400 ml-4 shrink-0" />
+            <div className="flex items-center bg-white rounded-2xl shadow-xl shadow-black/20 overflow-hidden p-1">
+              <Search className="size-5 text-gray-400 ml-4 shrink-0" />
               <input
                 type="text"
                 name="search"
@@ -133,9 +133,9 @@ export default async function BlogListPage({
               />
               <button
                 type="submit"
-                className="m-1 bg-[#006672] hover:bg-[#004d56] text-white text-xs font-bold px-5 py-3 rounded-xl transition-colors shrink-0"
+                className="bg-[#006672] hover:bg-[#004d56] text-white text-xs font-bold px-6 py-3.5 rounded-xl transition-colors shrink-0"
               >
-                Tìm
+                Tìm kiếm
               </button>
             </div>
           </form>
@@ -143,11 +143,11 @@ export default async function BlogListPage({
       </div>
 
       {/* ══ MAIN CONTENT ═════════════════════════════════════════════════════ */}
-      <main className="max-w-6xl mx-auto px-4 md:px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
 
         {/* Active Filters */}
         {(search || categorySlug || tag) && (
-          <div className="flex flex-wrap items-center gap-2 mb-5 bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl">
+          <div className="flex flex-wrap items-center gap-2 mb-8 bg-emerald-50 border border-emerald-200 px-5 py-3 rounded-xl">
             <span className="text-xs font-bold text-emerald-900">Bộ lọc đang bật:</span>
             {search && (
               <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold">
@@ -172,12 +172,12 @@ export default async function BlogListPage({
 
         {/* Category Pills */}
         {categories.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 mb-8 no-scrollbar">
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 mb-12 no-scrollbar">
             <Link
               href="/blog"
-              className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+              className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold border transition-all ${
                 !categorySlug && !search && !tag
-                  ? 'bg-[#006672] text-white border-[#006672]'
+                  ? 'bg-[#006672] text-white border-[#006672] shadow-sm'
                   : 'bg-white text-gray-600 border-gray-200 hover:border-[#006672] hover:text-[#006672]'
               }`}
             >
@@ -187,14 +187,14 @@ export default async function BlogListPage({
               <Link
                 key={cat.id}
                 href={`/blog?category=${cat.slug}`}
-                className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold border transition-all ${
                   categorySlug === cat.slug
-                    ? 'bg-[#006672] text-white border-[#006672]'
+                    ? 'bg-[#006672] text-white border-[#006672] shadow-sm'
                     : 'bg-white text-gray-600 border-gray-200 hover:border-[#006672] hover:text-[#006672]'
                 }`}
               >
                 {cat.name}
-                <span className="ml-1 opacity-50 text-[10px]">({cat._count?.posts ?? 0})</span>
+                <span className="ml-1.5 opacity-50 text-[10px]">({cat._count?.posts ?? 0})</span>
               </Link>
             ))}
           </div>
@@ -202,25 +202,26 @@ export default async function BlogListPage({
 
         {/* ── FEATURED HERO POST ──────────────────────────────────────────── */}
         {heroPost && (
-          <div className="mb-10">
+          <div className="mb-14">
             {/* section label */}
-            <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#006672] mb-3">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-[#006672] mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#006672] inline-block"></span>
               Bài viết Blog KABO Tech &amp; Business
             </p>
 
-            <article className="group grid grid-cols-1 lg:grid-cols-2 bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <article className="group grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300">
 
               {/* LEFT — text */}
-              <div className="flex flex-col justify-between p-7 lg:p-9 order-2 lg:order-1">
-                <div className="space-y-4">
+              <div className="flex flex-col justify-between p-8 lg:p-11 order-2 lg:order-1">
+                <div className="space-y-5">
                   {heroPost.category && (
-                    <span className="inline-block bg-emerald-50 text-[#006672] text-[11px] font-extrabold tracking-wider px-3 py-1 rounded-full border border-emerald-200/80 uppercase">
+                    <span className="inline-block bg-emerald-50 text-[#006672] text-xs font-extrabold tracking-wider px-3.5 py-1.5 rounded-full border border-emerald-200/80 uppercase">
                       {heroPost.category.name}
                     </span>
                   )}
 
                   <h2
-                    className="text-xl lg:text-2xl font-extrabold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug"
+                    className="text-xl lg:text-2.5xl font-extrabold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug"
                     style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
                   >
                     <Link href={`/blog/${heroPost.slug}`}>{heroPost.title}</Link>
@@ -233,11 +234,11 @@ export default async function BlogListPage({
                   )}
                 </div>
 
-                <div className="mt-6 space-y-4">
+                <div className="mt-8 space-y-5">
                   <PostMeta publishedAt={heroPost.publishedAt} content={heroPost.content} />
 
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <div className="flex items-center gap-2.5">
+                  <div className="flex items-center justify-between pt-5 border-t border-gray-100">
+                    <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-xs font-extrabold">
                         {(heroPost.author || 'K').charAt(0)}
                       </div>
@@ -248,9 +249,9 @@ export default async function BlogListPage({
                     </div>
                     <Link
                       href={`/blog/${heroPost.slug}`}
-                      className="inline-flex items-center gap-1.5 text-sm font-extrabold text-[#006672] hover:text-[#004d56] transition-colors"
+                      className="inline-flex items-center gap-2 text-sm font-extrabold text-[#006672] hover:text-[#004d56] transition-colors"
                     >
-                      Đọc tiếp <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+                      Đọc tiếp <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </div>
                 </div>
@@ -260,7 +261,7 @@ export default async function BlogListPage({
               <div
                 className="relative overflow-hidden order-1 lg:order-2"
                 style={{
-                  minHeight: '280px',
+                  minHeight: '320px',
                   background: 'linear-gradient(135deg, #003d45, #006672)',
                 }}
               >
@@ -269,10 +270,10 @@ export default async function BlogListPage({
                   alt={heroPost.title}
                   fill
                   priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* gradient overlay bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </div>
             </article>
           </div>
@@ -283,13 +284,13 @@ export default async function BlogListPage({
           <EmptyState search={search} categorySlug={categorySlug} tag={tag} />
         ) : gridPosts.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
               {gridPosts.map((post: any) => {
                 const cover = post.coverImage || post.featuredImage;
                 return (
                   <article
                     key={post.id}
-                    className="group bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                    className="group bg-white rounded-3xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
                   >
                     {/* Thumbnail */}
                     <Link
@@ -309,27 +310,27 @@ export default async function BlogListPage({
                     </Link>
 
                     {/* Body */}
-                    <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div className="p-7 md:p-8 flex-1 flex flex-col justify-between">
                       <div>
                         <PostMeta publishedAt={post.publishedAt} content={post.content} />
 
                         <h2
-                          className="mt-3 mb-2 text-base md:text-lg font-bold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug line-clamp-2"
+                          className="mt-4 mb-3 text-base md:text-lg font-bold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug line-clamp-2"
                           style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
                         >
                           <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                         </h2>
 
                         {post.summary && (
-                          <p className="text-xs md:text-sm text-gray-500 line-clamp-2 leading-relaxed mb-4">
+                          <p className="text-xs md:text-sm text-gray-500 line-clamp-2 leading-relaxed mb-6">
                             {post.summary}
                           </p>
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-[10px] font-extrabold">
+                      <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-[11px] font-extrabold">
                             {(post.author || 'K').charAt(0)}
                           </div>
                           <span className="text-xs text-gray-600 font-semibold">
@@ -338,9 +339,9 @@ export default async function BlogListPage({
                         </div>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#006672] hover:text-[#004d56] transition-colors group-hover:translate-x-0.5 duration-200"
+                          className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#006672] hover:text-[#004d56] transition-colors group-hover:translate-x-1 duration-200"
                         >
-                          Đọc tiếp <ArrowRight className="size-3.5" />
+                          Đọc tiếp <ArrowRight className="size-4" />
                         </Link>
                       </div>
                     </div>
@@ -351,14 +352,14 @@ export default async function BlogListPage({
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-10">
+              <div className="flex justify-center items-center gap-2.5 mt-16">
                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
                   <Link
                     key={p}
                     href={`/blog?page=${p}${categorySlug ? `&category=${categorySlug}` : ''}${search ? `&search=${encodeURIComponent(search)}` : ''}${tag ? `&tag=${encodeURIComponent(tag)}` : ''}`}
-                    className={`w-9 h-9 rounded-xl text-sm font-bold flex items-center justify-center border transition-all ${
+                    className={`w-10 h-10 rounded-xl text-sm font-bold flex items-center justify-center border transition-all ${
                       p === pagination.page
-                        ? 'bg-[#006672] text-white border-[#006672]'
+                        ? 'bg-[#006672] text-white border-[#006672] shadow-sm'
                         : 'bg-white text-gray-600 border-gray-200 hover:border-[#006672] hover:text-[#006672]'
                     }`}
                   >
@@ -373,20 +374,20 @@ export default async function BlogListPage({
 
       {/* ══ NEWSLETTER CTA ═══════════════════════════════════════════════════ */}
       <section
-        className="mt-10 py-16 px-4"
+        className="mt-20 py-20 px-4"
         style={{ background: 'linear-gradient(135deg, #002d33 0%, #004d56 60%, #006672 100%)' }}
       >
         <div className="max-w-xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-[11px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5">
-            <Rss className="size-3" /> BẢN TIN HÀNG TUẦN
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
+            <Rss className="size-3.5" /> BẢN TIN HÀNG TUẦN
           </div>
           <h2
-            className="text-2xl md:text-3xl font-extrabold text-white mb-3 leading-snug"
+            className="text-2xl md:text-3.5xl font-extrabold text-white mb-4 leading-snug"
             style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
           >
             Đăng ký nhận bản tin chuyên sâu
           </h2>
-          <p className="text-white/60 text-sm leading-relaxed mb-7">
+          <p className="text-white/65 text-sm md:text-base leading-relaxed mb-8">
             Tóm tắt kiến thức web, SEO và Marketing gửi thẳng vào hộp thư mỗi tuần.
             Không spam, chỉ nội dung chất lượng.
           </p>
@@ -394,16 +395,16 @@ export default async function BlogListPage({
             <input
               type="email"
               placeholder="email@cua-ban.com"
-              className="flex-1 px-4 py-3 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="flex-1 px-4 py-3.5 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
             />
             <button
               type="submit"
-              className="shrink-0 bg-emerald-400 hover:bg-emerald-300 text-gray-900 font-extrabold text-sm px-5 py-3 rounded-xl transition-colors"
+              className="shrink-0 bg-emerald-400 hover:bg-emerald-300 text-gray-900 font-extrabold text-sm px-6 py-3.5 rounded-xl transition-colors"
             >
               Đăng ký
             </button>
           </form>
-          <p className="text-white/35 text-[11px] mt-3">
+          <p className="text-white/35 text-xs mt-4">
             Miễn phí · Huỷ bất cứ lúc nào · 100% không spam
           </p>
         </div>
@@ -423,7 +424,7 @@ function EmptyState({
   tag?: string;
 }) {
   return (
-    <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
+    <div className="text-center py-20 bg-white rounded-3xl border border-gray-200/80 shadow-sm max-w-md mx-auto">
       <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
         <BookOpen className="size-8 text-[#006672]" />
       </div>
