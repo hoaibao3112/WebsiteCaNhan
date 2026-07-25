@@ -283,13 +283,13 @@ export default async function BlogListPage({
           <EmptyState search={search} categorySlug={categorySlug} tag={tag} />
         ) : gridPosts.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               {gridPosts.map((post: any) => {
                 const cover = post.coverImage || post.featuredImage;
                 return (
                   <article
                     key={post.id}
-                    className="group bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+                    className="group bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
                   >
                     {/* Thumbnail */}
                     <Link
@@ -298,40 +298,47 @@ export default async function BlogListPage({
                       style={{ paddingTop: '56.25%' /* 16∶9 */ }}
                     >
                       <div className="absolute inset-0">
-                          <SafeImage
-                            src={cover || ''}
-                            alt={post.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      {post.category && <CategoryBadge name={post.category.name} />}
+                        <SafeImage
+                          src={cover || ''}
+                          alt={post.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      {post.category && <CategoryBadge name={post.category.name} position="top-4 left-4" />}
                     </Link>
 
                     {/* Body */}
-                    <div className="p-5 flex-1 flex flex-col">
-                      <PostMeta publishedAt={post.publishedAt} content={post.content} />
+                    <div className="p-6 flex-1 flex flex-col justify-between">
+                      <div>
+                        <PostMeta publishedAt={post.publishedAt} content={post.content} />
 
-                      <h2
-                        className="mt-2.5 mb-2 text-[15px] font-bold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug line-clamp-2 flex-1"
-                        style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
-                      >
-                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                      </h2>
+                        <h2
+                          className="mt-3 mb-2 text-base md:text-lg font-bold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug line-clamp-2"
+                          style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
+                        >
+                          <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                        </h2>
 
-                      {post.summary && (
-                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">
-                          {post.summary}
-                        </p>
-                      )}
+                        {post.summary && (
+                          <p className="text-xs md:text-sm text-gray-500 line-clamp-2 leading-relaxed mb-4">
+                            {post.summary}
+                          </p>
+                        )}
+                      </div>
 
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
-                        <span className="text-[11px] text-gray-500 font-medium">
-                          {post.author || 'KABO Editorial'}
-                        </span>
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-[10px] font-extrabold">
+                            {(post.author || 'K').charAt(0)}
+                          </div>
+                          <span className="text-xs text-gray-600 font-semibold">
+                            {post.author || 'KABO Editorial'}
+                          </span>
+                        </div>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="inline-flex items-center gap-1 text-xs font-extrabold text-[#006672] hover:text-[#004d56] transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#006672] hover:text-[#004d56] transition-colors group-hover:translate-x-0.5 duration-200"
                         >
                           Đọc tiếp <ArrowRight className="size-3.5" />
                         </Link>
