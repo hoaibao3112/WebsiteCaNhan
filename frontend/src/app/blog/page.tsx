@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Blog & Tin Tức Công Nghệ — Kiến Thức Thiết Kế Web Chuẩn SEO',
+  title: 'Blog & Tin Tức — Kiến Thức Thiết Kế Web Chuẩn SEO',
   description:
     'Tổng hợp bài viết chia sẻ kinh nghiệm thiết kế website, tối ưu SEO Google, chiến lược bán hàng online và xu hướng công nghệ mới nhất.',
   openGraph: {
@@ -24,11 +24,9 @@ export const metadata: Metadata = {
   },
 };
 
-const NAVBAR_HEIGHT = 68; // px — must match Navbar h-[68px]
+const NAVBAR_HEIGHT = 68;
 const DEFAULT_ACCOUNT_ID = process.env.DEFAULT_ACCOUNT_ID || 'default-account';
 export const revalidate = 60;
-
-// ─── Small helpers ────────────────────────────────────────────────────────────
 
 function PostMeta({ publishedAt, content }: { publishedAt: Date | null; content: string }) {
   return (
@@ -61,8 +59,6 @@ function CategoryBadge({ name, position = 'top-4 left-4' }: { name: string; posi
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
 export default async function BlogListPage({
   searchParams,
 }: {
@@ -85,140 +81,118 @@ export default async function BlogListPage({
   return (
     <div className="min-h-screen bg-[#f8fafb]" style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}>
 
-      {/* ══ HERO HEADER ══════════════════════════════════════════════════════ */}
-      <div
-        className="relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #002d33 0%, #004d56 55%, #006672 100%)' }}
-      >
-        {/* dot-grid texture */}
-        <div
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
+      {/* ══ CLEAN LIGHT HEADER ═══════════════════════════════════════════════ */}
+      <header className="bg-white border-b border-gray-200/80 py-10 md:py-14">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-[#006672] uppercase mb-3">
+                <Rss className="size-3.5" /> KABO BLOG &amp; INSIGHTS
+              </div>
+              <h1
+                className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight"
+                style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
+              >
+                Góc Chia Sẻ Kiến Thức <span className="text-[#006672]">Web &amp; SEO</span>
+              </h1>
+              <p className="text-gray-500 text-sm md:text-base mt-2 max-w-xl">
+                Kinh nghiệm thiết kế website chuyên nghiệp, chiến lược Marketing số và công nghệ mới nhất.
+              </p>
+            </div>
 
-        <div className="relative max-w-4xl mx-auto px-4 md:px-8 py-16 md:py-20 text-center">
-          {/* eyebrow */}
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-xs font-bold tracking-[0.15em] uppercase px-4 py-1.5 rounded-full mb-6">
-            <Rss className="size-3.5" /> KABO BLOG & INSIGHTS
+            {/* Search Bar */}
+            <form action="/blog" method="GET" className="w-full md:w-80 shrink-0">
+              {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
+              <div className="flex items-center bg-gray-100 rounded-2xl border border-gray-200 p-1 focus-within:bg-white focus-within:border-[#006672] transition-colors">
+                <Search className="size-4 text-gray-400 ml-3 shrink-0" />
+                <input
+                  type="text"
+                  name="search"
+                  defaultValue={search || ''}
+                  placeholder="Tìm kiếm bài viết..."
+                  className="w-full bg-transparent px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-[#006672] hover:bg-[#004d56] text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors shrink-0"
+                >
+                  Tìm
+                </button>
+              </div>
+            </form>
           </div>
 
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 tracking-tight"
-            style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
-          >
-            Góc Chia Sẻ Kiến Thức
-            <br />
-            <span className="text-emerald-300">Web & SEO</span>
-          </h1>
-
-          <p className="text-white/70 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-10">
-            Cập nhật liên tục kinh nghiệm thiết kế website, chiến lược Marketing số
-            và công nghệ mới nhất dành cho doanh nghiệp Việt Nam.
-          </p>
-
-          {/* Search */}
-          <form action="/blog" method="GET" className="max-w-xl mx-auto">
-            {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
-            <div className="flex items-center bg-white rounded-2xl shadow-xl shadow-black/20 overflow-hidden p-1">
-              <Search className="size-5 text-gray-400 ml-4 shrink-0" />
-              <input
-                type="text"
-                name="search"
-                defaultValue={search || ''}
-                placeholder="Tìm kiếm bài viết... (ví dụ: SEO, Next.js, Bán hàng)"
-                className="flex-1 px-3 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none bg-transparent"
-              />
-              <button
-                type="submit"
-                className="bg-[#006672] hover:bg-[#004d56] text-white text-xs font-bold px-6 py-3.5 rounded-xl transition-colors shrink-0"
+          {/* Category Tabs */}
+          {categories.length > 0 && (
+            <div className="flex items-center gap-2 overflow-x-auto pt-8 no-scrollbar border-t border-gray-100 mt-8">
+              <Link
+                href="/blog"
+                className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  !categorySlug && !search && !tag
+                    ? 'bg-[#006672] text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
               >
-                Tìm kiếm
-              </button>
+                Tất cả bài viết
+              </Link>
+              {categories.map((cat: any) => (
+                <Link
+                  key={cat.id}
+                  href={`/blog?category=${cat.slug}`}
+                  className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                    categorySlug === cat.slug
+                      ? 'bg-[#006672] text-white shadow-sm'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {cat.name}
+                  <span className="ml-1 opacity-60 text-[10px]">({cat._count?.posts ?? 0})</span>
+                </Link>
+              ))}
             </div>
-          </form>
+          )}
         </div>
-      </div>
+      </header>
 
       {/* ══ MAIN CONTENT ═════════════════════════════════════════════════════ */}
-      <main className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
+      <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-14">
 
         {/* Active Filters */}
         {(search || categorySlug || tag) && (
           <div className="flex flex-wrap items-center gap-2 mb-8 bg-emerald-50 border border-emerald-200 px-5 py-3 rounded-xl">
-            <span className="text-xs font-bold text-emerald-900">Bộ lọc đang bật:</span>
+            <span className="text-xs font-bold text-emerald-900">Đang lọc theo:</span>
             {search && (
-              <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold">
-                &ldquo;{search}&rdquo;
+              <span className="bg-white text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-200">
+                Từ khóa: &ldquo;{search}&rdquo;
               </span>
             )}
             {categorySlug && (
-              <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold">
-                {categorySlug}
+              <span className="bg-white text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-200">
+                Danh mục: {categorySlug}
               </span>
             )}
             {tag && (
-              <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold">
+              <span className="bg-white text-emerald-800 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-200">
                 #{tag}
               </span>
             )}
             <Link href="/blog" className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-red-600">
-              <X className="size-3.5" /> Xóa
+              <X className="size-3.5" /> Xóa bộ lọc
             </Link>
-          </div>
-        )}
-
-        {/* Category Pills */}
-        {categories.length > 0 && (
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 mb-12 no-scrollbar">
-            <Link
-              href="/blog"
-              className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold border transition-all ${
-                !categorySlug && !search && !tag
-                  ? 'bg-[#006672] text-white border-[#006672] shadow-sm'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#006672] hover:text-[#006672]'
-              }`}
-            >
-              Tất cả
-            </Link>
-            {categories.map((cat: any) => (
-              <Link
-                key={cat.id}
-                href={`/blog?category=${cat.slug}`}
-                className={`shrink-0 px-5 py-2.5 rounded-full text-xs font-bold border transition-all ${
-                  categorySlug === cat.slug
-                    ? 'bg-[#006672] text-white border-[#006672] shadow-sm'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-[#006672] hover:text-[#006672]'
-                }`}
-              >
-                {cat.name}
-                <span className="ml-1.5 opacity-50 text-[10px]">({cat._count?.posts ?? 0})</span>
-              </Link>
-            ))}
           </div>
         )}
 
         {/* ── FEATURED HERO POST ──────────────────────────────────────────── */}
         {heroPost && (
           <div className="mb-14">
-            {/* section label */}
-            <p className="text-xs font-extrabold uppercase tracking-widest text-[#006672] mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#006672] inline-block"></span>
-              Bài viết Blog KABO Tech &amp; Business
-            </p>
-
             <article className="group grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300">
 
               {/* LEFT — text */}
               <div className="flex flex-col justify-between p-8 lg:p-11 order-2 lg:order-1">
-                <div className="space-y-5">
-                  {heroPost.category && (
-                    <span className="inline-block bg-emerald-50 text-[#006672] text-xs font-extrabold tracking-wider px-3.5 py-1.5 rounded-full border border-emerald-200/80 uppercase">
-                      {heroPost.category.name}
-                    </span>
-                  )}
+                <div className="space-y-4">
+                  <span className="inline-block bg-emerald-50 text-[#006672] text-xs font-extrabold tracking-wider px-3.5 py-1.5 rounded-full border border-emerald-200/80 uppercase">
+                    🔥 Bài viết nổi bật — {heroPost.category?.name || 'KABO'}
+                  </span>
 
                   <h2
                     className="text-xl lg:text-2.5xl font-extrabold text-gray-900 group-hover:text-[#006672] transition-colors leading-snug"
@@ -239,7 +213,7 @@ export default async function BlogListPage({
 
                   <div className="flex items-center justify-between pt-5 border-t border-gray-100">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-xs font-extrabold">
+                      <div className="w-8 h-8 rounded-full bg-[#006672] flex items-center justify-center text-white text-xs font-extrabold">
                         {(heroPost.author || 'K').charAt(0)}
                       </div>
                       <div>
@@ -272,8 +246,6 @@ export default async function BlogListPage({
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                {/* gradient overlay bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </div>
             </article>
           </div>
@@ -330,7 +302,7 @@ export default async function BlogListPage({
 
                       <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white text-[11px] font-extrabold">
+                          <div className="w-7 h-7 rounded-full bg-[#006672] flex items-center justify-center text-white text-[11px] font-extrabold">
                             {(post.author || 'K').charAt(0)}
                           </div>
                           <span className="text-xs text-gray-600 font-semibold">
@@ -372,22 +344,19 @@ export default async function BlogListPage({
         ) : null}
       </main>
 
-      {/* ══ NEWSLETTER CTA ═══════════════════════════════════════════════════ */}
-      <section
-        className="mt-20 py-20 px-4"
-        style={{ background: 'linear-gradient(135deg, #002d33 0%, #004d56 60%, #006672 100%)' }}
-      >
+      {/* ══ CLEAN FOOTER NEWSLETTER ══════════════════════════════════════════ */}
+      <section className="bg-white border-t border-gray-200/80 py-16 px-4">
         <div className="max-w-xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-emerald-300 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 text-[#006672] text-xs font-bold tracking-widest uppercase mb-3">
             <Rss className="size-3.5" /> BẢN TIN HÀNG TUẦN
           </div>
           <h2
-            className="text-2xl md:text-3.5xl font-extrabold text-white mb-4 leading-snug"
+            className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 leading-snug"
             style={{ fontFamily: 'var(--font-heading, Georgia, serif)' }}
           >
             Đăng ký nhận bản tin chuyên sâu
           </h2>
-          <p className="text-white/65 text-sm md:text-base leading-relaxed mb-8">
+          <p className="text-gray-500 text-sm leading-relaxed mb-6">
             Tóm tắt kiến thức web, SEO và Marketing gửi thẳng vào hộp thư mỗi tuần.
             Không spam, chỉ nội dung chất lượng.
           </p>
@@ -395,18 +364,15 @@ export default async function BlogListPage({
             <input
               type="email"
               placeholder="email@cua-ban.com"
-              className="flex-1 px-4 py-3.5 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="flex-1 px-4 py-3 rounded-xl text-sm text-gray-800 bg-gray-100 border border-gray-200 focus:outline-none focus:bg-white focus:border-[#006672]"
             />
             <button
               type="submit"
-              className="shrink-0 bg-emerald-400 hover:bg-emerald-300 text-gray-900 font-extrabold text-sm px-6 py-3.5 rounded-xl transition-colors"
+              className="shrink-0 bg-[#006672] hover:bg-[#004d56] text-white font-extrabold text-sm px-6 py-3 rounded-xl transition-colors"
             >
               Đăng ký
             </button>
           </form>
-          <p className="text-white/35 text-xs mt-4">
-            Miễn phí · Huỷ bất cứ lúc nào · 100% không spam
-          </p>
         </div>
       </section>
     </div>
