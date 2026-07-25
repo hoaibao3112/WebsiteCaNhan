@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/ui/SafeImage';
 import Script from 'next/script';
 import { BlogService } from '@/services/blog.service';
 import {
@@ -206,8 +206,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 className="relative w-full rounded-2xl overflow-hidden mb-8 shadow-md"
                 style={{ paddingTop: '52.5%' /* ~19:10 */ }}
               >
-                <Image
-                  src={coverImg}
+                <SafeImage
+                  src={coverImg || ''}
                   alt={post.title}
                   fill
                   priority
@@ -253,12 +253,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                       className="relative rounded-xl overflow-hidden shadow-sm group"
                       style={{ paddingTop: '62.5%' /* 16:10 */ }}
                     >
-                      <Image
-                        src={imgUrl}
-                        alt={`Hình minh họa ${idx + 1}`}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <SafeImage src={imgUrl} alt={`Hình minh họa ${idx + 1}`} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   ))}
                 </div>
@@ -376,7 +371,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                           style={{ width: '72px', height: '54px', background: 'linear-gradient(135deg, #004d56, #006672)' }}
                         >
                           {thumb && (
-                            <Image src={thumb} alt={item.title} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
+                              <SafeImage src={thumb || ''} alt={item.title} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -476,21 +471,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                       style={{ paddingTop: '56.25%' }}
                     >
                       <div className="absolute inset-0">
-                        {itemCover ? (
-                          <Image
-                            src={itemCover}
+                        <SafeImage
+                            src={itemCover || ''}
                             alt={item.title}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-400"
                           />
-                        ) : (
-                          <div
-                            className="w-full h-full flex items-center justify-center"
-                            style={{ background: 'linear-gradient(135deg, #004d56, #006672)' }}
-                          >
-                            <Sparkles className="size-8 text-white/20" />
-                          </div>
-                        )}
                       </div>
                       {item.category && (
                         <span className="absolute top-3 left-3 z-10 bg-white/95 text-[#006672] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">

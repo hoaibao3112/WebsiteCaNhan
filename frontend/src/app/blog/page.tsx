@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { BlogService } from '@/services/blog.service';
+import SafeImage from '@/components/ui/SafeImage';
 import {
   Calendar,
   ArrowRight,
@@ -264,19 +264,13 @@ export default async function BlogListPage({
                   background: 'linear-gradient(135deg, #003d45, #006672)',
                 }}
               >
-                {(heroPost.coverImage || heroPost.featuredImage) ? (
-                  <Image
-                    src={heroPost.coverImage || heroPost.featuredImage}
-                    alt={heroPost.title}
-                    fill
-                    priority
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Sparkles className="size-14 text-white/15" />
-                  </div>
-                )}
+                <SafeImage
+                  src={heroPost.coverImage || heroPost.featuredImage || ''}
+                  alt={heroPost.title}
+                  fill
+                  priority
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
                 {/* gradient overlay bottom */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
               </div>
@@ -304,22 +298,13 @@ export default async function BlogListPage({
                       style={{ paddingTop: '56.25%' /* 16∶9 */ }}
                     >
                       <div className="absolute inset-0">
-                        {cover ? (
-                          <Image
-                            src={cover}
+                          <SafeImage
+                            src={cover || ''}
                             alt={post.title}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
-                        ) : (
-                          <div
-                            className="w-full h-full flex items-center justify-center"
-                            style={{ background: 'linear-gradient(135deg, #004d56, #006672)' }}
-                          >
-                            <Sparkles className="size-8 text-white/20" />
-                          </div>
-                        )}
-                      </div>
+                        </div>
                       {post.category && <CategoryBadge name={post.category.name} />}
                     </Link>
 
