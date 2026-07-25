@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogService } from '@/services/blog.service';
-import { Calendar, Tag, ArrowRight, BookOpen, Search, Sparkles } from 'lucide-react';
+import { Calendar, Tag, ArrowRight, BookOpen, Search, Sparkles, Clock, X } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Blog & Tin Tức Công Nghệ — Kiến Thức Thiết Kế Web Chuẩn SEO',
@@ -40,12 +40,15 @@ export default async function BlogListPage({
     BlogService.getCategories(DEFAULT_ACCOUNT_ID),
   ]);
 
+  const heroPost = page === 1 && !categorySlug && !tag && !search && posts.length > 0 ? posts[0] : null;
+  const gridPosts = heroPost ? posts.slice(1) : posts;
+
   return (
     <div className="min-h-screen bg-[#f8fafb] pt-28 pb-20">
       {/* Header Banner */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[#004d56] to-[#006672] text-white py-16 px-6 lg:px-10 rounded-b-3xl shadow-lg">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
-        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-4">
+        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold tracking-wide text-emerald-200 border border-white/10">
             <Sparkles className="size-3.5 text-emerald-300" />
             <span>KABO BLOG & INSIGHTS</span>
@@ -56,37 +59,161 @@ export default async function BlogListPage({
           <p className="text-base md:text-lg text-emerald-100 max-w-2xl mx-auto leading-relaxed">
             Cập nhật liên tục bài viết kinh nghiệm thiết kế website, chiến lược Marketing số và công nghệ mới nhất.
           </p>
+
+          {/* Search Bar Form */}
+          <form action="/blog" method="GET" className="max-w-xl mx-auto pt-2">
+            <div className="relative flex items-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-1.5 focus-within:bg-white focus-within:text-gray-900 transition-all">
+              <Search className="size-5 text-emerald-200 ml-3 shrink-0" />
+              <input
+                type="text"
+                name="search"
+                defaultValue={search || ''}
+                placeholder="Tìm kiếm bài viết (ví dụ: SEO, Next.js, Bán hàng)..."
+                className="w-full bg-transparent px-3 py-2 text-sm text-white placeholder:text-emerald-100/70 focus:outline-none focus:text-gray-900 focus:placeholder:text-gray-400"
+              />
+              {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
+              <button
+                type="submit"
+                className="bg-emerald-400 hover:bg-emerald-300 text-gray-900 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shrink-0"
+              >
+                Tìm kiếm
+              </button>
+            </div>
+          </form>
         </div>
       </section>
 
       {/* Main Body */}
       <main className="max-w-7xl mx-auto px-6 lg:px-10 mt-12">
+        {/* Active Filter Indicators */}
+        {(search || categorySlug || tag) && (
+          <div className="flex flex-wrap items-center gap-2 mb-6 bg-emerald-50 border border-emerald-200/80 p-3.5 rounded-2xl text-sm">
+            <span className="font-semibold text-emerald-900">Đang lọc theo:</span>
+            {search && (
+              <span className="bg-white text-[#006672] px-3 py-1 rounded-lg text-xs font-bold border border-emerald-200 flex items-center gap-1">
+                Từ khóa: "{search}"
+              </span>
+            )}
+            {categorySlug && (
+              <span className="bg-white text-[#006672] px-3 py-1 rounded-lg text-xs font-bold border border-emerald-200 flex items-center gap-1">
+                Danh mục: {categorySlug}
+              </span>
+            )}
+            {tag && (
+              <span className="bg-white text-[#006672] px-3 py-1 rounded-lg text-xs font-bold border border-emerald-200 flex items-center gap-1">
+                Thẻ: #{tag}
+              </span>
+            )}
+            <Link
+              href="/blog"
+              className="ml-auto inline-flex items-center gap-1 text-xs font-bold text-red-600 hover:text-red-700 bg-white px-3 py-1 rounded-lg border border-red-100"
+            >
+              <X className="size-3.5" /> Xóa bộ lọc
+            </Link>
+          </div>
+        )}
+
         {/* Categories Bar */}
         {categories.length > 0 && (
           <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
             <Link
               href="/blog"
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all shrink-0 ${
-                !categorySlug
+                !categorySlug && !search && !tag
                   ? 'bg-[#006672] text-white shadow-md'
                   : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
               }`}
             >
               Tất cả bài viết
             </Link>
-            {categories.map((cat) => (
+            {categories.map((cat: any) => (
               <Link
                 key={cat.id}
-                href={`/blog?category=${cat.slug}`}
+                href={`/blog?category=${cat.slug}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-all shrink-0 ${
                   categorySlug === cat.slug
                     ? 'bg-[#006672] text-white shadow-md'
                     : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
-                {cat.name} ({cat._count.posts})
+                {cat.name} ({cat._count?.posts || 0})
               </Link>
             ))}
+          </div>
+        )}
+
+        {/* Hero Featured Article (for page 1 without filters) */}
+        {heroPost && (
+          <div className="mb-12">
+            <article className="group bg-white rounded-3xl overflow-hidden border border-gray-200/80 shadow-md hover:shadow-2xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0">
+              <Link href={`/blog/${heroPost.slug}`} className="relative lg:col-span-7 aspect-[16/10] lg:aspect-auto bg-gray-100 block overflow-hidden">
+                {heroPost.featuredImage ? (
+                  <Image
+                    src={heroPost.featuredImage}
+                    alt={heroPost.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center text-white">
+                    <Sparkles className="size-16 text-emerald-300 opacity-60" />
+                  </div>
+                )}
+                {heroPost.category && (
+                  <span className="absolute top-6 left-6 bg-[#006672] text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-md">
+                    🔥 BÀI VIẾT NỔI BẬT — {heroPost.category.name}
+                  </span>
+                )}
+              </Link>
+
+              <div className="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-4 text-xs font-medium text-gray-400 mb-4">
+                    <span className="flex items-center gap-1 text-[#006672] font-semibold">
+                      <Calendar className="size-3.5" />
+                      {heroPost.publishedAt
+                        ? new Date(heroPost.publishedAt).toLocaleDateString('vi-VN', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric',
+                          })
+                        : 'Mới cập nhật'}
+                    </span>
+                    <span className="flex items-center gap-1 text-gray-500">
+                      <Clock className="size-3.5 text-emerald-600" />
+                      {BlogService.calculateReadingTime(heroPost.content)} phút đọc
+                    </span>
+                  </div>
+
+                  <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 group-hover:text-[#006672] transition-colors leading-tight mb-4">
+                    <Link href={`/blog/${heroPost.slug}`}>{heroPost.title}</Link>
+                  </h2>
+
+                  {heroPost.summary && (
+                    <p className="text-base text-gray-600 line-clamp-4 leading-relaxed mb-6">
+                      {heroPost.summary}
+                    </p>
+                  )}
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
+                  <div className="flex flex-wrap gap-1.5">
+                    {heroPost.tags.slice(0, 3).map((t: string, idx: number) => (
+                      <span key={idx} className="bg-emerald-50 text-[#006672] text-xs font-bold px-2.5 py-1 rounded-lg">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/blog/${heroPost.slug}`}
+                    className="inline-flex items-center gap-1.5 text-sm font-extrabold text-[#006672] hover:text-[#004d56] transition-colors"
+                  >
+                    Đọc ngay <ArrowRight className="size-4" />
+                  </Link>
+                </div>
+              </div>
+            </article>
           </div>
         )}
 
@@ -114,78 +241,89 @@ export default async function BlogListPage({
         ) : (
           /* Grid Bài Viết */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post) => (
-              <article
-                key={post.id}
-                className="group bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
-              >
-                {/* Thumbnail */}
-                <Link href={`/blog/${post.slug}`} className="relative aspect-[16/10] bg-gray-100 overflow-hidden block">
-                  {post.featuredImage ? (
-                    <Image
-                      src={post.featuredImage}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center p-6 text-white text-center">
-                      <Sparkles className="size-10 text-emerald-300 opacity-60 mb-2" />
-                    </div>
-                  )}
-                  {post.category && (
-                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-[#006672] text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                      {post.category.name}
-                    </span>
-                  )}
-                </Link>
-
-                {/* Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="size-3.5" />
-                        {post.publishedAt
-                          ? new Date(post.publishedAt).toLocaleDateString('vi-VN', {
-                              day: '2-digit',
-                              month: '2-digit',
-                              year: 'numeric',
-                            })
-                          : 'Vừa cập nhật'}
-                      </span>
-                    </div>
-
-                    <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#006672] transition-colors line-clamp-2 leading-snug mb-3">
-                      <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                    </h2>
-
-                    {post.summary && (
-                      <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
-                        {post.summary}
-                      </p>
+            {gridPosts.map((post: any) => {
+              const readingTime = BlogService.calculateReadingTime(post.content);
+              return (
+                <article
+                  key={post.id}
+                  className="group bg-white rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
+                  {/* Thumbnail */}
+                  <Link href={`/blog/${post.slug}`} className="relative aspect-[16/10] bg-gray-100 overflow-hidden block">
+                    {post.featuredImage ? (
+                      <Image
+                        src={post.featuredImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#006672] to-[#004d56] flex items-center justify-center p-6 text-white text-center">
+                        <Sparkles className="size-10 text-emerald-300 opacity-60 mb-2" />
+                      </div>
                     )}
-                  </div>
+                    {post.category && (
+                      <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-[#006672] text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                        {post.category.name}
+                      </span>
+                    )}
+                  </Link>
 
-                  {/* Footer Card */}
-                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                      {post.tags.slice(0, 2).map((t, idx) => (
-                        <span key={idx} className="bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-medium">
-                          #{t}
+                  {/* Content */}
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                        <span className="flex items-center gap-1 font-medium text-gray-500">
+                          <Calendar className="size-3.5 text-[#006672]" />
+                          {post.publishedAt
+                            ? new Date(post.publishedAt).toLocaleDateString('vi-VN', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                              })
+                            : 'Vừa cập nhật'}
                         </span>
-                      ))}
+                        <span className="flex items-center gap-1 text-gray-400 font-medium">
+                          <Clock className="size-3.5 text-emerald-600" />
+                          {readingTime} phút đọc
+                        </span>
+                      </div>
+
+                      <h2 className="text-xl font-bold text-gray-900 group-hover:text-[#006672] transition-colors line-clamp-2 leading-snug mb-3">
+                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                      </h2>
+
+                      {post.summary && (
+                        <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
+                          {post.summary}
+                        </p>
+                      )}
                     </div>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-1 text-sm font-bold text-[#006672] hover:text-[#004d56] transition-colors"
-                    >
-                      Đọc tiếp <ArrowRight className="size-4" />
-                    </Link>
+
+                    {/* Footer Card */}
+                    <div className="pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                        {post.tags.slice(0, 2).map((t: string, idx: number) => (
+                          <Link
+                            key={idx}
+                            href={`/blog?tag=${encodeURIComponent(t)}`}
+                            className="bg-gray-100 hover:bg-emerald-50 hover:text-[#006672] px-2 py-0.5 rounded text-gray-600 font-medium transition-colors"
+                          >
+                            #{t}
+                          </Link>
+                        ))}
+                      </div>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex items-center gap-1 text-sm font-bold text-[#006672] hover:text-[#004d56] transition-colors"
+                      >
+                        Đọc tiếp <ArrowRight className="size-4" />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
 
@@ -195,7 +333,7 @@ export default async function BlogListPage({
             {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
               <Link
                 key={p}
-                href={`/blog?page=${p}${categorySlug ? `&category=${categorySlug}` : ''}`}
+                href={`/blog?page=${p}${categorySlug ? `&category=${categorySlug}` : ''}${search ? `&search=${encodeURIComponent(search)}` : ''}${tag ? `&tag=${encodeURIComponent(tag)}` : ''}`}
                 className={`w-10 h-10 rounded-xl font-semibold text-sm flex items-center justify-center transition-all ${
                   p === pagination.page
                     ? 'bg-[#006672] text-white shadow-md'
@@ -211,3 +349,4 @@ export default async function BlogListPage({
     </div>
   );
 }
+
