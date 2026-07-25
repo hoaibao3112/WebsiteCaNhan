@@ -106,7 +106,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafb] pt-28 pb-20">
+    <div className="min-h-screen bg-slate-50 pt-32 pb-16">
       {/* Schema.org Injection */}
       <Script
         id="json-ld-article"
@@ -115,7 +115,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         strategy="beforeInteractive"
       />
 
-      <article className="max-w-4xl mx-auto px-6 lg:px-8">
+      <article className="max-w-3xl mx-auto px-4 md:px-6">
         {/* Back Button */}
         <Link
           href="/blog"
