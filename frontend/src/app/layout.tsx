@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import LayoutWrapper from '@/components/layout/LayoutWrapper';
@@ -10,6 +10,13 @@ const jakarta = Plus_Jakarta_Sans({
   display: 'swap',
   variable: '--font-sans',
   preload: true,
+});
+
+const playfair = Playfair_Display({
+  weight: ['400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading',
 });
 
 export const metadata: Metadata = {
@@ -105,7 +112,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={jakarta.variable}>
+    <html lang="vi" className={`${jakarta.variable} ${playfair.variable}`}>
       <body suppressHydrationWarning className="flex min-h-screen flex-col bg-white text-[#0f0f0f] antialiased">
         <Script
           id="json-ld-org"

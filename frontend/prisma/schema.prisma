@@ -55,7 +55,9 @@ model BlogPost {
   content         String        @db.Text
   metaTitle       String?
   metaDescription String?       @db.Text
-  featuredImage   String?
+  coverImage      String?
+  contentImages   String[]      @default([])
+  author          String?       @default("KABO Editorial")
   tags            String[]      @default([])
   isPublished     Boolean       @default(true)
   publishedAt     DateTime?

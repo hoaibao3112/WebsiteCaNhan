@@ -9,7 +9,10 @@ export const createBlogPostSchema = z.object({
   categoryName: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
-  featuredImage: z.string().url('URL hình ảnh không hợp lệ').optional().or(z.literal('')),
+  coverImage: z.string().url('URL hình ảnh bìa không hợp lệ').optional().or(z.literal('')),
+  featuredImage: z.string().url('URL hình ảnh không hợp lệ').optional().or(z.literal('')), // backward compatibility
+  contentImages: z.array(z.string()).optional().default([]),
+  author: z.string().optional().default('KABO Editorial'),
   tags: z.array(z.string()).optional().default([]),
   isPublished: z.boolean().default(true),
   accountId: z.string().optional(),
@@ -57,7 +60,12 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Tăng Tốc Độ Website Lên 99+ Điểm PageSpeed Insights — Kabo Agency',
     metaDescription: 'Bí quyết tối ưu hóa hình ảnh WebP/AVIF, lazy loading, caching Redis và rendering SSR/ISR.',
-    featuredImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+    contentImages: [
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1000&q=80',
+      'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1000&q=80',
+    ],
+    author: 'KABO Tech Team',
     tags: ['NextJS', 'Performance', 'PageSpeed', 'React19'],
     isPublished: true,
     publishedAt: new Date('2026-07-24T08:00:00Z'),
@@ -82,7 +90,11 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Tối Ưu Trải Nghiệm Mobile-First Quyết Định Doanh Số — Kabo Agency',
     metaDescription: 'Tại sao việc thiết kế chuẩn trên thiết bị di động quyết định 80% doanh số bán hàng.',
-    featuredImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80',
+    contentImages: [
+      'https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1000&q=80',
+    ],
+    author: 'KABO Design Team',
     tags: ['MobileFirst', 'Responsive', 'UXMobile', 'ThietKeWeb'],
     isPublished: true,
     publishedAt: new Date('2026-07-20T10:30:00Z'),
@@ -107,7 +119,11 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Ứng Dụng AI Trong Thiết Kế Web & Content Marketing — Kabo Agency',
     metaDescription: 'Cách công cụ AI đột phá giúp doanh nghiệp tự động hóa viết bài SEO và thiết kế web.',
-    featuredImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&q=80',
+    contentImages: [
+      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&q=80',
+    ],
+    author: 'Claude AI Assistant',
     tags: ['AI', 'ChatGPT', 'TựĐộngHóa', 'TechTrend'],
     isPublished: true,
     publishedAt: new Date('2026-07-15T14:00:00Z'),
@@ -132,7 +148,9 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Bí Quyết Trang Bán Hàng Tỷ Lệ Chuyển Đổi Cao — Kabo Agency',
     metaDescription: 'Bố trí CTA, tạo niềm tin bằng Social Proof và tối ưu quy trình thanh toán nhanh.',
-    featuredImage: 'https://images.unsplash.com/photo-1556742049-0a679149204c?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1556742049-0a679149204c?w=1200&q=80',
+    contentImages: [],
+    author: 'KABO Growth Team',
     tags: ['BánHàngOnline', 'LandingPage', 'ChuyểnĐổi', 'Ecommerce'],
     isPublished: true,
     publishedAt: new Date('2026-07-08T09:15:00Z'),
@@ -157,7 +175,9 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Hướng Dẫn Tối Ưu SEO On-Page Chuẩn Google — Kabo Agency',
     metaDescription: 'Tối ưu Meta, Heading, Schema.org và tốc độ trải nghiệm người dùng Core Web Vitals.',
-    featuredImage: 'https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?w=1200&q=80',
+    contentImages: [],
+    author: 'KABO SEO Specialist',
     tags: ['SEO', 'GoogleSEO', 'SEOOnPage', 'CoreWebVitals'],
     isPublished: true,
     publishedAt: new Date('2026-06-30T11:00:00Z'),
@@ -182,7 +202,9 @@ const FALLBACK_POSTS = [
     `,
     metaTitle: 'Top 7 Xu Hướng Thiết Kế Website Độc Bản Năm 2026 — Kabo Agency',
     metaDescription: 'Khám phá các xu hướng thiết kế web đột phá giúp doanh nghiệp thu hút khách hàng.',
-    featuredImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+    contentImages: [],
+    author: 'KABO Editorial',
     tags: ['ThiếtKếWeb', 'UIUX', 'XuHướng2026', 'KaboAgency'],
     isPublished: true,
     publishedAt: new Date('2026-06-20T16:00:00Z'),
@@ -230,6 +252,7 @@ export class BlogService {
 
     let finalSlug = slug;
     let counter = 1;
+    const coverImg = input.coverImage || input.featuredImage || null;
     try {
       while (true) {
         const existing = await prisma.blogPost.findUnique({
@@ -254,7 +277,9 @@ export class BlogService {
           content: input.content,
           metaTitle: input.metaTitle || input.title,
           metaDescription: input.metaDescription || input.summary || null,
-          featuredImage: input.featuredImage || null,
+          coverImage: coverImg,
+          contentImages: input.contentImages || [],
+          author: input.author || 'KABO Editorial',
           tags: input.tags || [],
           isPublished: input.isPublished ?? true,
           publishedAt: input.isPublished ? new Date() : null,
@@ -277,7 +302,9 @@ export class BlogService {
         content: input.content,
         metaTitle: input.metaTitle || input.title,
         metaDescription: input.metaDescription || input.summary || null,
-        featuredImage: input.featuredImage || null,
+        coverImage: coverImg,
+        contentImages: input.contentImages || [],
+        author: input.author || 'KABO Editorial',
         tags: input.tags || [],
         isPublished: input.isPublished ?? true,
         publishedAt: new Date(),
@@ -460,7 +487,7 @@ export class BlogService {
             publishedAt: { lte: publishedAt || new Date() },
           },
           orderBy: { publishedAt: 'desc' },
-          select: { id: true, title: true, slug: true, featuredImage: true, publishedAt: true },
+          select: { id: true, title: true, slug: true, coverImage: true, publishedAt: true },
         }),
         prisma.blogPost.findFirst({
           where: {
@@ -470,7 +497,7 @@ export class BlogService {
             publishedAt: { gte: publishedAt || new Date() },
           },
           orderBy: { publishedAt: 'asc' },
-          select: { id: true, title: true, slug: true, featuredImage: true, publishedAt: true },
+          select: { id: true, title: true, slug: true, coverImage: true, publishedAt: true },
         }),
       ]);
 
@@ -490,17 +517,17 @@ export class BlogService {
 
     if (currentIndex === -1) {
       return {
-        previousPost: sorted[1] ? { id: sorted[1].id, title: sorted[1].title, slug: sorted[1].slug, featuredImage: sorted[1].featuredImage, publishedAt: sorted[1].publishedAt } : null,
+        previousPost: sorted[1] ? { id: sorted[1].id, title: sorted[1].title, slug: sorted[1].slug, coverImage: sorted[1].coverImage, publishedAt: sorted[1].publishedAt } : null,
         nextPost: null,
       };
     }
 
     const previousPost = sorted[currentIndex + 1]
-      ? { id: sorted[currentIndex + 1].id, title: sorted[currentIndex + 1].title, slug: sorted[currentIndex + 1].slug, featuredImage: sorted[currentIndex + 1].featuredImage, publishedAt: sorted[currentIndex + 1].publishedAt }
+      ? { id: sorted[currentIndex + 1].id, title: sorted[currentIndex + 1].title, slug: sorted[currentIndex + 1].slug, coverImage: sorted[currentIndex + 1].coverImage, publishedAt: sorted[currentIndex + 1].publishedAt }
       : null;
 
     const nextPost = sorted[currentIndex - 1]
-      ? { id: sorted[currentIndex - 1].id, title: sorted[currentIndex - 1].title, slug: sorted[currentIndex - 1].slug, featuredImage: sorted[currentIndex - 1].featuredImage, publishedAt: sorted[currentIndex - 1].publishedAt }
+      ? { id: sorted[currentIndex - 1].id, title: sorted[currentIndex - 1].title, slug: sorted[currentIndex - 1].slug, coverImage: sorted[currentIndex - 1].coverImage, publishedAt: sorted[currentIndex - 1].publishedAt }
       : null;
 
     return { previousPost, nextPost };
