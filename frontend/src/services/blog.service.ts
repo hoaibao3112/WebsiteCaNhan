@@ -381,17 +381,15 @@ export class BlogService {
         prisma.blogPost.count({ where }),
       ]);
 
-      if (posts.length > 0) {
-        return {
-          posts,
-          pagination: {
-            page,
-            limit,
-            total,
-            totalPages: Math.ceil(total / limit),
-          },
-        };
-      }
+      return {
+        posts,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
     } catch (error) {
       console.warn('Sử dụng Fallback Posts cho BlogService.getPosts do kết nối DB:', error instanceof Error ? error.message : error);
     }
@@ -446,7 +444,7 @@ export class BlogService {
         },
       });
 
-      if (post && post.isPublished) {
+      if (post) {
         return post;
       }
     } catch (error) {

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { BlogService, createBlogPostSchema } from '@/services/blog.service';
 import { z } from 'zod';
 
@@ -29,6 +30,17 @@ export async function POST(req: Request) {
 
     // 3. Đưa bài viết vào CSDL
     const post = await BlogService.createPost(validatedData, accountId);
+
+    // 4. Invalidate Next.js cache ngay lập tức để trang web cập nhật tức thì
+    try {
+      revalidatePath('/blog');
+      if (post?.slug) {
+        revalidatePath(`/blog/${post.slug}`);
+      }
+      revalidatePath('/');
+    } catch (e) {
+      console.warn('Lỗi revalidatePath:', e);
+    }
 
     return NextResponse.json(
       {
