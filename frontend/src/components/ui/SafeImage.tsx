@@ -28,11 +28,10 @@ export default function SafeImage({
       <div
         className={
           fallbackClassName ||
-          'absolute inset-0 flex items-center justify-center'
+          'absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400 border border-slate-200/60'
         }
-        style={{ background: 'linear-gradient(135deg, #004d56, #006672)' }}
       >
-        {fallbackIcon ?? <Sparkles className="size-10 text-white/20" />}
+        {fallbackIcon ?? <Sparkles className="size-8 text-slate-400/60" />}
       </div>
     );
   }
