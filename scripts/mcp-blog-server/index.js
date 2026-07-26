@@ -6,7 +6,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 
 // Cấu hình URL website và Secret API Key của bạn
-const WEB_API_URL = process.env.WEB_API_URL || 'https://www.laixechienthangdongthap.com/api/v1/blogs';
+const WEB_API_URL = process.env.WEB_API_URL || 'https://website-ca-nhan-bay.vercel.app/api/v1/blogs';
 const BLOG_API_SECRET_KEY = process.env.BLOG_API_SECRET_KEY || 'studiocanhan_blog_secret_8899';
 
 // Khởi tạo MCP Server
