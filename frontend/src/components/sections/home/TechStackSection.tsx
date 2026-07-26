@@ -4,6 +4,7 @@ import { Cpu, ShieldCheck, Zap, Gauge } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ui/ScrollReveal';
+import RichTechBackground from '@/components/ui/RichTechBackground';
 
 const techBadges = [
   { name: 'Next.js 14 App Router', cat: 'Frontend', desc: 'Server Side Rendering & Tốc độ vượt trội' },
@@ -26,40 +27,16 @@ export default function TechStackSection() {
   const shouldReduce = useReducedMotion();
 
   return (
-    <section className="section-padding relative overflow-hidden text-white border-y border-[#006672]/30 min-h-[700px] flex items-center">
+    <section className="py-20 lg:py-28 relative overflow-hidden text-white border-y border-[#006672]/30 min-h-[750px] flex items-center">
       
-      {/* ── Generated Background Image with Animation ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <motion.div
-          className="relative w-full h-full"
-          animate={shouldReduce ? {} : {
-            scale: [1, 1.06, 1],
-            x: [0, -15, 0],
-            y: [0, -10, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <Image
-            src="/tech-stack-bg.png"
-            alt="Technology Background Artwork"
-            fill
-            className="object-cover object-center"
-            priority
-          />
-        </motion.div>
+      {/* Rich Dynamic Animated Background with Particles & Laser Light Scan */}
+      <RichTechBackground />
 
-        {/* Overlay Gradients for 100% Crisp Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04131a]/85 via-[#004d56]/75 to-[#04131a]/90 backdrop-blur-[2px]" />
-        
-        {/* Soft Radial Ambient Lighting */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(4,19,26,0.6)_100%)]" />
-      </div>
-
-      <div className="container-lumina relative z-10 w-full py-6">
+      <div className="container-lumina max-w-[1280px] relative z-10 w-full">
 
         {/* Section Header */}
-        <ScrollReveal direction="up" className="text-center mb-16 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-[#006672]/40 border border-[#80c2cb]/50 text-[#80c2cb] text-xs font-black px-4 py-2 rounded-full uppercase tracking-widest mb-4 shadow-lg backdrop-blur-md">
+        <ScrollReveal direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-[#006672]/40 border border-[#80c2cb]/50 text-[#80c2cb] text-xs font-black px-4.5 py-2 rounded-full uppercase tracking-widest mb-4 shadow-lg backdrop-blur-md">
             <Cpu className="size-4 text-[#fbe449]" />
             Công Nghệ & Nền Tảng
           </div>
@@ -74,26 +51,26 @@ export default function TechStackSection() {
           </p>
         </ScrollReveal>
 
-        {/* Tech Cards Grid - Glassmorphism cards */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16" staggerDelay={0.08}>
+        {/* Tech Cards Grid - Spacious Glassmorphism cards */}
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 mb-16" staggerDelay={0.08}>
           {techBadges.map((item) => (
             <StaggerItem key={item.name} direction="up">
               <motion.div
                 whileHover={shouldReduce ? {} : { y: -6, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="p-6 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md hover:border-[#fbe449]/70 hover:bg-white/15 transition-all duration-300 h-full flex flex-col justify-between group cursor-default shadow-xl"
+                className="p-7 rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md hover:border-[#fbe449]/70 hover:bg-white/15 transition-all duration-300 h-full flex flex-col justify-between group cursor-default shadow-xl"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#006672]/60 text-[#fbe449] border border-white/20 shadow-sm">
+                    <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-[#006672]/60 text-[#fbe449] border border-white/20 shadow-sm">
                       {item.cat}
                     </span>
-                    <span className="size-2 rounded-full bg-[#fbe449] animate-pulse shadow-[0_0_8px_#fbe449]" />
+                    <span className="size-2.5 rounded-full bg-[#fbe449] animate-pulse shadow-[0_0_10px_#fbe449]" />
                   </div>
-                  <h3 className="font-extrabold text-white text-base mb-2 leading-snug group-hover:text-[#fbe449] transition-colors drop-shadow-sm">
+                  <h3 className="font-extrabold text-white text-base lg:text-lg mb-2.5 leading-snug group-hover:text-[#fbe449] transition-colors drop-shadow-sm">
                     {item.name}
                   </h3>
-                  <p className="text-xs text-white/80 leading-relaxed font-medium">
+                  <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-medium">
                     {item.desc}
                   </p>
                 </div>
@@ -102,18 +79,18 @@ export default function TechStackSection() {
           ))}
         </StaggerContainer>
 
-        {/* Guarantee Banner */}
+        {/* Guarantee Banner - Spacious layout */}
         <ScrollReveal direction="up" delay={0.2} className="w-full">
-          <div className="bg-white/10 border border-white/25 rounded-3xl p-8 lg:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white/10 border border-white/25 rounded-3xl p-8 lg:p-11 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
               {guarantees.map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex gap-4 items-start">
-                  <div className="size-12 rounded-2xl bg-[#006672] text-[#fbe449] flex items-center justify-center shrink-0 shadow-lg border border-white/20">
+                <div key={title} className="flex gap-4.5 items-start">
+                  <div className="size-13 rounded-2xl bg-[#006672] text-[#fbe449] flex items-center justify-center shrink-0 shadow-lg border border-white/20">
                     <Icon className="size-6" />
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-white text-base mb-1.5 leading-snug drop-shadow-sm">{title}</h4>
-                    <p className="text-xs text-white/80 leading-relaxed font-medium">{desc}</p>
+                    <h4 className="font-extrabold text-white text-base lg:text-lg mb-1.5 leading-snug drop-shadow-sm">{title}</h4>
+                    <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-medium">{desc}</p>
                   </div>
                 </div>
               ))}
