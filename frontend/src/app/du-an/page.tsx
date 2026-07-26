@@ -24,7 +24,7 @@ export default async function PortfolioPage() {
 
   if (pageData && pageData.pbConfig) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white pt-[68px]">
         <BuilderCanvas
           pbConfig={pageData.pbConfig}
           selectedId={null}

@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../database/prisma.service.js';
 import type { CreateCustomPageDto, UpdateCustomPageDto } from './dto/custom-pages.dto.js';
 
@@ -7,12 +8,16 @@ export class CustomPagesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateCustomPageDto) {
+    if (dto.templateId !== 'kabo-default') {
+      const template = await this.prisma.template.findUnique({ where: { id: dto.templateId } });
+      if (!template) throw new NotFoundException(`Template '${dto.templateId}' not found`);
+    }
     return this.prisma.customPage.create({
       data: {
         slug: dto.slug,
         title: dto.title,
         templateId: dto.templateId,
-        pbConfig: dto.pbConfig,
+        pbConfig: dto.pbConfig as Prisma.InputJsonValue,
       },
     });
   }
@@ -31,8 +36,8 @@ export class CustomPagesService {
         slug,
       },
       data: {
-        ...(dto.title && { title: dto.title }),
-        ...(dto.pbConfig && { pbConfig: dto.pbConfig }),
+        ...(dto.title !== undefined && { title: dto.title }),
+        ...(dto.pbConfig !== undefined && { pbConfig: dto.pbConfig as Prisma.InputJsonValue }),
       },
     });
   }

@@ -47,9 +47,9 @@ graph TD
 ### 2.1. Cấu Hinh PostgreSQL (Supabase - Cô lập Schema)
 Dự án sử dụng chung một database PostgreSQL trên Supabase cho cả Backend và Frontend, nhưng để tránh xung đột dữ liệu (do hai phần dùng hai schema Prisma độc lập, nếu dùng chung namespace `public` thì Prisma sẽ xóa bảng của phần còn lại khi đồng bộ):
 - **Backend (API):** Sử dụng schema namespace mặc định là `public`.
-  - Database URL: `postgresql://postgres:Kimloan%40%40123@db.ufqzgyfdeliahuytfrmc.supabase.co:5432/postgres?schema=public`
+  - Database URL: `postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public`
 - **Frontend & Worker:** Sử dụng schema namespace cô lập là `frontend`.
-  - Database URL: `postgresql://postgres:Kimloan%40%40123@db.ufqzgyfdeliahuytfrmc.supabase.co:5432/postgres?schema=frontend`
+  - Database URL: `postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=frontend`
 
 **Các bước cập nhật schema trên Database:**
 1. **Đối với Backend (Bảng `Template` trong namespace `public`):**
@@ -106,8 +106,8 @@ Nhấp vào tab **Environment** của Web Service mới tạo và thêm các bi�
 | :--- | :--- | :--- |
 | `NODE_ENV` | `production` | Chế độ chạy production |
 | `PORT` | `5000` | Cổng HTTP mà NestJS lắng nghe |
-| `DATABASE_URL` | `postgresql://postgres:Kimloan%40%40123@db.ufqzgyfdeliahuytfrmc.supabase.co:5432/postgres?schema=public` | Link DB Supabase |
-| `API_KEY` | `studiocanhan_secure_api_key_7799` | Key bảo mật để FE gọi BE |
+| `DATABASE_URL` | `<set-in-render-secret>` | Link DB Supabase |
+| `API_KEY` | `<generate-a-random-secret>` | Key bảo mật để FE gọi BE |
 | `CORS_ORIGIN` | `https://your-frontend-domain.vercel.app` | Điền tên miền frontend Vercel của bạn (sau khi deploy FE xong) |
 
 ### 3.3. Cấu Hình Health Check (Tùy chọn nhưng khuyến nghị)
@@ -137,7 +137,7 @@ Worker cần các biến môi trường để kết nối Redis và gửi mail S
 
 | Key | Value | Ghi chú |
 | :--- | :--- | :--- |
-| `DATABASE_URL` | `postgresql://postgres:Kimloan%40%40123@db.ufqzgyfdeliahuytfrmc.supabase.co:5432/postgres?schema=frontend` | Kết nối tới schema cô lập của frontend |
+| `DATABASE_URL` | `<set-in-render-secret>` | Kết nối tới schema cô lập của frontend |
 | `REDIS_URL` | *(Sử dụng Internal Redis URL của Render Redis vừa tạo ở Bước 2)* | Dùng kết nối nội bộ để không bị tính băng thông ngoài |
 | `SMTP_HOST` | `smtp.mailtrap.io` *(hoặc smtp.gmail.com)* | Host gửi mail |
 | `SMTP_PORT` | `2525` *(hoặc 465 / 587)* | Cổng gửi mail |
@@ -166,10 +166,10 @@ Thêm các biến môi trường sau vào phần **Environment Variables**:
 
 | Key | Value | Ghi chú |
 | :--- | :--- | :--- |
-| `DATABASE_URL` | `postgresql://postgres:Kimloan%40%40123@db.ufqzgyfdeliahuytfrmc.supabase.co:5432/postgres?schema=frontend` | Đường dẫn kết nối DB Supabase với namespace `frontend` |
+| `DATABASE_URL` | `<set-in-vercel-secret>` | Đường dẫn kết nối DB Supabase với namespace `frontend` |
 | `REDIS_URL` | *(Sử dụng **External** Redis URL của Render Redis)* | Vercel gọi từ ngoài vào Render nên phải dùng link External |
 | `NEXT_PUBLIC_API_URL` | `https://website-studio-backend.onrender.com` | URL của NestJS Backend Web Service trên Render sau khi deploy thành công |
-| `API_KEY` | `studiocanhan_secure_api_key_7799` | Phải trùng khớp với API_KEY ở Backend |
+| `API_KEY` | `<set-in-vercel-secret>` | Phải dùng secret mới, không ghi trực tiếp vào Git |
 | `SMTP_HOST` | `dummy` | Đặt dummy vì Vercel không trực tiếp chạy worker gửi mail |
 | `SMTP_PORT` | `2525` | Đặt dummy |
 | `SMTP_USER` | `dummy@example.com` | Đặt dummy |

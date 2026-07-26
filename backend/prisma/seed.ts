@@ -1041,8 +1041,11 @@ async function main() {
     }
   }
 
-  await prisma.template.deleteMany();
-  await prisma.customPage.deleteMany();
+  const resetDatabase = process.env.SEED_RESET === 'true';
+  if (resetDatabase) {
+    await prisma.template.deleteMany();
+    await prisma.customPage.deleteMany();
+  }
   console.log('🧹 Cleaned existing templates and custom pages in database.');
 
   let successCount = 0;
@@ -1074,8 +1077,10 @@ async function main() {
         pbConfig: pbConfig ? (pbConfig as any) : Prisma.DbNull,
       };
 
-      await prisma.template.create({
-        data: templateData,
+      await prisma.template.upsert({
+        where: { id: templateId },
+        update: templateData,
+        create: templateData,
       });
 
       successCount++;
@@ -1097,13 +1102,16 @@ async function main() {
 
   for (const page of mainPagesToSeed) {
     try {
-      await prisma.customPage.create({
-        data: {
+      const data = {
           slug: page.slug,
           title: page.title,
           templateId: 'kabo-default',
           pbConfig: page.config as any,
-        }
+      };
+      await prisma.customPage.upsert({
+        where: { slug: page.slug },
+        update: data,
+        create: data,
       });
       console.log(`Created default custom page layout for: /${page.slug}`);
     } catch (err) {

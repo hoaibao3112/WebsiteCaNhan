@@ -1,5 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, InternalServerErrorException } from '@nestjs/common';
 import { Request } from 'express';
+import { timingSafeEqual } from 'node:crypto';
 
 let hasWarned = false;
 
@@ -11,7 +12,7 @@ export class ApiKeyGuard implements CanActivate {
     const expectedApiKey = process.env.API_KEY;
 
     if (!expectedApiKey) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV === 'development' && process.env.ALLOW_INSECURE_LOCAL === 'true') {
         if (!hasWarned) {
           console.warn('Warning: API_KEY environment variable is not defined. Bypassing API Key check.');
           hasWarned = true;
@@ -21,10 +22,16 @@ export class ApiKeyGuard implements CanActivate {
       throw new InternalServerErrorException('Server configuration error: API_KEY is not set');
     }
 
-    if (!apiKey || apiKey !== expectedApiKey) {
+    if (typeof apiKey !== 'string' || !this.safeEqual(apiKey, expectedApiKey)) {
       throw new UnauthorizedException('Unauthorized: Invalid or missing API Key');
     }
 
     return true;
+  }
+
+  private safeEqual(received: string, expected: string): boolean {
+    const receivedBuffer = Buffer.from(received);
+    const expectedBuffer = Buffer.from(expected);
+    return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
   }
 }

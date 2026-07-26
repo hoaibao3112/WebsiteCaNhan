@@ -27,8 +27,8 @@ function TypewriterText() {
   }, [displayed, deleting, wordIdx]);
 
   return (
-    <span className="text-[1.7rem] font-black leading-tight text-[#3730a3]">
-      {displayed}<span className="animate-pulse text-[#6366f1]">|</span>
+    <span className="text-[1.7rem] font-black leading-tight text-[#006672]">
+      {displayed}<span className="animate-pulse text-[#ca8a04]">|</span>
     </span>
   );
 }
@@ -82,7 +82,7 @@ function FloatingDots() {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full bg-[#6366f1]/10"
+          className="absolute rounded-full bg-[#006672]/10"
           style={{
             width: `${10 + i * 6}px`,
             height: `${10 + i * 6}px`,
@@ -112,10 +112,10 @@ export default function BentoFeaturesSection() {
   const shouldReduce = useReducedMotion();
 
   return (
-    <section className="py-20 bg-[#fafafa] relative overflow-hidden">
+    <section className="py-20 md:py-24 bg-[#f4f9f9] relative overflow-hidden">
       <FloatingDots />
 
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header — animated */}
         <div ref={headerRef} className="text-center mb-12">
@@ -123,7 +123,7 @@ export default function BentoFeaturesSection() {
             initial={shouldReduce ? false : { opacity: 0, y: -12 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="text-xs font-bold tracking-widest uppercase text-[#6366f1] mb-3"
+            className="text-xs font-bold tracking-widest uppercase text-[#006672] mb-3"
           >
             Tính năng nổi bật
           </motion.p>
@@ -135,7 +135,7 @@ export default function BentoFeaturesSection() {
           >
             Mọi thứ bạn cần để{' '}
             <motion.span
-              className="text-[#6366f1] inline-block"
+              className="text-[#006672] inline-block"
               animate={shouldReduce ? {} : { backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
             >
@@ -173,7 +173,7 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 2 — Checkout */}
-          <AnimatedCell className="flex-1 bg-[#f0eeff] min-h-[220px] md:min-h-0" delay={0.08}>
+          <AnimatedCell className="flex-1 bg-[#eaf5f6] min-h-[220px] md:min-h-0" delay={0.08}>
             <Image src="/bento-checkout.png" alt="Giỏ hàng và thanh toán KABO" fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
             <motion.div
@@ -184,7 +184,7 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 3 — AI */}
-          <AnimatedCell className="flex-1 bg-[#312e81] min-h-[220px] md:min-h-0" delay={0.16}>
+          <AnimatedCell className="flex-1 bg-[#004d56] min-h-[220px] md:min-h-0" delay={0.16}>
             <div className="absolute top-3 left-3 z-10">
               <Pill icon={Sparkles} label="Tùy chỉnh với AI" color="#a5b4fc" />
             </div>
@@ -202,7 +202,7 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 4 — Domain */}
-          <AnimatedCell className="flex-1 bg-[#14532d] min-h-[220px] md:min-h-0" delay={0.24}>
+          <AnimatedCell className="flex-1 bg-[#0f5961] min-h-[220px] md:min-h-0" delay={0.24}>
             <div className="absolute top-3 left-3 z-10">
               <Pill icon={Globe} label="Tên miền" color="#86efac" />
             </div>

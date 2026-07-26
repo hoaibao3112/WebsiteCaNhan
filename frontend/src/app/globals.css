@@ -74,6 +74,24 @@ body {
   background-color: #ffffff;
   color: var(--color-foreground);
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(0, 102, 114, 0.35);
+  outline-offset: 3px;
 }
 
 /* ==========================================
@@ -344,6 +362,16 @@ body {
   background: var(--color-primary-dark);
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(0, 102, 114, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .btn-secondary {
@@ -653,4 +681,3 @@ input[type="range"]::-moz-range-thumb {
   50% { transform: translate(30px, -50px) scale(1.1); }
   100% { transform: translate(-20px, 20px) scale(0.9); }
 }
-

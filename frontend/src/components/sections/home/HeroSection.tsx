@@ -270,7 +270,7 @@ export default function HeroSection() {
     };
 
   return (
-    <section className="relative overflow-hidden min-h-screen flex flex-col justify-center pt-24 pb-16 bg-white">
+    <section className="relative overflow-hidden min-h-[680px] lg:min-h-[760px] flex flex-col justify-center pt-24 pb-16 bg-white">
 
       {/* Background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -278,7 +278,7 @@ export default function HeroSection() {
         <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#a855f7]/6 blur-3xl" />
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 w-full z-10 relative">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 lg:px-8 w-full z-10 relative">
         <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
           {/* ══ LEFT ══ */}
@@ -307,13 +307,13 @@ export default function HeroSection() {
             </motion.p>
 
             {/* CTAs */}
-            <motion.div {...anim(0.46)} className="flex gap-3">
+            <motion.div {...anim(0.46)} className="flex flex-col sm:flex-row gap-3">
               <motion.div
                 whileHover={shouldReduce ? {} : { scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
               >
                 <Link href="/quy-trinh#contact"
-                  className="flex items-center gap-2.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-extrabold py-4 px-8 rounded-2xl text-sm shadow-lg shadow-[#6366f1]/25 hover:shadow-xl hover:shadow-[#6366f1]/35 transition-all duration-200">
+                  className="flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#006672] to-[#004d56] text-white font-extrabold py-4 px-8 rounded-2xl text-sm shadow-lg shadow-[#006672]/25 hover:shadow-xl hover:shadow-[#006672]/35 transition-[box-shadow,transform,background-color] duration-200">
                   Dùng thử miễn phí
                   <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}>
                     <ArrowRight className="size-4" />
@@ -323,7 +323,7 @@ export default function HeroSection() {
 
               <motion.div whileHover={shouldReduce ? {} : { scale: 1.02 }} whileTap={{ scale: 0.97 }}>
                 <Link href="/giao-dien-mau"
-                  className="flex items-center gap-2 border-2 border-[#e5e7eb] hover:border-[#6366f1]/40 text-[#374151] hover:text-[#6366f1] font-extrabold py-4 px-7 rounded-2xl text-sm bg-white hover:bg-[#fafbff] transition-all duration-200">
+                  className="flex items-center justify-center gap-2 border-2 border-[#e5e7eb] hover:border-[#006672]/40 text-[#374151] hover:text-[#006672] font-extrabold py-4 px-7 rounded-2xl text-sm bg-white hover:bg-[#f0f7f8] transition-[border-color,background-color,color,transform] duration-200">
                   <Play className="size-3.5 fill-current" />
                   Xem mẫu
                 </Link>
