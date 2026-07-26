@@ -63,10 +63,10 @@ export default function PotSmashingGame({
     <div className="py-8 px-4 bg-amber-50/30 rounded-3xl border border-amber-200/50 max-w-4xl mx-auto text-center relative select-none">
       <div className="mb-6">
         <h3 className="text-xl sm:text-2xl font-black text-amber-900 flex items-center justify-center gap-2">
-          🔨 ĐẬP NIÊU ĐẤT — NHẬN QUÀ KHỦNG 🎁
+          Đập niêu đất — Nhận quà ưu đãi
         </h3>
         <p className="text-amber-800/70 text-xs sm:text-sm mt-1">
-          Hãy click vào một chiếc niêu đất bên dưới để thử vận may của bạn!
+          Nhấp chọn một chiếc niêu đất bên dưới để nhận phần quà ưu đãi!
         </p>
       </div>
 
@@ -93,15 +93,14 @@ export default function PotSmashingGame({
               {/* Hammer Overlay Swing Animation */}
               {isActive && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                  <span
-                    className="text-4xl animate-wiggle inline-block"
+                  <div
+                    className="size-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg"
                     style={{
-                      transformOrigin: 'bottom right',
                       animation: 'hammerSwing 0.5s ease-in-out forwards',
                     }}
                   >
-                    🔨
-                  </span>
+                    Smash!
+                  </div>
                 </div>
               )}
             </div>
@@ -145,7 +144,7 @@ export default function PotSmashingGame({
             </div>
 
             <h4 className="text-xl font-black text-[#0f0f0f] mb-2">
-              🎉 XIN CHÚC MỪNG! 🎉
+              XIN CHÚC MỪNG!
             </h4>
             
             <p className="text-sm text-gray-500 mb-6">

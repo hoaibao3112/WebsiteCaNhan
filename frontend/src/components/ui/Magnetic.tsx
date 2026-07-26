@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, ReactElement } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface Props {
   children: ReactElement;
@@ -10,8 +10,10 @@ interface Props {
 export default function Magnetic({ children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const shouldReduce = useReducedMotion();
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (shouldReduce) return;
     if (!ref.current) return;
     const { clientX, clientY } = e;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
@@ -32,7 +34,7 @@ export default function Magnetic({ children }: Props) {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      animate={{ x, y }}
+      animate={shouldReduce ? { x: 0, y: 0 } : { x, y }}
       transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
       className="inline-block"
     >

@@ -20,17 +20,16 @@ export class TemplatesService {
 
     const skip = (page - 1) * limit;
 
-    const [templates, total] = await Promise.all([
-      this.prisma.template.findMany({
-        where: whereClause,
-        orderBy: {
-          createdAt: 'desc',
-        },
-        skip,
-        take: limit,
-      }),
-      this.prisma.template.count({ where: whereClause }),
-    ]);
+    const templates = await this.prisma.template.findMany({
+      where: whereClause,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip,
+      take: limit,
+    });
+
+    const total = await this.prisma.template.count({ where: whereClause });
 
     return {
       templates,

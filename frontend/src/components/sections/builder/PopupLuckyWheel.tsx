@@ -141,7 +141,7 @@ export default function PopupLuckyWheel({ allowEdit = false }: Props) {
     <div className="py-8 px-4 bg-teal-50/20 rounded-3xl border border-teal-100 max-w-sm mx-auto text-center select-none relative">
       <div className="mb-4">
         <h4 className="text-lg font-black text-teal-950 flex items-center justify-center gap-1.5">
-          🎯 VÒNG QUAY MAY MẮN 🎯
+          VÒNG QUAY MAY MẮN
         </h4>
         <p className="text-teal-900/60 text-xs mt-1">
           Quay để trúng quà tặng bất ngờ từ KABO Agency!
@@ -199,7 +199,7 @@ export default function PopupLuckyWheel({ allowEdit = false }: Props) {
             </div>
 
             <h5 className="text-lg font-black text-[#0f0f0f] mb-1">
-              {prizeModal.includes('Chúc') || prizeModal.includes('Thử') ? 'Ôi, tiếc quá!' : 'XIN CHÚC MỪNG! 🎉'}
+              {prizeModal.includes('Chúc') || prizeModal.includes('Thử') ? 'Ôi, tiếc quá!' : 'XIN CHÚC MỪNG!'}
             </h5>
             
             <p className="text-xs text-gray-400 mb-5">

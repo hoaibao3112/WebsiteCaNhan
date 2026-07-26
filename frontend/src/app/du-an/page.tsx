@@ -19,21 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function PortfolioPage() {
-  const pageData = await customPagesService.getPageBySlug('du-an');
-
-  if (pageData && pageData.pbConfig) {
-    return (
-      <div className="min-h-screen bg-white pt-[68px]">
-        <BuilderCanvas
-          pbConfig={pageData.pbConfig}
-          selectedId={null}
-          allowEdit={false}
-        />
-      </div>
-    );
-  }
-
+export default function PortfolioPage() {
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* Header */}

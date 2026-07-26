@@ -65,7 +65,7 @@ export default function ServicesSection() {
                     : { y: -6, boxShadow: '0 20px 60px rgba(0,102,114,0.12)', borderColor: '#80c2cb' }
                 }
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                className={`relative group h-full rounded-3xl p-8 flex flex-col gap-5 border ${
+                  className={`relative group h-full rounded-3xl p-8 flex flex-col gap-5 border transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-2 hover:shadow-[0_22px_55px_rgba(0,102,114,0.14)] ${
                   service.featured
                     ? 'bg-[#006672] border-[#006672] text-white shadow-[0_20px_60px_rgba(0,102,114,0.25)]'
                     : 'bg-white border-[#e2ecec]'

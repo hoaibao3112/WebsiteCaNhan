@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, ReactNode } from 'react';
-import { motion, useInView, Variant } from 'framer-motion';
+import { motion, useInView, useReducedMotion, Variant } from 'framer-motion';
 
 type Direction = 'up' | 'down' | 'left' | 'right' | 'scale' | 'none';
 
@@ -53,16 +53,17 @@ export default function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount });
+  const shouldReduce = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={shouldReduce ? 'visible' : 'hidden'}
+      animate={shouldReduce || isInView ? 'visible' : 'hidden'}
       variants={variants[direction]}
       transition={{
-        duration,
-        delay,
+        duration: shouldReduce ? 0 : duration,
+        delay: shouldReduce ? 0 : delay,
         ease: [0.22, 1, 0.36, 1],
       }}
       className={className}
@@ -90,18 +91,19 @@ export function StaggerContainer({
 }: StaggerContainerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount });
+  const shouldReduce = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={shouldReduce ? 'visible' : 'hidden'}
+      animate={shouldReduce || isInView ? 'visible' : 'hidden'}
       variants={{
         hidden: {},
         visible: {
           transition: {
-            staggerChildren: staggerDelay,
-            delayChildren: 0.05,
+            staggerChildren: shouldReduce ? 0 : staggerDelay,
+            delayChildren: shouldReduce ? 0 : 0.05,
           },
         },
       }}
@@ -120,13 +122,15 @@ interface StaggerItemProps {
 }
 
 export function StaggerItem({ children, className, direction = 'up' }: StaggerItemProps) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <motion.div
       variants={{
         hidden: variants[direction].hidden,
         visible: {
           ...variants[direction].visible,
-          transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: shouldReduce ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] },
         },
       }}
       className={className}

@@ -15,7 +15,7 @@ export default function FadeInView({ children, delay = 0, className }: Props) {
   return (
     <motion.div
       className={className}
-      initial={shouldReduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      initial={shouldReduce ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 24, scale: 0.985 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: shouldReduce ? 0 : 0.5, delay: shouldReduce ? 0 : delay, ease: 'easeOut' }}

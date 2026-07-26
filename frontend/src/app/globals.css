@@ -77,6 +77,62 @@ body {
   overflow-x: hidden;
 }
 
+.text-balance {
+  text-wrap: balance;
+}
+
+.hero-home {
+  perspective: 1200px;
+}
+
+.hero-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  background-image: linear-gradient(rgba(0, 102, 114, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 102, 114, 0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+.hero-orbit {
+  position: absolute;
+  border: 1px solid rgba(0, 102, 114, 0.12);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.hero-orbit::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #ca8a04;
+  box-shadow: 0 0 0 5px rgba(202, 138, 4, 0.12), 0 0 24px rgba(202, 138, 4, 0.45);
+}
+
+.hero-orbit-one {
+  top: 12%;
+  right: 8%;
+  width: 240px;
+  height: 88px;
+  transform: rotate(-24deg);
+}
+
+.hero-orbit-two {
+  right: 16%;
+  bottom: 16%;
+  width: 180px;
+  height: 64px;
+  border-color: rgba(202, 138, 4, 0.14);
+  transform: rotate(20deg);
+}
+
 button,
 a,
 input,
@@ -230,6 +286,21 @@ textarea:focus-visible {
   50%       { box-shadow: 0 0 28px 6px rgba(0, 102, 114, 0.18); }
 }
 
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -14px, 0); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.72; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes border-shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
 /* Animation utility classes */
 .animate-fade-in-up    { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-fade-in-down  { animation: fadeInDown 0.6s ease-out both; }
@@ -255,6 +326,12 @@ textarea:focus-visible {
 .animate-blink       { animation: blink-cursor 1s step-start infinite; }
 .animate-slide-up-fade { animation: slide-up-fade 0.5s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-glow-pulse  { animation: glow-pulse 2.5s ease-in-out infinite; }
+.animate-float-slow  { animation: float-slow 7s ease-in-out infinite; }
+.animate-breathe     { animation: breathe 5s ease-in-out infinite; }
+.animate-border-shimmer {
+  background-size: 200% 100%;
+  animation: border-shimmer 4s linear infinite;
+}
 
 /* Shimmer text effect */
 .animate-shimmer-text {
@@ -319,10 +396,26 @@ textarea:focus-visible {
    ========================================== */
 
 .card-lumina {
+  position: relative;
+  overflow: hidden;
   background: #ffffff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   transition: box-shadow 0.4s cubic-bezier(0.22,1,0.36,1), transform 0.4s cubic-bezier(0.22,1,0.36,1), border-color 0.3s ease;
+}
+
+.card-lumina::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.55) 45%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-lumina:hover::after {
+  transform: translateX(120%);
 }
 
 .card-lumina:hover {
@@ -343,6 +436,8 @@ textarea:focus-visible {
    ========================================== */
 
 .btn-primary {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -356,6 +451,20 @@ textarea:focus-visible {
   text-decoration: none;
   border: none;
   cursor: pointer;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+  transform: translateX(-180%) skewX(-18deg);
+  transition: transform 0.65s ease;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(420%) skewX(-18deg);
 }
 
 .btn-primary:hover {
@@ -372,6 +481,7 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .hero-orbit { display: none; }
 }
 
 .btn-secondary {

@@ -71,21 +71,7 @@ const services = [
   },
 ];
 
-export default async function ServicesPage() {
-  const pageData = await customPagesService.getPageBySlug('dich-vu');
-
-  if (pageData && pageData.pbConfig) {
-    return (
-      <div className="min-h-screen bg-white pt-[68px]">
-        <BuilderCanvas
-          pbConfig={pageData.pbConfig}
-          selectedId={null}
-          allowEdit={false}
-        />
-      </div>
-    );
-  }
-
+export default function ServicesPage() {
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* Hero */}

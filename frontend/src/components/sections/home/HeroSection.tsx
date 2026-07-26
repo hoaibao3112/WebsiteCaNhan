@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Star, Zap, TrendingUp, Play } from 'lucide-react';
-import { motion, useReducedMotion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from 'framer-motion';
+import { motion, useReducedMotion, useInView, useMotionValue, useSpring, useTransform, animate, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 const IMAGES = [
@@ -261,6 +261,25 @@ const STATS = [
 
 export default function HeroSection() {
   const shouldReduce = useReducedMotion();
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const smoothX = useSpring(pointerX, { stiffness: 120, damping: 20, mass: 0.5 });
+  const smoothY = useSpring(pointerY, { stiffness: 120, damping: 20, mass: 0.5 });
+  const imageRotateY = useTransform(smoothX, [-1, 1], [-4, 4]);
+  const imageRotateX = useTransform(smoothY, [-1, 1], [3, -3]);
+  const imageOffsetX = useTransform(smoothX, [-1, 1], [-5, 5]);
+  const imageOffsetY = useTransform(smoothY, [-1, 1], [-4, 4]);
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    if (shouldReduce || event.pointerType === 'touch') return;
+    pointerX.set((event.clientX / window.innerWidth - 0.5) * 2);
+    pointerY.set((event.clientY / window.innerHeight - 0.5) * 2);
+  };
+
+  const resetPointer = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
 
   const anim = (delay: number) =>
     shouldReduce ? {} : {
@@ -270,12 +289,26 @@ export default function HeroSection() {
     };
 
   return (
-    <section className="relative overflow-hidden min-h-[680px] lg:min-h-[760px] flex flex-col justify-center pt-24 pb-16 bg-white">
+    <section
+      className="hero-home relative overflow-hidden min-h-[680px] lg:min-h-[760px] flex flex-col justify-center pt-24 pb-16 bg-white"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
+    >
 
       {/* Background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-[#6366f1]/8 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#a855f7]/6 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-[#006672]/10 blur-3xl animate-float-slow" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#ca8a04]/10 blur-3xl animate-breathe" />
+        <motion.div
+          className="hero-orbit hero-orbit-one"
+          animate={shouldReduce ? {} : { rotate: 360 }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.div
+          className="hero-orbit hero-orbit-two"
+          animate={shouldReduce ? {} : { rotate: -360 }}
+          transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
+        />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6 lg:px-8 w-full z-10 relative">
@@ -291,13 +324,19 @@ export default function HeroSection() {
                 Thiết kế Website · KABO Agency
               </motion.p>
 
-              <h1 className="text-[44px] sm:text-[54px] lg:text-[62px] font-black leading-[1.06] tracking-tight">
+              <h1 className="text-[44px] sm:text-[54px] lg:text-[62px] font-black leading-[1.06] tracking-tight text-balance">
                 <motion.span {...anim(0.12)} className="block text-[#0f0f0f]">Tạo Website &</motion.span>
                 <motion.span {...anim(0.2)} className="block text-[#0f0f0f]">Landing Page</motion.span>
                 <motion.span {...anim(0.28)} className="block min-h-[1.12em]">
                   <TypewriterWord />
                 </motion.span>
               </h1>
+              <motion.div
+                className="mt-5 h-1 w-24 rounded-full bg-gradient-to-r from-[#006672] to-[#ca8a04] origin-left"
+                initial={shouldReduce ? false : { scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              />
             </div>
 
             {/* Short description */}
@@ -351,6 +390,7 @@ export default function HeroSection() {
           {/* ══ RIGHT — Interactive image slideshow ══ */}
           <motion.div
             className="relative h-[460px] lg:h-[540px]"
+            style={shouldReduce ? {} : { rotateX: imageRotateX, rotateY: imageRotateY, x: imageOffsetX, y: imageOffsetY }}
             initial={shouldReduce ? {} : { opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
@@ -360,6 +400,16 @@ export default function HeroSection() {
 
         </div>
       </div>
+
+      <motion.div
+        className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[#94a3b8] sm:flex"
+        initial={shouldReduce ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.6 }}
+      >
+        <span>Cuộn để khám phá</span>
+        <span className="h-8 w-px bg-gradient-to-b from-[#006672] to-transparent" />
+      </motion.div>
     </section>
   );
 }

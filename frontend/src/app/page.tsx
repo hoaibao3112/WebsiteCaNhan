@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
 import HeroSection from '@/components/sections/home/HeroSection';
 import BentoFeaturesSection from '@/components/sections/home/BentoFeaturesSection';
+import InteractiveMinigamesSection from '@/components/sections/home/InteractiveMinigamesSection';
+import TechStackSection from '@/components/sections/home/TechStackSection';
+import CostCalculatorSection from '@/components/sections/home/CostCalculatorSection';
 import ServicesSection from '@/components/sections/home/ServicesSection';
 import FeaturedProjectsSection from '@/components/sections/home/FeaturedProjectsSection';
 import ProcessSection from '@/components/sections/home/ProcessSection';
+import TestimonialsSection from '@/components/sections/home/TestimonialsSection';
+import FaqSection from '@/components/sections/home/FaqSection';
 import PricingSection from '@/components/sections/home/PricingSection';
 import CtaSection from '@/components/sections/home/CtaSection';
-import { customPagesService } from '@/services/custom-pages.service';
-import BuilderCanvas from '@/components/sections/builder/BuilderCanvas';
 
 export const revalidate = 3600;
 
@@ -40,28 +43,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
-  const pageData = await customPagesService.getPageBySlug('home');
-
-  if (pageData && pageData.pbConfig) {
-    return (
-      <div className="min-h-screen bg-white pt-[68px]">
-        <BuilderCanvas
-          pbConfig={pageData.pbConfig}
-          selectedId={null}
-          allowEdit={false}
-        />
-      </div>
-    );
-  }
-
+export default function HomePage() {
   return (
     <>
       <HeroSection />
       <BentoFeaturesSection />
+      <InteractiveMinigamesSection />
+      <TechStackSection />
+      <CostCalculatorSection />
       <ServicesSection />
       <FeaturedProjectsSection />
       <ProcessSection />
+      <TestimonialsSection />
+      <FaqSection />
       <PricingSection />
       <CtaSection />
     </>

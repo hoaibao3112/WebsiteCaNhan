@@ -92,21 +92,7 @@ const trustItems = [
   { Icon: Sparkles, text: 'Báo giá miễn phí' },
 ];
 
-export default async function PricingPage() {
-  const pageData = await customPagesService.getPageBySlug('quy-trinh');
-
-  if (pageData && pageData.pbConfig) {
-    return (
-      <div className="min-h-screen bg-white pt-[68px]">
-        <BuilderCanvas
-          pbConfig={pageData.pbConfig}
-          selectedId={null}
-          allowEdit={false}
-        />
-      </div>
-    );
-  }
-
+export default function PricingPage() {
   return (
     <div style={{ paddingTop: '68px' }} className="bg-surface text-on-surface">
 
