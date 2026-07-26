@@ -106,6 +106,8 @@ function HeroImageSlider() {
                   fill
                   className="object-cover object-top"
                   priority={offset === 0}
+                  loading={offset === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={offset === 0 ? 'high' : 'auto'}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
 

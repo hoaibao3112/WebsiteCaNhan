@@ -162,7 +162,7 @@ export default function BentoFeaturesSection() {
               <Pill icon={ShoppingCart} label="Sản phẩm" color="#0891b2" />
             </div>
             <Image src="/bento-ecommerce.png" alt="Giao diện cửa hàng online KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#e8f4f8]/50 via-transparent to-transparent" />
             {/* Shimmer overlay on hover */}
             <motion.div
@@ -175,7 +175,7 @@ export default function BentoFeaturesSection() {
           {/* 2 — Checkout */}
           <AnimatedCell className="flex-1 bg-[#eaf5f6] min-h-[220px] md:min-h-0" delay={0.08}>
             <Image src="/bento-checkout.png" alt="Giỏ hàng và thanh toán KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full"
               whileHover={{ translateX: '200%' }}
@@ -189,7 +189,7 @@ export default function BentoFeaturesSection() {
               <Pill icon={Sparkles} label="Tùy chỉnh với AI" color="#a5b4fc" />
             </div>
             <Image src="/bento-ai.png" alt="Tùy chỉnh website với AI" fill
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#312e81]/40 via-transparent to-[#312e81]/20" />
             {/* AI sparkle effect */}
             <motion.div
@@ -207,7 +207,7 @@ export default function BentoFeaturesSection() {
               <Pill icon={Globe} label="Tên miền" color="#86efac" />
             </div>
             <Image src="/bento-domain.png" alt="Kết nối tên miền KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#14532d]/40 via-transparent to-transparent" />
             {/* Globe spin */}
             <motion.div
@@ -249,7 +249,7 @@ export default function BentoFeaturesSection() {
           {/* 6 — Model */}
           <AnimatedCell className="flex-1 min-h-[220px] md:min-h-0" delay={0.4}>
             <Image src="/bento-model.png" alt="Giao diện website đẹp KABO Agency" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b]/30 via-transparent to-transparent" />
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full"
@@ -264,7 +264,7 @@ export default function BentoFeaturesSection() {
               <Pill icon={LayoutGrid} label="Thư viện mẫu" color="#365314" />
             </div>
             <Image src="/bento-portfolio.png" alt="Thư viện giao diện mẫu KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="50vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
             <motion.div
               className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm px-4 py-2.5 flex justify-around items-center"
               initial={shouldReduce ? false : { y: 8, opacity: 0.8 }}

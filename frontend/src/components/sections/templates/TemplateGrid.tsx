@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Eye, Search, Download, Wand2, ChevronDown, Star, Sparkles
 } from 'lucide-react';
@@ -159,12 +160,14 @@ export default function TemplateGrid({ templates }: Props) {
                 
                 {/* Image Aspect Box */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#f9fafb] border-b border-[#f3f4f6]">
-                  <img
+                  <Image
                     src={getThumbnailUrl(template.image)}
                     alt={template.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
-                    decoding="async"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    quality={72}
                   />
 
                   {/* Top Category Badge */}

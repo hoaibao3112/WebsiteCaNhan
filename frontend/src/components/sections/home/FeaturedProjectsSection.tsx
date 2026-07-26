@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 import { featuredProjects } from '@/data/projects';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ui/ScrollReveal';
@@ -75,12 +76,13 @@ export default function FeaturedProjectsSection() {
                 whileHover={shouldReduce ? {} : { scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 22 }}
               >
-                <img
+                <Image
                   src={featuredProjects[0]?.image}
                   alt={featuredProjects[0]?.title ?? 'Dự án tiêu biểu của KABO AGENCY'}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="eager"
-                  fetchPriority="high"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 66vw"
                 />
                 {/* Overlay — slides up on hover */}
                 <motion.div
@@ -123,11 +125,13 @@ export default function FeaturedProjectsSection() {
                   whileHover={shouldReduce ? {} : { scale: 1.02 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                 >
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   {/* Shimmer sweep */}
                   <motion.div
