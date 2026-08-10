@@ -209,11 +209,12 @@ async function main() {
       id: 'post-1',
       title: 'Top 7 Xu Hướng Thiết Kế Website Độc Bản Năm 2026',
       slug: 'top-7-xu-huong-thiet-ke-website-2026',
+      categorySlug: 'thiet-ke-web',
       summary: 'Khám phá các xu hướng thiết kế web đột phá giúp doanh nghiệp thu hút khách hàng ngay từ cái nhìn đầu tiên với giao diện ấn tượng và trải nghiệm siêu mượt.',
       content: `
         <h2>1. Giao Diện Tối Giản Nhưng Sang Trọng (Minimalist & Premium)</h2>
         <p>Năm 2026 đánh dấu sự lên ngôi của phong cách thiết kế tối giản nhưng giàu tính tương tác. Khách hàng không còn hào hứng với những trang web rối mắt chứa quá nhiều banner tĩnh. Thay vào đó, khoảng trắng (White space) được khai thác triệt để nhằm làm nổi bật sản phẩm chính.</p>
-        <p><img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1000&q=80" alt="Bàn làm việc thiết kế giao diện" style="border-radius: 12px; margin: 16px 0;" /></p>
+        <p><img src="/blogs/blog-1.png" alt="Bàn làm việc thiết kế giao diện" style="border-radius: 12px; margin: 16px 0;" /></p>
 
         <h2>2. Dark Mode Động Tự Điều Chỉnh Theo Hệ Thống</h2>
         <p>Tính năng chuyển đổi chế độ Sáng/Tối (Light/Dark mode) mượt mà dựa trên cấu hình thiết bị của người dùng trở thành tiêu chuẩn bắt buộc cho mọi website hiện đại.</p>
@@ -221,11 +222,23 @@ async function main() {
         <h2>3. Micro-Animations & View Transitions</h2>
         <p>Các hiệu ứng chuyển trang mượt mà kết hợp với các hiệu ứng di chuột tinh tế giúp website hoạt động sinh động như ứng dụng cao cấp.</p>
       `,
+      metaTitle: 'Top 7 Xu Hướng Thiết Kế Website Độc Bản 2026 — Kabo Agency',
+      metaDescription: 'Khám phá các xu hướng thiết kế web đột phá giúp doanh nghiệp thu hút khách hàng.',
+      coverImage: '/blogs/blog-1.png',
+      contentImages: [
+        '/blogs/blog-1.png',
+        '/blogs/blog-3.png',
+      ],
+      author: 'KABO Creative Director',
+      tags: ['ThiếtKếWeb', 'UIUX', 'XuHướng2026', 'KaboAgency'],
+      isPublished: true,
+      publishedAt: new Date('2026-06-25T15:00:00Z'),
     },
   ];
 
   for (const postData of samplePosts) {
-    const categoryId = createdCategories[postData.categorySlug];
+    const slug = postData.categorySlug || 'thiet-ke-web';
+    const categoryId = createdCategories[slug];
 
     const post = await prisma.blogPost.upsert({
       where: {
