@@ -1,32 +1,23 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { BlogService, createBlogPostSchema } from '@/services/blog.service';
+import { requireBearerToken, getServerAccountId } from '@/lib/api-auth';
 import { z } from 'zod';
 
-const DEFAULT_ACCOUNT_ID = process.env.DEFAULT_ACCOUNT_ID || 'default-account';
-const BLOG_API_SECRET_KEY = process.env.BLOG_API_SECRET_KEY || 'studiocanhan_blog_secret_8899';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    // 1. Kiểm tra Authorization Header (Secret Token)
-    const authHeader = req.headers.get('authorization');
-    const expectedAuth = `Bearer ${BLOG_API_SECRET_KEY}`;
-
-    if (!authHeader || authHeader !== expectedAuth) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Unauthorized. Mã bảo mật Authorization Token không hợp lệ.',
-        },
-        { status: 401 }
-      );
-    }
+    // 1. Kiểm tra Authorization Header — fail-fast, KHÔNG có hardcoded fallback
+    const authError = requireBearerToken(req, 'BLOG_API_SECRET_KEY');
+    if (authError) return authError;
 
     // 2. Parse body và validate với Zod
     const body = await req.json();
     const validatedData = createBlogPostSchema.parse(body);
 
-    const accountId = validatedData.accountId || DEFAULT_ACCOUNT_ID;
+    // Server-derived accountId — không tin client input
+    const accountId = validatedData.accountId || getServerAccountId();
 
     // 3. Đưa bài viết vào CSDL
     const post = await BlogService.createPost(validatedData, accountId);
@@ -91,7 +82,9 @@ export async function GET(req: Request) {
     const categorySlug = searchParams.get('category') || undefined;
     const tag = searchParams.get('tag') || undefined;
     const search = searchParams.get('search') || undefined;
-    const accountId = searchParams.get('accountId') || DEFAULT_ACCOUNT_ID;
+
+    // Server-derived accountId — public read endpoint
+    const accountId = getServerAccountId();
 
     const result = await BlogService.getPosts(accountId, {
       page,

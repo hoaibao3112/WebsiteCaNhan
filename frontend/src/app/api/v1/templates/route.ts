@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getTemplatesQuerySchema } from '@/schemas/template.schema';
+import { getServerAccountId } from '@/lib/api-auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,7 +26,8 @@ export async function GET(request: NextRequest) {
     }
 
     const { category, page, limit } = validation.data;
-    const accountId = request.headers.get('x-account-id') || 'default-account';
+    // Server-derived accountId — không tin client header (fix IDOR)
+    const accountId = getServerAccountId();
 
     const where: any = {
       accountId,

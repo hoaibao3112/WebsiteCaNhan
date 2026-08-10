@@ -34,3 +34,5 @@ Thumbs.db
 next_data_sample.json
 tempi_templates.json
 videoframe_*.png
+*.gs
+/*.jpg

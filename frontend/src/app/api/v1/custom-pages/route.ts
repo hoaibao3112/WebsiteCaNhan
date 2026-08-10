@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createCustomPageSchema } from '@/schemas/custom-page.schema';
+import { requireApiKey, getServerAccountId } from '@/lib/api-auth';
 
 export async function POST(request: NextRequest) {
+  // ── Auth check ──
+  const authError = requireApiKey(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const validation = createCustomPageSchema.safeParse(body);
@@ -17,7 +22,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const accountId = request.headers.get('x-account-id') || 'default-account';
+    // Server-derived accountId — không tin client header
+    const accountId = getServerAccountId();
     const { slug, title, templateId, pbConfig } = validation.data;
 
     const existingPage = await prisma.customPage.findFirst({

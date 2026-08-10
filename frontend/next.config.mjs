@@ -20,44 +20,15 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'plus.unsplash.com',
-      },
-      // Pexels
+      // Pexels (stock photos)
       {
         protocol: 'https',
         hostname: 'images.pexels.com',
       },
-      // Cloudinary (popular image CDN)
-      {
-        protocol: 'https',
-        hostname: '*.cloudinary.com',
-      },
-      // Imgur
-      {
-        protocol: 'https',
-        hostname: 'i.imgur.com',
-      },
-      // Google user content / workspace
+      // Google user content / workspace (used for avatars and game images)
       {
         protocol: 'https',
         hostname: '*.googleusercontent.com',
-      },
-      // WordPress / common blog CDNs
-      {
-        protocol: 'https',
-        hostname: '*.wp.com',
-      },
-      // Picsum (placeholder)
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-      // GitHub raw content
-      {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -65,6 +36,47 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
+              "img-src 'self' data: blob: https:",
+              "connect-src 'self' https: ws: wss:",
+              "frame-ancestors 'self'",
+            ].join('; '),
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

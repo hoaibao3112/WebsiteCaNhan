@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { updateCustomPageSchema } from '@/schemas/custom-page.schema';
+import { requireApiKey, getServerAccountId } from '@/lib/api-auth';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
+  // ── Auth check ──
+  const authError = requireApiKey(request);
+  if (authError) return authError;
+
   try {
     const { slug } = params;
-    const accountId = request.headers.get('x-account-id') || 'default-account';
+    // Server-derived accountId — không tin client header
+    const accountId = getServerAccountId();
 
     const page = await prisma.customPage.findFirst({
       where: { accountId, slug },
@@ -35,6 +41,10 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
+  // ── Auth check ──
+  const authError = requireApiKey(request);
+  if (authError) return authError;
+
   try {
     const { slug } = params;
     const body = await request.json();
@@ -50,7 +60,8 @@ export async function PUT(
       );
     }
 
-    const accountId = request.headers.get('x-account-id') || 'default-account';
+    // Server-derived accountId — không tin client header
+    const accountId = getServerAccountId();
 
     const existingPage = await prisma.customPage.findFirst({
       where: { accountId, slug },

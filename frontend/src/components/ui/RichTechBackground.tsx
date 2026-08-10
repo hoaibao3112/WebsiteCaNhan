@@ -1,24 +1,41 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 
-const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
-  id: i,
-  size: Math.floor(Math.random() * 8) + 4,
-  left: `${Math.floor(Math.random() * 90) + 5}%`,
-  top: `${Math.floor(Math.random() * 90) + 5}%`,
-  duration: Math.floor(Math.random() * 6) + 8,
-  delay: Math.random() * 4,
-  color: i % 3 === 0 ? '#fbe449' : i % 3 === 1 ? '#80c2cb' : '#38bdf8',
-}));
+interface Particle {
+  id: number;
+  size: number;
+  left: string;
+  top: string;
+  duration: number;
+  delay: number;
+  color: string;
+}
 
 export default function RichTechBackground() {
   const shouldReduce = useReducedMotion();
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    if (shouldReduce) return;
+    setParticles(
+      Array.from({ length: 15 }, (_, i) => ({
+        id: i,
+        size: Math.floor(Math.random() * 8) + 4,
+        left: `${Math.floor(Math.random() * 90) + 5}%`,
+        top: `${Math.floor(Math.random() * 90) + 5}%`,
+        duration: Math.floor(Math.random() * 6) + 8,
+        delay: Math.random() * 4,
+        color: i % 3 === 0 ? '#fbe449' : i % 3 === 1 ? '#80c2cb' : '#38bdf8',
+      }))
+    );
+  }, [shouldReduce]);
 
   return (
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
-      
+
       {/* 1. Main Artwork with Smooth Pan & Zoom Parallax Motion */}
       <motion.div
         className="relative w-full h-full"
@@ -86,34 +103,42 @@ export default function RichTechBackground() {
       {/* 6. Glowing Grid Dot Overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:32px_32px] opacity-40" />
 
-      {/* 7. Floating Light Particles (15 Dynamic Floating Nodes) */}
-      {!shouldReduce &&
-        PARTICLES.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full shadow-lg"
-            style={{
-              width: p.size,
-              height: p.size,
-              left: p.left,
-              top: p.top,
-              backgroundColor: p.color,
-              boxShadow: `0 0 12px ${p.color}`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, 20, 0],
-              opacity: [0.3, 0.9, 0.3],
-              scale: [1, 1.4, 1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: p.delay,
-            }}
-          />
-        ))}
+      {/* 7. Floating Light Particles (15 Dynamic Floating Nodes - Client Side Only) */}
+      {!shouldReduce && particles.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          {particles.map((p) => (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full shadow-lg"
+              style={{
+                width: p.size,
+                height: p.size,
+                left: p.left,
+                top: p.top,
+                backgroundColor: p.color,
+                boxShadow: `0 0 12px ${p.color}`,
+              }}
+              animate={{
+                y: [0, -40, 0],
+                x: [0, 20, 0],
+                opacity: [0.3, 0.9, 0.3],
+                scale: [1, 1.4, 1],
+              }}
+              transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: p.delay,
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
 
     </div>
   );

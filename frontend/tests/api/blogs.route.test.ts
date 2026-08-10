@@ -16,7 +16,9 @@ vi.mock('@/services/blog.service', async () => {
 
 import { BlogService } from '@/services/blog.service';
 
-const BLOG_API_SECRET_KEY = process.env.BLOG_API_SECRET_KEY || 'studiocanhan_blog_secret_8899';
+// Set env var for tests — no hardcoded fallback
+const BLOG_API_SECRET_KEY = 'test-blog-secret-for-unit-tests';
+process.env.BLOG_API_SECRET_KEY = BLOG_API_SECRET_KEY;
 
 describe('POST & GET /api/v1/blogs Route Handler', () => {
   beforeEach(() => {

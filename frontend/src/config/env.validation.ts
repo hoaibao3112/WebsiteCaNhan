@@ -1,15 +1,29 @@
 import { z } from 'zod';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const envSchema = z.object({
-  DATABASE_URL: z.string().optional().default('postgresql://postgres:postgres@localhost:5432/postgres?schema=frontend'),
+  // ─── Critical (must fail-fast in production) ───────────────────────────────
+  DATABASE_URL: isProduction
+    ? z.string().min(1, 'DATABASE_URL is required in production')
+    : z.string().optional().default('postgresql://postgres:postgres@localhost:5432/postgres?schema=frontend'),
+
+  API_KEY: z.string().min(1, 'API_KEY is required'),
+
+  BLOG_API_SECRET_KEY: isProduction
+    ? z.string().min(1, 'BLOG_API_SECRET_KEY is required in production')
+    : z.string().optional().default(''),
+
+  DEFAULT_ACCOUNT_ID: z.string().min(1).default('default-account'),
+
+  NEXT_PUBLIC_API_URL: z.string().default('http://localhost:5000'),
+
+  // ─── Non-critical (fail-open defaults are acceptable) ──────────────────────
   REDIS_URL: z.string().default('redis://localhost:6379'),
   SMTP_HOST: z.string().default('smtp.mailtrap.io'),
   SMTP_PORT: z.coerce.number().int().positive().default(2525),
   SMTP_USER: z.string().default('mock@example.com'),
   SMTP_PASSWORD: z.string().default('mock_password'),
-  DEFAULT_ACCOUNT_ID: z.string().default('lumina-agency-default'),
-  NEXT_PUBLIC_API_URL: z.string().default('http://localhost:5000'),
-  API_KEY: z.string().min(1, 'API_KEY is required'),
 });
 
 let parsedEnvCache: z.infer<typeof envSchema> | null = null;

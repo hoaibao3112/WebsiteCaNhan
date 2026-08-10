@@ -1,10 +1,19 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { Sparkles, Dices, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PotSmashingGame from '@/components/sections/builder/PotSmashingGame';
-import PopupLuckyWheel from '@/components/sections/builder/PopupLuckyWheel';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+
+const PotSmashingGame = dynamic(() => import('@/components/sections/builder/PotSmashingGame'), {
+  ssr: false,
+  loading: () => <div className="h-64 animate-pulse bg-slate-100 rounded-2xl" />,
+});
+
+const PopupLuckyWheel = dynamic(() => import('@/components/sections/builder/PopupLuckyWheel'), {
+  ssr: false,
+  loading: () => <div className="h-64 animate-pulse bg-slate-100 rounded-2xl" />,
+});
 
 export default function InteractiveMinigamesSection() {
   return (
@@ -34,10 +43,10 @@ export default function InteractiveMinigamesSection() {
 
         {/* Interactive Minigames Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Pot Smashing Game - 7 cols */}
           <ScrollReveal direction="left" className="lg:col-span-7 h-full">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
               className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-[#e2ecec] h-full flex flex-col justify-between"
@@ -52,7 +61,7 @@ export default function InteractiveMinigamesSection() {
 
           {/* Lucky Wheel Game - 5 cols */}
           <ScrollReveal direction="right" className="lg:col-span-5 h-full">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
               className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-[#e2ecec] h-full flex flex-col justify-between"

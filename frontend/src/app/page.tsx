@@ -1,16 +1,33 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import HeroSection from '@/components/sections/home/HeroSection';
 import BentoFeaturesSection from '@/components/sections/home/BentoFeaturesSection';
-import InteractiveMinigamesSection from '@/components/sections/home/InteractiveMinigamesSection';
 import TechStackSection from '@/components/sections/home/TechStackSection';
-import CostCalculatorSection from '@/components/sections/home/CostCalculatorSection';
 import ServicesSection from '@/components/sections/home/ServicesSection';
 import FeaturedProjectsSection from '@/components/sections/home/FeaturedProjectsSection';
 import ProcessSection from '@/components/sections/home/ProcessSection';
-import TestimonialsSection from '@/components/sections/home/TestimonialsSection';
-import FaqSection from '@/components/sections/home/FaqSection';
-import PricingSection from '@/components/sections/home/PricingSection';
 import CtaSection from '@/components/sections/home/CtaSection';
+
+const InteractiveMinigamesSection = dynamic(
+  () => import('@/components/sections/home/InteractiveMinigamesSection'),
+  { ssr: false }
+);
+
+const CostCalculatorSection = dynamic(
+  () => import('@/components/sections/home/CostCalculatorSection')
+);
+
+const TestimonialsSection = dynamic(
+  () => import('@/components/sections/home/TestimonialsSection')
+);
+
+const FaqSection = dynamic(
+  () => import('@/components/sections/home/FaqSection')
+);
+
+const PricingSection = dynamic(
+  () => import('@/components/sections/home/PricingSection')
+);
 
 export const revalidate = 3600;
 

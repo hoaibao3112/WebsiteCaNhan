@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerAccountId } from '@/lib/api-auth';
 
 export async function GET(
   request: NextRequest,
@@ -7,7 +8,8 @@ export async function GET(
 ) {
   try {
     const { slug } = params;
-    const accountId = request.headers.get('x-account-id') || 'default-account';
+    // Server-derived accountId — không tin client header (fix IDOR)
+    const accountId = getServerAccountId();
 
     const template = await prisma.template.findFirst({
       where: {

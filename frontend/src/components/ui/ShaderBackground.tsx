@@ -35,26 +35,26 @@ export default function ShaderBackground() {
 
       void main() {
           vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-          
+
           // Theme Colors
           vec3 color1 = vec3(0.0, 0.40, 0.45); // Teal #006672
           vec3 color2 = vec3(0.40, 0.84, 0.91); // Light Teal #65d6e9
           vec3 color3 = vec3(0.98, 0.89, 0.29); // Yellow #fbe449
-          
+
           float t = u_time * 0.4;
-          
+
           // Normalize mouse coordinates [0, 1]
           vec2 mouse = u_mouse / u_resolution;
-          
+
           // Dynamic coordinates influenced by mouse
           float n1 = sin(uv.x * 3.0 + t + sin(uv.y * 2.0 + t) + mouse.x * 2.0) * 0.5 + 0.5;
           float n2 = cos(uv.y * 4.0 - t + cos(uv.x * 3.0 - t) + mouse.y * 2.0) * 0.5 + 0.5;
           float n3 = sin((uv.x + uv.y) * 2.0 + t * 0.5 + (mouse.x + mouse.y)) * 0.5 + 0.5;
-          
+
           vec3 finalColor = mix(color1, color2, n1);
           finalColor = mix(finalColor, color3, n2 * 0.5);
           finalColor = mix(finalColor, vec3(1.0), n3 * 0.2);
-          
+
           float pulse = sin(u_time * 0.5) * 0.1 + 0.9;
           finalColor *= pulse;
 
@@ -148,13 +148,14 @@ export default function ShaderBackground() {
     }
     resizeCanvas();
 
-    let animationId: number;
+    let animationId: number | null = null;
+    let isVisible = true;
+
     const render = (time: number) => {
-      // If WebGL context is lost, stop rendering
+      if (!isVisible) return;
       if (gl.isContextLost && gl.isContextLost()) return;
 
       resizeCanvas();
-      
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.useProgram(program);
 
@@ -166,17 +167,34 @@ export default function ShaderBackground() {
       animationId = requestAnimationFrame(render);
     };
 
-    animationId = requestAnimationFrame(render);
+    // IntersectionObserver to pause rendering when offscreen
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      io = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          isVisible = entry.isIntersecting;
+          if (isVisible && !animationId) {
+            animationId = requestAnimationFrame(render);
+          } else if (!isVisible && animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        },
+        { threshold: 0.05 }
+      );
+      io.observe(canvas);
+    } else {
+      animationId = requestAnimationFrame(render);
+    }
 
     // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-      cancelAnimationFrame(animationId);
-      
-      // Clean up buffers and programs
+      if (resizeObserver) resizeObserver.disconnect();
+      if (io) io.disconnect();
+      if (animationId) cancelAnimationFrame(animationId);
+
       gl.deleteBuffer(positionBuffer);
       gl.deleteProgram(program);
       gl.deleteShader(vs);
