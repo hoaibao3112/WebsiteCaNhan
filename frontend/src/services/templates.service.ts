@@ -9,6 +9,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 const PORTFOLIO_IMAGES = [
+  '/demo/portfolio-designer.jpg',
   '/demo/portfolio-1/hero.png',
   '/demo/portfolio-2/hero.png',
   '/demo/portfolio-3/hero.png',
@@ -35,55 +36,55 @@ const CATEGORY_KEYWORD_MAP: Array<{ keywords: string[]; image: string }> = [
   },
   {
     keywords: ['portfolio', 'profile', 'cá nhân', 'cv'],
-    image: PORTFOLIO_IMAGES[0],
+    image: '/demo/portfolio-designer.jpg',
   },
   {
     keywords: ['tài chính', 'luật', 'đầu tư', 'ngân hàng'],
     image: '/demo/cong-ty-tai-chinh/hero.png',
   },
   {
-    keywords: ['spa', 'chăm sóc sức khoẻ', 'sức khoẻ', 'nha khoa', 'phòng khám', 'thú cưng', 'làm tóc'],
-    image: '/demo/spa/hero.svg',
+    keywords: ['spa', 'chăm sóc sức khoẻ', 'sức khoẻ', 'nha khoa', 'phòng khám', 'thú cưng', 'làm tóc', 'massage'],
+    image: '/demo/spa/hero.jpg',
   },
   {
-    keywords: ['nhà hàng', 'bar', 'pub', 'club', 'trà', 'cà phê', 'tiệm bánh', 'nước uống', 'đồ uống', 'ăn uống'],
-    image: '/demo/cafe/hero.svg',
+    keywords: ['nhà hàng', 'bar', 'pub', 'club', 'trà', 'cà phê', 'tiệm bánh', 'nước uống', 'đồ uống', 'ăn uống', 'cafe'],
+    image: '/demo/cafe/hero.jpg',
   },
   {
-    keywords: ['hoa tươi', 'hoa', 'florist'],
-    image: '/demo/florist/hero.svg',
+    keywords: ['hoa tươi', 'hoa', 'florist', 'bông'],
+    image: '/demo/florist/hero.jpg',
   },
   {
-    keywords: ['cây cảnh', 'nông nghiệp', 'chăn nuôi', 'carbon'],
-    image: '/demo/plant-shop/hero.svg',
+    keywords: ['cây cảnh', 'nông nghiệp', 'chăn nuôi', 'carbon', 'plant', 'bonsai'],
+    image: '/demo/plant-shop/hero.jpg',
   },
   {
     keywords: ['gốm', 'đồ gốm', 'pottery', 'ceramic'],
-    image: '/demo/pottery/hero.svg',
+    image: '/demo/pottery/hero.jpg',
   },
   {
-    keywords: ['nội thất', 'nhà cửa', 'interior', 'furniture'],
-    image: '/demo/interior-design/hero.svg',
+    keywords: ['nội thất', 'nhà cửa', 'interior', 'furniture', 'kiến trúc'],
+    image: '/demo/interior-design/hero.jpg',
   },
   {
     keywords: ['kính mắt', 'kính', 'eyewear', 'optics'],
-    image: '/demo/eyewear/hero.svg',
+    image: '/demo/agency-marketing/hero.png',
   },
   {
-    keywords: ['mỹ phẩm', 'làm đẹp', 'beauty'],
-    image: '/demo/cosmetics/hero.svg',
+    keywords: ['mỹ phẩm', 'làm đẹp', 'beauty', 'skincare'],
+    image: '/demo/cosmetics/hero.jpg',
   },
   {
     keywords: ['xe máy', 'motor', 'xe'],
-    image: '/demo/motorbike/hero.svg',
+    image: '/demo/enterprise-construction/hero.png',
   },
   {
     keywords: ['mẹ & bé', 'mẹ và bé', 'baby', 'trẻ em'],
-    image: '/demo/mother-baby/hero.svg',
+    image: '/demo/cosmetics/hero.jpg',
   },
   {
     keywords: ['thực phẩm chức năng', 'chức năng', 'supplement', 'vitamin'],
-    image: '/demo/health-supplements/hero.svg',
+    image: '/demo/spa/hero.jpg',
   },
   {
     keywords: ['bất động sản', 'villa', 'homestay', 'khách sạn', 'xây dựng', 'co-working'],
@@ -161,7 +162,7 @@ export function getDefaultDemoImages(title: string, slug?: string): string[] {
 
   if (name.includes('chăm sóc sức khoẻ') || name.includes('spa') || name.includes('sức khoẻ') || name.includes('thư giãn')) {
     return [
-      '/demo/spa/hero.svg',
+      '/demo/spa/hero.jpg',
       '/bento-ecommerce.png',
       '/pricing-cover-lead.png',
       '/hero-visual.png',
@@ -170,7 +171,7 @@ export function getDefaultDemoImages(title: string, slug?: string): string[] {
 
   if (name.includes('trà') || name.includes('cà phê') || name.includes('cafe') || name.includes('nước uống')) {
     return [
-      '/demo/cafe/hero.svg',
+      '/demo/cafe/hero.jpg',
       '/bento-ecommerce.png',
       '/pricing-cover-ecommerce.png',
       '/bento-checkout.png',
@@ -179,16 +180,16 @@ export function getDefaultDemoImages(title: string, slug?: string): string[] {
 
   if (name.includes('hoa') || name.includes('hoa tươi') || name.includes('florist')) {
     return [
-      '/demo/florist/hero.svg',
+      '/demo/florist/hero.jpg',
       '/bento-ecommerce.png',
       '/pricing-cover-ecommerce.png',
       '/bento-checkout.png',
     ];
   }
 
-  if (name.includes('cây cảnh') || name.includes('nông nghiệp') || name.includes('cây xanh')) {
+  if (name.includes('cây cảnh') || name.includes('nông nghiệp') || name.includes('cây xanh') || name.includes('bonsai')) {
     return [
-      '/demo/plant-shop/hero.svg',
+      '/demo/plant-shop/hero.jpg',
       '/bento-ecommerce.png',
       '/pricing-cover-ecommerce.png',
       '/bento-checkout.png',
