@@ -47,10 +47,10 @@ export default function SafeImage({
         }
       >
         <Image
-          src="/logo-kabo.jpg"
-          alt="KABO Agency"
+          src="/blogs/landing-page-cro.jpg"
+          alt="KABO Agency Blog"
           fill
-          className="object-cover opacity-80"
+          className="object-cover"
         />
       </div>
     );

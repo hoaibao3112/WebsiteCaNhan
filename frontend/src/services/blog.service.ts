@@ -35,44 +35,51 @@ function slugify(text: string): string {
 
 export const BLOG_COVER_IMAGES = [
   '/blogs/landing-page-cro.jpg',
+  '/blogs/seo-onpage-guide.jpg',
   '/blogs/chien-luoc-seo.jpg',
   '/blogs/ban-hang-online.jpg',
   '/blogs/ai-automation.jpg',
   '/blogs/blog-2.png',
   '/blogs/blog-3.png',
   '/blogs/blog-1.png',
-  '/blogs/blog-6.png',
 ];
 
 export function getBlogCoverImage(title?: string, categorySlug?: string, coverImage?: string | null): string {
-  if (coverImage && typeof coverImage === 'string' && coverImage.trim() !== '' && !coverImage.includes('undefined') && !coverImage.includes('null')) {
-    return coverImage.trim();
-  }
   const name = (title || '').toLowerCase();
   const cat = (categorySlug || '').toLowerCase();
 
-  if (name.includes('landing page') || name.includes('chuyển đổi') || name.includes('tăng doanh thu') || (cat.includes('thiet-ke') && name.includes('landing'))) {
+  // 1. Check topic matching first to guarantee high-res relevant bespoke illustrations
+  if (name.includes('landing page') || name.includes('chuyển đổi') || name.includes('tăng doanh thu')) {
     return '/blogs/landing-page-cro.jpg';
   }
-  if (name.includes('chiến lược seo') || name.includes('seo 2025') || name.includes('seo onpage') || cat.includes('toi-uu-seo')) {
+  if (name.includes('hướng dẫn tối ưu seo') || name.includes('seo on-page') || name.includes('seo onpage') || name.includes('schema')) {
+    return '/blogs/seo-onpage-guide.jpg';
+  }
+  if (name.includes('chiến lược seo') || name.includes('seo 2025') || (cat.includes('toi-uu-seo') && name.includes('chiến lược'))) {
     return '/blogs/chien-luoc-seo.jpg';
   }
-  if (name.includes('bán hàng online') || name.includes('e-commerce') || name.includes('shop') || cat.includes('ban-hang-online')) {
+  if (name.includes('bán hàng online') || name.includes('e-commerce') || name.includes('shop') || name.includes('thanh toán') || cat.includes('ban-hang-online')) {
     return '/blogs/ban-hang-online.jpg';
   }
-  if (name.includes('ai') || name.includes('trí tuệ nhân tạo') || name.includes('tự động hóa') || cat.includes('cong-nghe-ai')) {
+  if (name.includes('ai') || name.includes('trí tuệ nhân tạo') || name.includes('tự động hóa') || name.includes('content') || cat.includes('cong-nghe-ai')) {
     return '/blogs/ai-automation.jpg';
   }
-  if (name.includes('pagespeed') || name.includes('tốc độ') || name.includes('nextjs')) {
+  if (name.includes('pagespeed') || name.includes('tốc độ') || name.includes('nextjs') || name.includes('supabase')) {
     return '/blogs/blog-2.png';
   }
-  if (name.includes('mobile') || name.includes('responsive')) {
+  if (name.includes('mobile') || name.includes('responsive') || name.includes('smartphone')) {
     return '/blogs/blog-3.png';
   }
-  if (cat.includes('thiet-ke-web')) {
-    return '/blogs/landing-page-cro.jpg';
+  if (name.includes('xu hướng') || name.includes('2026') || cat.includes('thiet-ke-web')) {
+    return '/blogs/blog-1.png';
   }
 
+  // 2. If valid local image passed, use it
+  if (coverImage && typeof coverImage === 'string' && coverImage.startsWith('/blogs/')) {
+    return coverImage.trim();
+  }
+
+  // 3. Deterministic hash fallback across bespoke illustrations
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = (hash << 5) - hash + name.charCodeAt(i);
