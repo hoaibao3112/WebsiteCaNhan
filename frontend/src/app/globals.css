@@ -618,16 +618,21 @@ textarea:focus-visible {
 .project-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-  opacity: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, transparent 70%);
+  opacity: 1;
   transition: opacity 0.3s ease;
   display: flex;
   align-items: flex-end;
   padding: 1.25rem;
 }
 
-.project-card:hover .project-card-overlay {
-  opacity: 1;
+@media (min-width: 768px) {
+  .project-card-overlay {
+    opacity: 0;
+  }
+  .project-card:hover .project-card-overlay {
+    opacity: 1;
+  }
 }
 
 .template-card-eye {

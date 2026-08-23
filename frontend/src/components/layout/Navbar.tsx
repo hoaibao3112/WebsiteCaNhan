@@ -130,8 +130,8 @@ export default function Navbar() {
       {/* ── Mobile Menu ── */}
       <div
         className={cn(
-          'md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-[#e2ecec]',
-          mobileOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0',
+          'md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white/98 backdrop-blur-xl border-t border-[#e2ecec] shadow-2xl',
+          mobileOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0',
         )}
       >
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col gap-1">

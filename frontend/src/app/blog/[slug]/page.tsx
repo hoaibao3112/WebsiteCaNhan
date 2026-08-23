@@ -197,8 +197,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
       {/* ══ FEATURED COVER IMAGE ════════════════════════════════════════════ */}
       {coverImg && (
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 -mt-2 mb-12">
-          <div className="w-full h-[320px] md:h-[520px] rounded-2xl overflow-hidden border border-border relative shadow-[var(--shadow-soft-float)] animate-scale-in">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 -mt-2 mb-8 sm:mb-12">
+          <div className="w-full h-[220px] sm:h-[340px] md:h-[520px] rounded-2xl overflow-hidden border border-border relative shadow-[var(--shadow-soft-float)] animate-scale-in">
             <SafeImage
               src={coverImg}
               fallbackSrc={coverImg}
