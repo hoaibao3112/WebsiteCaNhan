@@ -318,6 +318,46 @@ textarea:focus-visible {
 .animate-fade-in-up-delay-1 { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
 .animate-fade-in-up-delay-2 { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.2s both; }
 .animate-fade-in-up-delay-3 { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+
+/* ─── Vesper-Inspired Subtle Animation Utilities (Preserving 100% Brand Palette) ─── */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.35) 48%, transparent 76%);
+  transform: translateX(-130%);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-shine:hover::after {
+  transform: translateX(130%);
+}
+
+.card-hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(0, 102, 114, 0.12);
+  border-color: rgba(0, 102, 114, 0.35);
+}
+
+.badge-glow {
+  box-shadow: 0 0 0 1px rgba(0, 102, 114, 0.12), 0 4px 14px rgba(0, 102, 114, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.badge-glow:hover {
+  box-shadow: 0 0 0 2px rgba(0, 102, 114, 0.25), 0 6px 20px rgba(0, 102, 114, 0.15);
+  transform: translateY(-1px);
+}
 .animate-fade-in-up-delay-4 { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.5s both; }
 .animate-fade-in-up-delay-5 { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.65s both; }
 

@@ -172,7 +172,7 @@ export default function PricingSection() {
                   href={plan.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center justify-center gap-2 text-center py-3.5 px-6 rounded-full font-bold text-sm transition-all duration-200 mt-auto ${
+                  className={`btn-shine flex items-center justify-center gap-2 text-center py-3.5 px-6 rounded-full font-bold text-sm transition-all duration-200 mt-auto ${
                     plan.featured
                       ? 'bg-white text-[#006672] hover:bg-[#f0f7f8] shadow-md'
                       : 'bg-[#006672] text-white hover:bg-[#004d56]'

@@ -23,8 +23,8 @@ export default function HeroSection() {
 
             {/* Headline */}
             <div>
-              <p className="text-[11px] font-bold tracking-widest uppercase text-[#6366f1] mb-4 flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-[#6366f1] animate-pulse inline-block" />
+              <p className="inline-flex items-center gap-2 text-[11px] font-extrabold tracking-widest uppercase text-[#006672] bg-[#006672]/10 px-3.5 py-1.5 rounded-full mb-4 badge-glow">
+                <span className="size-1.5 rounded-full bg-[#006672] animate-pulse inline-block" />
                 Thiết kế Website · KABO Agency
               </p>
 
@@ -49,7 +49,7 @@ export default function HeroSection() {
               <div>
                 <Link
                   href="/quy-trinh#contact"
-                  className="flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#006672] to-[#004d56] text-white font-extrabold py-4 px-8 rounded-2xl text-sm shadow-lg shadow-[#006672]/25 hover:shadow-xl hover:shadow-[#006672]/35 hover:-translate-y-0.5 transition-all duration-200"
+                  className="btn-shine flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#006672] to-[#004d56] text-white font-extrabold py-4 px-8 rounded-2xl text-sm shadow-lg shadow-[#006672]/25 hover:shadow-xl hover:shadow-[#006672]/35 hover:-translate-y-0.5 transition-all duration-200"
                 >
                   Dùng thử miễn phí
                   <ArrowRight className="size-4" />
