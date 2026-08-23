@@ -115,14 +115,22 @@ export default function Footer() {
           {/* Brand Column — wider */}
           <div className="md:col-span-2 flex flex-col gap-6">
             {/* Logo */}
-            <Link href="/" className="inline-block w-fit">
-              <div className="relative h-14 w-48 overflow-hidden rounded-xl">
+            <Link href="/" className="inline-flex items-center gap-3 w-fit group">
+              <div className="relative size-12 rounded-2xl overflow-hidden shadow-lg border border-white/15 bg-slate-950">
                 <Image
                   src="/logo-kabo.jpg"
                   alt="KABO AGENCY"
                   fill
-                  className="object-contain object-left"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-black tracking-tight text-white leading-none">
+                  KABO<span className="text-[#80c2cb]">.AGENCY</span>
+                </span>
+                <span className="text-[10px] font-extrabold text-white/50 tracking-wider uppercase mt-1">
+                  Web &amp; Growth Studio
+                </span>
               </div>
             </Link>
 

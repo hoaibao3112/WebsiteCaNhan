@@ -55,15 +55,23 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-[68px]">
 
           {/* ── Logo ── */}
-          <Link href="/" className="flex items-center shrink-0 group">
-            <div className="relative h-10 w-36 overflow-hidden rounded-lg">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+            <div className="relative size-10 rounded-xl overflow-hidden shadow-sm border border-slate-200/80 bg-slate-950">
               <Image
                 src="/logo-kabo.jpg"
                 alt="KABO AGENCY"
                 fill
-                className="object-contain object-left transition-opacity duration-200 group-hover:opacity-90"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
                 priority
               />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-base font-black tracking-tight text-[#0f172a] leading-none group-hover:text-[#006672] transition-colors">
+                KABO<span className="text-[#006672]">.AGENCY</span>
+              </span>
+              <span className="text-[9px] font-extrabold text-[#64748b] tracking-wider uppercase mt-0.5">
+                Web &amp; Growth Studio
+              </span>
             </div>
           </Link>
 
