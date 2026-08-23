@@ -150,7 +150,6 @@ export default function TemplateGrid({ templates }: Props) {
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
         {visibleTemplates.map((template, i) => {
           const numericId = parseInt(template.id.replace(/\D/g, '')) || (i + 1) * 17;
-          const downloads = (numericId % 180) + 65;
           const rating = (4.8 + ((numericId % 3) * 0.1)).toFixed(1);
           const delay = (i % 6) * 0.04;
 
@@ -214,15 +213,18 @@ export default function TemplateGrid({ templates }: Props) {
                     </p>
                   </div>
 
-                  {/* Info stats bar */}
-                  <div className="flex items-center justify-between pt-3 border-t border-[#f3f4f6] text-xs font-bold text-[#6b7280]">
-                    <span className="flex items-center gap-1.5 text-emerald-600 font-extrabold">
-                      <Download className="size-3.5 text-emerald-600" />
-                      {downloads} doanh nghiệp dùng
+                  {/* Card Action Footer */}
+                  <div className="flex items-center justify-between pt-3 border-t border-[#f3f4f6] text-xs font-bold">
+                    <span className="inline-flex items-center gap-1.5 text-emerald-600 font-extrabold">
+                      <Sparkles className="size-3.5 text-emerald-600" />
+                      Chuẩn SEO &amp; Mobile
                     </span>
-                    <span className="text-[#006672] font-black">
-                      Từ 990.000₫
-                    </span>
+                    <Link
+                      href={`/giao-dien-mau/${template.slug}`}
+                      className="inline-flex items-center gap-1 text-[#006672] hover:text-[#004d56] font-extrabold transition-colors"
+                    >
+                      Xem chi tiết <Eye className="size-3.5" />
+                    </Link>
                   </div>
                 </div>
 
