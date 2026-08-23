@@ -7,17 +7,17 @@ import Image from 'next/image';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 
 const WEBSITE_TYPES = [
-  { id: 'landing', label: 'Landing Page Bán Hàng', basePrice: 3500000, time: '2-3 ngày' },
-  { id: 'company', label: 'Website Doanh Nghiệp', basePrice: 6500000, time: '3-5 ngày' },
-  { id: 'shop', label: 'Shop Bán Hàng E-Commerce', basePrice: 12500000, time: '5-7 ngày' },
-  { id: 'custom', label: 'Web App / Nền Tảng Theo Yêu Cầu', basePrice: 24900000, time: '7-14 ngày' },
+  { id: 'landing', label: 'Landing Page Bán Hàng', basePrice: 2990000, time: '2 ngày' },
+  { id: 'company', label: 'Website Doanh Nghiệp', basePrice: 5990000, time: '3-5 ngày' },
+  { id: 'shop', label: 'Shop Bán Hàng E-Commerce', basePrice: 9990000, time: '5-7 ngày' },
+  { id: 'custom', label: 'Web App / Nền Tảng Theo Yêu Cầu', basePrice: 19900000, time: '7-14 ngày' },
 ];
 
 const ADDONS = [
-  { id: 'payment', label: 'Thanh toán Online (MoMo/VNPAY/VietQR)', price: 1500000 },
-  { id: 'seo', label: 'Tối ưu SEO On-page VIP & Schema', price: 1200000 },
+  { id: 'payment', label: 'Thanh toán Online (MoMo/VNPAY/VietQR)', price: 1000000 },
+  { id: 'seo', label: 'Tối ưu SEO On-page VIP & Schema', price: 1000000 },
   { id: 'multilang', label: 'Hỗ trợ Đa ngôn ngữ (Anh/Việt)', price: 1500000 },
-  { id: 'crm', label: 'Đồng bộ đơn CRM / Nhanh.vn / Pancake', price: 2000000 },
+  { id: 'crm', label: 'Đồng bộ đơn CRM / Nhanh.vn / Pancake', price: 1500000 },
   { id: 'domain', label: 'Tặng Tên miền quốc tế & SSL 1 năm', price: 0 },
 ];
 
@@ -150,7 +150,7 @@ export default function CostCalculatorSection() {
           <ScrollReveal direction="up" delay={0.1} className="lg:col-span-5 sticky top-24">
             <div className="bg-[#004d56] text-white rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[500px] border border-[#80c2cb]/30">
               
-              {/* ── Generated Artwork Background Image ── */}
+              {/* Artwork Background Image */}
               <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
                 <motion.div
                   className="relative w-full h-full"
@@ -209,7 +209,7 @@ export default function CostCalculatorSection() {
                 </div>
 
                 <a
-                  href={`https://zalo.me/0374170367?text=Tôi%20muốn%20tư%20vấn%20gói%20${encodeURIComponent(selectedType.label)}`}
+                  href={`https://zalo.me/0374170367?text=Tôi%20muốn%20tư%20vấn%20gói%20${encodeURIComponent(selectedType.label)}%20(Dự%20toán:%20${encodeURIComponent(formatVND(calculateTotal()))})`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full bg-white hover:bg-[#f0f7f8] text-[#006672] font-black text-center py-4 px-6 rounded-2xl transition-all shadow-xl hover:shadow-2xl text-sm"
