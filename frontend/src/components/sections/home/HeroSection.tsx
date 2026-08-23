@@ -28,14 +28,14 @@ export default function HeroSection() {
                 Thiết kế Website · KABO Agency
               </p>
 
-              <h1 className="text-[44px] sm:text-[54px] lg:text-[62px] font-black leading-[1.06] tracking-tight text-balance">
+              <h1 className="text-3xl sm:text-5xl lg:text-[62px] font-black leading-[1.12] sm:leading-[1.06] tracking-tight text-balance">
                 <span className="block text-[#0f0f0f]">Tạo Website &amp;</span>
                 <span className="block text-[#0f0f0f]">Landing Page</span>
                 <span className="block min-h-[1.12em]">
                   <TypewriterWord />
                 </span>
               </h1>
-              <div className="mt-5 h-1 w-24 rounded-full bg-gradient-to-r from-[#006672] to-[#ca8a04]" />
+              <div className="mt-4 sm:mt-5 h-1 w-24 rounded-full bg-gradient-to-r from-[#006672] to-[#ca8a04]" />
             </div>
 
             {/* Short description */}
@@ -76,7 +76,7 @@ export default function HeroSection() {
           </div>
 
           {/* ══ RIGHT — Interactive image slideshow ══ */}
-          <div className="relative h-[460px] lg:h-[540px]">
+          <div className="relative h-[320px] sm:h-[440px] lg:h-[540px] w-full">
             <HeroImageSlider />
           </div>
 

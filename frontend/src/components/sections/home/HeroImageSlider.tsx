@@ -46,7 +46,7 @@ export default function HeroImageSlider() {
   }, [current]);
 
   return (
-    <div className="relative w-full h-[420px] sm:h-[480px] select-none flex items-center justify-center">
+    <div className="relative w-full h-full select-none flex items-center justify-center">
       {/* Background glow shadow */}
       <div className="absolute inset-4 rounded-3xl bg-gradient-to-br from-[#6366f1]/25 via-[#a855f7]/20 to-[#06b6d4]/15 blur-3xl pointer-events-none" />
 

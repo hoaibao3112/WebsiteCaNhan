@@ -84,29 +84,22 @@ export default function FeaturedProjectsSection() {
                   priority
                   sizes="(max-width: 768px) 100vw, 66vw"
                 />
-                {/* Overlay — slides up on hover */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent flex flex-col justify-end p-6"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
+                {/* Overlay — visible on mobile, reveals on hover on desktop */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent flex flex-col justify-end p-5 sm:p-6 transition-opacity duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100"
                 >
-                  <motion.div
-                    initial={{ y: 16 }}
-                    whileHover={{ y: 0 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <span className="text-xs text-white/70 font-medium block mb-1">
+                  <div className="transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="text-xs text-white/80 font-medium block mb-1">
                       {featuredProjects[0]?.categoryLabel}
                     </span>
-                    <p className="text-white font-bold text-xl leading-tight mb-3">
+                    <p className="text-white font-bold text-lg sm:text-xl leading-tight mb-3">
                       {featuredProjects[0]?.title}
                     </p>
                     <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
                       <ExternalLink className="size-3" /> Xem dự án
                     </span>
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
 
                 {/* Corner glow */}
                 <motion.div
@@ -139,23 +132,17 @@ export default function FeaturedProjectsSection() {
                     whileHover={{ translateX: '300%' }}
                     transition={{ duration: 0.65, ease: 'easeInOut' }}
                   />
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent flex flex-col justify-end p-4"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                  {/* Overlay — visible on mobile, reveals on hover on desktop */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4 transition-opacity duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100"
                   >
-                    <motion.div
-                      initial={{ y: 12 }}
-                      whileHover={{ y: 0 }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <span className="text-xs text-white/70 font-medium block mb-0.5">
+                    <div className="transform translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
+                      <span className="text-xs text-white/80 font-medium block mb-0.5">
                         {project.categoryLabel}
                       </span>
                       <p className="text-white font-bold leading-tight">{project.title}</p>
-                    </motion.div>
-                  </motion.div>
+                    </div>
+                  </div>
                 </motion.div>
               </MagneticCard>
             </StaggerItem>

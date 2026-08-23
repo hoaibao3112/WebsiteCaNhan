@@ -71,7 +71,7 @@ export default function CostCalculatorSection() {
           <ScrollReveal direction="up" className="lg:col-span-7 space-y-6">
             
             {/* Step 1: Website Type */}
-            <div className="bg-white rounded-3xl p-7 sm:p-9 border border-[#e2ecec] shadow-sm">
+            <div className="bg-white rounded-3xl p-5 sm:p-8 border border-[#e2ecec] shadow-sm">
               <h3 className="text-xs sm:text-sm font-extrabold text-[#0f0f0f] uppercase tracking-wider mb-6 flex items-center gap-2.5">
                 <span className="size-6.5 rounded-full bg-[#006672] text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
                 Chọn Loại Hình Website
@@ -105,7 +105,7 @@ export default function CostCalculatorSection() {
             </div>
 
             {/* Step 2: Addon Features */}
-            <div className="bg-white rounded-3xl p-7 sm:p-9 border border-[#e2ecec] shadow-sm">
+            <div className="bg-white rounded-3xl p-5 sm:p-8 border border-[#e2ecec] shadow-sm">
               <h3 className="text-xs sm:text-sm font-extrabold text-[#0f0f0f] uppercase tracking-wider mb-6 flex items-center gap-2.5">
                 <span className="size-6.5 rounded-full bg-[#006672] text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
                 Tính Năng Bổ Sung
