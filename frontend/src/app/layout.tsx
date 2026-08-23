@@ -6,7 +6,7 @@ import LayoutWrapper from '@/components/layout/LayoutWrapper';
 
 const jakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
-  subsets: ['latin'],
+  subsets: ['latin', 'vietnamese'],
   display: 'swap',
   variable: '--font-sans',
   preload: true,
@@ -14,7 +14,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 const playfair = Playfair_Display({
   weight: ['400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
+  subsets: ['latin', 'vietnamese'],
   display: 'swap',
   variable: '--font-heading',
 });
