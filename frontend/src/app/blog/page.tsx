@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { BlogService } from '@/services/blog.service';
+import { BlogService, getBlogCoverImage } from '@/services/blog.service';
 import SafeImage from '@/components/ui/SafeImage';
 import { ArrowRight, Search, X, Calendar, Clock, Flame, Sparkles, BookOpen } from 'lucide-react';
 
@@ -151,7 +151,7 @@ export default async function BlogListPage({
             {/* ── 3-COLUMN ARTICLE GRID ───────────────────────────────────── */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {(search || categorySlug || tag || page !== 1 ? posts : gridPosts).map((post: any) => {
-                const cover = post.coverImage || post.featuredImage;
+                const cover = getBlogCoverImage(post.title, post.category?.slug, post.coverImage || post.featuredImage);
                 const readingTime = BlogService.calculateReadingTime(post.content);
                 return (
                   <article
@@ -164,7 +164,8 @@ export default async function BlogListPage({
                         {post.category?.name || 'TIN TỨC'}
                       </span>
                       <SafeImage
-                        src={cover || ''}
+                        src={cover}
+                        fallbackSrc={cover}
                         alt={post.title}
                         fill
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -249,7 +250,7 @@ export default async function BlogListPage({
 
 // ─── Featured Article Component ───────────────────────────────────────────────
 function FeaturedArticle({ post }: { post: any }) {
-  const cover = post.coverImage || post.featuredImage;
+  const cover = getBlogCoverImage(post.title, post.category?.slug, post.coverImage || post.featuredImage);
   const readingTime = BlogService.calculateReadingTime(post.content);
 
   return (
@@ -264,7 +265,8 @@ function FeaturedArticle({ post }: { post: any }) {
         {/* Image Half */}
         <div className="md:w-1/2 relative min-h-[280px] md:min-h-[380px] overflow-hidden bg-primary-surface">
           <SafeImage
-            src={cover || ''}
+            src={cover}
+            fallbackSrc={cover}
             alt={post.title}
             fill
             priority

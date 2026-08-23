@@ -33,6 +33,55 @@ function slugify(text: string): string {
     .trim();
 }
 
+export const BLOG_COVER_IMAGES = [
+  '/blogs/landing-page-cro.jpg',
+  '/blogs/chien-luoc-seo.jpg',
+  '/blogs/ban-hang-online.jpg',
+  '/blogs/ai-automation.jpg',
+  '/blogs/blog-2.png',
+  '/blogs/blog-3.png',
+  '/blogs/blog-1.png',
+  '/blogs/blog-6.png',
+];
+
+export function getBlogCoverImage(title?: string, categorySlug?: string, coverImage?: string | null): string {
+  if (coverImage && typeof coverImage === 'string' && coverImage.trim() !== '' && !coverImage.includes('undefined') && !coverImage.includes('null')) {
+    return coverImage.trim();
+  }
+  const name = (title || '').toLowerCase();
+  const cat = (categorySlug || '').toLowerCase();
+
+  if (name.includes('landing page') || name.includes('chuyển đổi') || name.includes('tăng doanh thu') || (cat.includes('thiet-ke') && name.includes('landing'))) {
+    return '/blogs/landing-page-cro.jpg';
+  }
+  if (name.includes('chiến lược seo') || name.includes('seo 2025') || name.includes('seo onpage') || cat.includes('toi-uu-seo')) {
+    return '/blogs/chien-luoc-seo.jpg';
+  }
+  if (name.includes('bán hàng online') || name.includes('e-commerce') || name.includes('shop') || cat.includes('ban-hang-online')) {
+    return '/blogs/ban-hang-online.jpg';
+  }
+  if (name.includes('ai') || name.includes('trí tuệ nhân tạo') || name.includes('tự động hóa') || cat.includes('cong-nghe-ai')) {
+    return '/blogs/ai-automation.jpg';
+  }
+  if (name.includes('pagespeed') || name.includes('tốc độ') || name.includes('nextjs')) {
+    return '/blogs/blog-2.png';
+  }
+  if (name.includes('mobile') || name.includes('responsive')) {
+    return '/blogs/blog-3.png';
+  }
+  if (cat.includes('thiet-ke-web')) {
+    return '/blogs/landing-page-cro.jpg';
+  }
+
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash << 5) - hash + name.charCodeAt(i);
+    hash |= 0;
+  }
+  const idx = Math.abs(hash) % BLOG_COVER_IMAGES.length;
+  return BLOG_COVER_IMAGES[idx];
+}
+
 const FALLBACK_CATEGORIES = [
   { id: 'cat-1', accountId: 'default-account', name: 'Thiết Kế Web', slug: 'thiet-ke-web', description: 'Xu hướng thiết kế UI/UX và tối ưu trải nghiệm người dùng.', createdAt: new Date(), updatedAt: new Date(), _count: { posts: 2 } },
   { id: 'cat-2', accountId: 'default-account', name: 'Tối Ưu SEO', slug: 'toi-uu-seo', description: 'Bí quyết tăng thứ hạng website trên Google và tìm kiếm.', createdAt: new Date(), updatedAt: new Date(), _count: { posts: 1 } },

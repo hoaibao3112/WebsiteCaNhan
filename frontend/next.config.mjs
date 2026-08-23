@@ -5,30 +5,13 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     remotePatterns: [
-      // Supabase storage
       {
         protocol: 'https',
-        hostname: '*.supabase.co',
-        pathname: '/storage/**',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: '*.supabase.co',
-      },
-      // Unsplash (stock photos for blog content)
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      // Pexels (stock photos)
-      {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-      },
-      // Google user content / workspace (used for avatars and game images)
-      {
-        protocol: 'https',
-        hostname: '*.googleusercontent.com',
+        protocol: 'http',
+        hostname: '**',
       },
     ],
     formats: ['image/avif', 'image/webp'],

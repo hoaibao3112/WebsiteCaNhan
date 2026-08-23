@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import SafeImage from '@/components/ui/SafeImage';
 import Script from 'next/script';
-import { BlogService } from '@/services/blog.service';
+import { BlogService, getBlogCoverImage } from '@/services/blog.service';
 import {
   Calendar,
   Tag,
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laixechienthangdongthap.com';
   const title = post.metaTitle || post.title;
   const description = post.metaDescription || post.summary || post.title;
-  const coverImg = post.coverImage || post.featuredImage || `${siteUrl}/logo-kabo.jpg`;
+  const coverImg = getBlogCoverImage(post.title, post.category?.slug, post.coverImage || post.featuredImage);
 
   return {
     title: `${title} | KABO Tech & SEO`,
@@ -109,7 +109,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const readingTime = BlogService.calculateReadingTime(post.content);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laixechienthangdongthap.com';
   const articleUrl = `${siteUrl}/blog/${post.slug}`;
-  const coverImg = post.coverImage || post.featuredImage;
+  const coverImg = getBlogCoverImage(post.title, post.category?.slug, post.coverImage || post.featuredImage);
 
   const { toc, modifiedContent } = extractTocAndProcessContent(post.content, post.contentImages || []);
 
@@ -201,6 +201,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           <div className="w-full h-[320px] md:h-[520px] rounded-2xl overflow-hidden border border-border relative shadow-[var(--shadow-soft-float)] animate-scale-in">
             <SafeImage
               src={coverImg}
+              fallbackSrc={coverImg}
               alt={post.title}
               fill
               priority
@@ -337,12 +338,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </h5>
                   <div className="flex flex-col gap-5">
                     {relatedPosts.map((item: any) => {
-                      const thumb = item.coverImage || item.featuredImage;
+                      const thumb = getBlogCoverImage(item.title, undefined, item.coverImage || item.featuredImage);
                       return (
                         <Link key={item.id} className="group flex gap-4 items-center" href={`/blog/${item.slug}`}>
                           <div className="size-[72px] shrink-0 rounded-xl overflow-hidden border border-border relative bg-primary-surface">
                             <SafeImage
-                              src={thumb || ''}
+                              src={thumb}
+                              fallbackSrc={thumb}
                               alt={item.title}
                               fill
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
