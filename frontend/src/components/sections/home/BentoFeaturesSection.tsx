@@ -154,15 +154,15 @@ export default function BentoFeaturesSection() {
         </div>
 
         {/* ── ROW 1 ── */}
-        <div className="flex flex-col md:flex-row gap-3 mb-3 md:h-[260px]">
+        <div className="grid grid-cols-2 md:flex md:flex-row gap-3 mb-3 md:h-[260px]">
 
           {/* 1 — Ecommerce */}
-          <AnimatedCell className="flex-1 bg-[#e8f4f8] min-h-[220px] md:min-h-0" delay={0}>
-            <div className="absolute top-3 left-3 z-10">
+          <AnimatedCell className="bg-[#e8f4f8] min-h-[160px] sm:min-h-[220px] md:min-h-0" delay={0}>
+            <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10">
               <Pill icon={ShoppingCart} label="Sản phẩm" color="#0891b2" />
             </div>
             <Image src="/bento-ecommerce.png" alt="Giao diện cửa hàng online KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#e8f4f8]/50 via-transparent to-transparent" />
             {/* Shimmer overlay on hover */}
             <motion.div
@@ -173,9 +173,9 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 2 — Checkout */}
-          <AnimatedCell className="flex-1 bg-[#eaf5f6] min-h-[220px] md:min-h-0" delay={0.08}>
+          <AnimatedCell className="bg-[#eaf5f6] min-h-[160px] sm:min-h-[220px] md:min-h-0" delay={0.08}>
             <Image src="/bento-checkout.png" alt="Giỏ hàng và thanh toán KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full"
               whileHover={{ translateX: '200%' }}
@@ -184,12 +184,12 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 3 — AI */}
-          <AnimatedCell className="flex-1 bg-[#004d56] min-h-[220px] md:min-h-0" delay={0.16}>
-            <div className="absolute top-3 left-3 z-10">
-              <Pill icon={Sparkles} label="Tùy chỉnh với AI" color="#a5b4fc" />
+          <AnimatedCell className="bg-[#004d56] min-h-[160px] sm:min-h-[220px] md:min-h-0" delay={0.16}>
+            <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10">
+              <Pill icon={Sparkles} label="Tùy chỉnh AI" color="#a5b4fc" />
             </div>
             <Image src="/bento-ai.png" alt="Tùy chỉnh website với AI" fill
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#312e81]/40 via-transparent to-[#312e81]/20" />
             {/* AI sparkle effect */}
             <motion.div
@@ -202,12 +202,12 @@ export default function BentoFeaturesSection() {
           </AnimatedCell>
 
           {/* 4 — Domain */}
-          <AnimatedCell className="flex-1 bg-[#0f5961] min-h-[220px] md:min-h-0" delay={0.24}>
-            <div className="absolute top-3 left-3 z-10">
+          <AnimatedCell className="bg-[#0f5961] min-h-[160px] sm:min-h-[220px] md:min-h-0" delay={0.24}>
+            <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10">
               <Pill icon={Globe} label="Tên miền" color="#86efac" />
             </div>
             <Image src="/bento-domain.png" alt="Kết nối tên miền KABO" fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 100vw, 25vw" />
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#14532d]/40 via-transparent to-transparent" />
             {/* Globe spin */}
             <motion.div
