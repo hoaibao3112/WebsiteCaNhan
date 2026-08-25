@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service';
-import type { GetTemplatesQueryDto } from './dto/templates.dto';
+import { PrismaService } from '../../database/prisma.service.js';
+import type { GetTemplatesQueryDto } from './dto/templates.dto.js';
 
 @Injectable()
 export class TemplatesService {

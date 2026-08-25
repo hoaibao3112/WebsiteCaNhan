@@ -1,7 +1,13 @@
-import { Controller, Post, Get, Put, Body, Param, UseGuards, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Get, Put, Body, Param, UseGuards, UsePipes, NotFoundException } from '@nestjs/common';
 import { CustomPagesService } from './custom-pages.service.js';
 import { ApiKeyGuard } from '../../common/guards/api-key.guard.js';
-import { createCustomPageSchema, updateCustomPageSchema } from './dto/custom-pages.dto.js';
+import {
+  createCustomPageSchema,
+  updateCustomPageSchema,
+  type CreateCustomPageDto,
+  type UpdateCustomPageDto,
+} from './dto/custom-pages.dto.js';
+import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 
 @Controller('api/custom-pages')
 @UseGuards(ApiKeyGuard)
@@ -9,16 +15,10 @@ export class CustomPagesController {
   constructor(private readonly customPagesService: CustomPagesService) {}
 
   @Post()
-  async createCustomPage(@Body() body: unknown) {
-    const validation = createCustomPageSchema.safeParse(body);
-    if (!validation.success) {
-      throw new BadRequestException({
-        message: 'Invalid request body',
-        details: validation.error.flatten().fieldErrors,
-      });
-    }
+  @UsePipes(new ZodValidationPipe(createCustomPageSchema, 'Invalid request body'))
+  async createCustomPage(@Body() body: CreateCustomPageDto) {
     // Không catch ở đây — để AllExceptionsFilter bắt P2002 → 409 Conflict
-    return this.customPagesService.create(validation.data);
+    return this.customPagesService.create(body);
   }
 
   @Get(':slug')
@@ -31,15 +31,9 @@ export class CustomPagesController {
   }
 
   @Put(':slug')
-  async updateCustomPage(@Param('slug') slug: string, @Body() body: unknown) {
-    const validation = updateCustomPageSchema.safeParse(body);
-    if (!validation.success) {
-      throw new BadRequestException({
-        message: 'Invalid request body',
-        details: validation.error.flatten().fieldErrors,
-      });
-    }
-    // Không catch ở đây — để filter xử lý Prisma errors
-    return this.customPagesService.update(slug, validation.data);
+  @UsePipes(new ZodValidationPipe(updateCustomPageSchema, 'Invalid request body'))
+  async updateCustomPage(@Param('slug') slug: string, @Body() body: UpdateCustomPageDto) {
+    // Không catch ở đây — để filter xử lý Prisma errors (P2025 → 404)
+    return this.customPagesService.update(slug, body);
   }
 }

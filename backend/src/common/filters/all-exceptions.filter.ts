@@ -26,14 +26,31 @@ export class AllExceptionsFilter implements ExceptionFilter {
       });
     }
 
+    // Prisma P2025: Record to update/delete not found → 404 Not Found
+    if (exception instanceof Prisma.PrismaClientKnownRequestError && exception.code === 'P2025') {
+      this.logger.warn(`[${request.method}] ${request.url} - Prisma P2025: Record not found`);
+      return response.status(HttpStatus.NOT_FOUND).json({
+        success: false,
+        message: 'Không tìm thấy dữ liệu cần cập nhật.',
+        data: {
+          statusCode: HttpStatus.NOT_FOUND,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+        },
+      });
+    }
+
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     let message = 'Đã xảy ra sự cố hệ thống. Vui lòng thử lại sau!';
-    let details: string | undefined;
+    let details: unknown;
 
     if (exception instanceof HttpException) {
       const resObj = exception.getResponse();
       message = typeof resObj === 'string' ? resObj : (resObj as { message?: string }).message || exception.message;
+      if (typeof resObj === 'object' && resObj !== null && 'details' in resObj) {
+        details = (resObj as { details?: unknown }).details;
+      }
     } else if (exception instanceof Error) {
       if (process.env.NODE_ENV !== 'production') {
         message = exception.message;
@@ -54,7 +71,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         statusCode: status,
         timestamp: new Date().toISOString(),
         path: request.url,
-        ...(details && { details }),
+        ...(details !== undefined ? { details } : {}),
       },
     });
   }

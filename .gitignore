@@ -36,3 +36,7 @@ tempi_templates.json
 videoframe_*.png
 *.gs
 /*.jpg
+
+# Agent & Worktree artifacts
+.worktrees/
+.agents/
